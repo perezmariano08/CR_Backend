@@ -1,7 +1,19 @@
 const db = require('../utils/db');
 
 const getUsers = (req, res) => {
-    db.query('SELECT * FROM usuarios', (err, result) => {
+    db.query(`SELECT
+                u.id_usuario,
+                u.dni,
+                u.nombre,
+                u.apellido,
+                DATE_FORMAT(u.nacimiento, '%d/%m/%Y') AS nacimiento,
+                u.telefono,
+                u.email,
+                r.nombre,
+                u.fecha_creacion,
+                u.fecha_actualizacion
+            FROM usuarios as u
+            INNER JOIN roles AS r ON r.id_rol = u.id_rol;`, (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send(result);
     });
@@ -79,10 +91,13 @@ const getEquipos = (req, res) => {
             e.id_equipo,
             e.nombre,
             e.img,
-            c.nombre as categoria,
-            e.descripcion
-        FROM equipos as e
-        INNER JOIN categorias as c ON c.id_categoria = e.id_categoria`
+            c.nombre AS categoria,
+            e.descripcion,
+            d.nombre AS division
+        FROM equipos AS e
+        INNER JOIN categorias AS c ON c.id_categoria = e.id_categoria
+        LEFT JOIN divisiones AS d ON d.id_division = e.id_division
+        ORDER BY e.nombre`
     ,(err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send(result);
@@ -92,15 +107,17 @@ const getEquipos = (req, res) => {
 const getJugadores = (req, res) => {
     db.query(
         `SELECT 
-        jugadores.id_jugador, 
-        jugadores.dni, 
-        jugadores.nombre as jugador, 
-        jugadores.posicion as posicion, 
-        equipos.nombre as equipo,
-        equipos.id_equipo,
-        jugadores.img
-        FROM jugadores 
-        INNER JOIN equipos ON equipos.id_equipo = jugadores.id_equipo;`
+        j.id_jugador, 
+        j.dni, 
+        j.nombre, 
+        j.apellido, 
+        j.posicion, 
+        j.id_equipo,
+        j.img,
+        j.sancionado,
+        j.eventual
+        FROM jugadores AS j
+        INNER JOIN equipos AS e ON e.id_equipo = j.id_equipo;`
     ,(err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send(result);
