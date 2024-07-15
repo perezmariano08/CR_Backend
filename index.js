@@ -23,7 +23,7 @@ app.use(cors({
         'http://192.168.0.4:5173', 
         'http://192.168.0.4:5174'
     ],
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 }));

@@ -22,8 +22,9 @@ const checkDni = (req, res) => {
 
 const crearCuenta = (req, res) => {
     const { dni, nombre, apellido, fechaNacimiento, telefono, email, clave, equipoFav } = req.body;
-
-    db.query(`SELECT id_equipo FROM equipos WHERE nombre = '${equipoFav}'`, (err, rows) => {
+    const fecha_creacion = new Date(); // Obtener la fecha actual
+    console.log(dni, nombre, apellido, fechaNacimiento, telefono, email, clave, equipoFav);
+    db.query(`SELECT id_equipo FROM equipos WHERE id_equipo = '${equipoFav}'`, (err, rows) => {
         if (err) {
             console.error("Error al buscar el ID del equipo:", err);
             return res.status(500).send("Error interno del servidor");
@@ -47,8 +48,8 @@ const crearCuenta = (req, res) => {
                 return res.status(500).send("Error interno del servidor");
             }
 
-            db.query(`INSERT INTO usuarios(dni, nombre, apellido, nacimiento, telefono, email, id_rol, clave, id_equipo_fav) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-                [dni, nombre, apellido, fechaNacimiento, telefono, email, 3, hash, idEquipo],
+            db.query(`INSERT INTO usuarios(dni, nombre, apellido, nacimiento, telefono, email, id_rol, clave, id_equipo, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                [dni, nombre, apellido, fechaNacimiento, telefono, email, 3, hash, idEquipo, fecha_creacion, null],
                 (err, result) => {
                     if (err) {
                         console.error("Error al insertar el usuario en la tabla usuarios:", err);
