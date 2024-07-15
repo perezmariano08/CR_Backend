@@ -97,6 +97,7 @@ const getJugadores = (req, res) => {
         jugadores.nombre as jugador, 
         jugadores.posicion as posicion, 
         equipos.nombre as equipo,
+        equipos.id_equipo,
         jugadores.img
         FROM jugadores 
         INNER JOIN equipos ON equipos.id_equipo = jugadores.id_equipo;`

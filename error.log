@@ -3491,3 +3491,1457 @@
     at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
 2024-07-05T17:50:49.198Z - Unhandled Exception: Error: read ECONNRESET
     at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-05T20:29:28.918Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T20:29:52.688Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T20:38:07.916Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T20:41:08.024Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T20:43:27.445Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T20:43:58.706Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T20:45:08.199Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T20:47:04.515Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T20:49:42.094Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T20:52:09.235Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T20:55:08.813Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T20:57:03.933Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T20:58:12.045Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T21:01:09.138Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T21:02:13.938Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T21:03:16.438Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T21:08:48.173Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T21:10:30.947Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T21:48:45.246Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:05:20.294Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:05:47.134Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:07:43.388Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:08:46.507Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:13:16.976Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:14:49.543Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:18:06.367Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:19:50.933Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:21:08.420Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:29:00.761Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:37:06.119Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:43:54.128Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:45:53.719Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:47:38.228Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:48:20.545Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:48:20.550Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:48:20.556Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:51:28.281Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:51:28.390Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:51:28.510Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:53:35.794Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:53:35.799Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:53:35.799Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:54:09.679Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:56:38.866Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:58:06.657Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T22:59:19.501Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T23:01:22.034Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T23:01:22.140Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T23:01:32.617Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T23:02:19.414Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T23:03:05.432Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-05T23:04:06.367Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T18:57:39.520Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:00:44.042Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:02:43.962Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:04:17.377Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:05:17.853Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:05:48.206Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:08:52.288Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:12:04.046Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:13:39.219Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:14:24.936Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:14:47.203Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:15:12.145Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:15:50.472Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:17:19.925Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:19:51.909Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:23:18.470Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:24:46.291Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:25:47.439Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:27:29.361Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:29:24.355Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:29:54.742Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:31:10.879Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:32:07.751Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:33:15.289Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:34:24.098Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:34:44.635Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:37:45.026Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:38:53.598Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:39:45.650Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:39:45.757Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:39:46.924Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:41:07.103Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:41:49.318Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:43:01.440Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:44:27.021Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:47:23.823Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:48:06.367Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:48:35.939Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:49:31.721Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:49:31.844Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:49:54.874Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:51:08.372Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:51:38.551Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:52:43.236Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:54:53.600Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T19:59:35.453Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:03:34.726Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:04:46.408Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:06:16.940Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:07:16.053Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:17:16.770Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:17:50.539Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:19:14.443Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:21:23.587Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:24:52.441Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:26:13.618Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:28:38.336Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:29:14.973Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:29:15.085Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:31:11.949Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:32:12.099Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:35:28.920Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:37:41.458Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:42:21.382Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:43:01.153Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:43:47.040Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:44:21.394Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:45:16.964Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:48:32.764Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:49:21.964Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:49:53.808Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:51:29.442Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:54:24.783Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:56:56.560Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T20:58:12.315Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:05:16.900Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:06:40.094Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:11:34.168Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:12:15.340Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:12:45.896Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:17:14.250Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:18:42.217Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:19:42.329Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:21:53.963Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:28:03.451Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:28:41.664Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:31:41.299Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:33:15.394Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:36:32.882Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:37:55.580Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:37:55.681Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:38:22.953Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:39:14.650Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:46:11.904Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:47:36.350Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:48:44.721Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:49:23.666Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:56:03.601Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:56:05.172Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:56:45.714Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:56:49.263Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T21:56:49.373Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:00:26.797Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:12:24.461Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:12:24.560Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:15:00.026Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:15:44.536Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:18:47.580Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:20:40.563Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:20:40.706Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:22:37.541Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:22:41.702Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:23:26.003Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:25:55.821Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:25:55.828Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:28:20.575Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:28:20.586Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:29:13.852Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:29:54.736Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:32:50.130Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:32:52.811Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:32:52.910Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:33:33.317Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:33:33.456Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:34:30.691Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:34:30.694Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-08T22:34:30.700Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:22:22.063Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:22:22.166Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:26:44.544Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:29:07.980Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:29:08.084Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:34:20.235Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:34:20.334Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:34:20.436Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:35:28.114Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:35:28.116Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:35:28.223Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:40:12.427Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:40:12.430Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:40:12.498Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:49:32.212Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:49:32.296Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:49:32.327Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:50:03.407Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:50:03.412Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:56:19.956Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:56:19.962Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:56:19.964Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:56:50.607Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:56:50.609Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:56:50.686Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:57:38.446Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:58:56.049Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:58:57.221Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:58:57.318Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T14:59:55.969Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:05:49.977Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:05:50.853Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:05:50.957Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:06:53.157Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:09:34.218Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:09:35.026Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:09:35.129Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:11:34.850Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:15:22.307Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:15:22.325Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:15:22.414Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:17:45.060Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:18:59.880Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:18:59.983Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:19:00.096Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:19:59.192Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:33:58.114Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:33:58.127Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:36:09.784Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:44:20.500Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:45:00.732Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:45:00.783Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:45:54.104Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:48:07.672Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:48:29.683Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:50:46.333Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:59:56.412Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T15:59:56.516Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:05:08.396Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:05:40.457Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:06:02.429Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:06:52.077Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:06:52.100Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:07:28.279Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:12:34.059Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:21:25.091Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:22:09.871Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:22:48.613Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:23:10.219Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:23:35.143Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:24:26.431Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:25:28.694Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:25:28.697Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:26:11.835Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:26:36.250Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:27:02.154Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:27:25.875Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:31:31.625Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:31:31.681Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:34:27.166Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:35:36.834Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:38:28.085Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:41:41.396Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:42:55.501Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:42:55.827Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:43:47.651Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:43:47.753Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:46:00.805Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:49:28.634Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:50:25.995Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:51:29.855Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T16:56:21.768Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T17:03:07.856Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T17:18:05.256Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T17:18:40.763Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T17:20:05.853Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T17:24:56.602Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T17:25:27.413Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T18:28:12.495Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T18:28:47.554Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T18:28:47.664Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T18:29:37.050Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T18:31:54.848Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T18:41:25.283Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T18:42:02.995Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T18:42:41.992Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T18:42:42.093Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T18:51:58.326Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T18:56:30.353Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:08:10.398Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:08:44.574Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:09:45.337Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:10:46.481Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:10:46.490Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:12:31.613Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:14:35.638Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:16:09.744Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:16:09.955Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:19:25.359Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:19:25.575Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:24:06.892Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:24:28.296Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:32:54.757Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:32:54.868Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:35:22.386Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:40:20.701Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:40:20.836Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:41:24.298Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:41:24.402Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:41:52.796Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:42:49.738Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:43:31.956Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:44:06.176Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:45:13.564Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:45:13.679Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:50:05.897Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:50:05.982Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:58:05.757Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T19:58:42.328Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T20:02:27.408Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T20:04:13.549Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T20:14:40.331Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T20:16:52.984Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T20:17:35.152Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T20:20:08.248Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T20:20:50.957Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T20:42:13.472Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T20:44:09.181Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T20:45:41.338Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T20:56:28.058Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T20:58:05.255Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T20:58:39.543Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:09:57.023Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:11:16.602Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:15:09.217Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:15:09.323Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:17:46.621Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:24:49.781Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:25:49.753Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:26:13.841Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:27:39.160Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:28:57.159Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:30:05.524Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:30:36.230Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:35:33.745Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:35:33.908Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:37:21.349Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:38:29.799Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:39:57.362Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:40:41.109Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:45:39.402Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:47:35.597Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:48:45.702Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:51:06.421Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:51:54.106Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:52:28.368Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:55:53.225Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T21:58:48.686Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T22:01:58.673Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T22:04:33.978Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-09T22:04:34.076Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T14:11:38.151Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T14:12:02.288Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T14:12:02.382Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T14:16:17.234Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T14:19:36.719Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T14:20:56.001Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T14:21:19.207Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T14:27:16.061Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T14:28:19.304Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T14:33:55.713Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T14:36:48.151Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T14:42:20.509Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T14:49:22.841Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T14:52:36.641Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T14:55:03.319Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T14:55:33.708Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T15:01:19.052Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T15:03:33.216Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T15:05:12.106Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T15:07:35.284Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T15:07:35.391Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T15:24:35.166Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T15:25:38.940Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T15:34:35.263Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T15:42:41.485Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T15:53:00.006Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T15:53:00.123Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T15:54:06.122Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T15:58:56.419Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T15:58:56.523Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T15:59:43.352Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T16:19:36.591Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T16:21:38.613Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T16:22:40.490Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T16:30:03.983Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T16:30:45.734Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T16:33:43.820Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T16:34:25.865Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T17:37:38.985Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T20:30:07.893Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T20:31:04.909Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T20:31:05.065Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T21:21:29.565Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T21:24:08.701Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T21:24:48.690Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T21:26:50.117Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T21:28:39.122Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T21:30:00.843Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T21:30:55.178Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T21:30:55.279Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T21:31:36.127Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T21:34:24.430Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T21:38:40.786Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T21:45:16.111Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T21:46:27.333Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T21:47:10.030Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T21:49:16.490Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T21:49:16.593Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T21:52:06.095Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T21:59:35.662Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:04:33.479Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:09:53.596Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:12:56.828Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:12:57.006Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:16:42.666Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:17:49.154Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:23:11.192Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:25:34.138Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:26:45.817Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:32:49.981Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:33:39.358Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:37:04.015Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:37:43.813Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:40:41.019Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:40:41.126Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:43:58.130Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:44:47.511Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:45:21.423Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:49:32.118Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:50:09.735Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:55:17.382Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:55:56.562Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:56:53.390Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T22:59:56.992Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T23:01:24.699Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T23:03:08.332Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T23:04:00.398Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T23:04:28.069Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T23:12:22.594Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T23:12:55.341Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T23:14:18.210Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T23:15:11.087Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-10T23:17:08.159Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T16:36:18.249Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T16:43:11.409Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T16:46:26.211Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T16:47:28.804Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T16:48:49.222Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T16:50:27.950Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T16:51:52.998Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T16:51:53.025Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T16:54:29.055Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T16:54:29.163Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T17:01:13.539Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T17:01:13.654Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T17:02:51.722Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T17:05:15.744Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T17:07:29.153Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T17:10:11.013Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T17:19:14.733Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T17:19:14.835Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T17:21:56.555Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T17:37:22.287Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T17:37:53.834Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T17:40:18.141Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T17:40:18.243Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T17:42:13.106Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T17:50:52.009Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T17:51:43.021Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T17:58:39.209Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:08:40.788Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:09:41.406Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:09:41.420Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:16:07.373Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:16:07.398Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:20:18.746Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:21:02.512Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:21:38.805Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:22:09.298Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:22:52.954Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:27:25.293Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:27:25.393Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:31:17.078Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:32:27.520Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:33:26.095Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:33:52.908Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:34:50.555Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:40:47.256Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:41:11.116Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:41:11.151Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:48:19.949Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:49:45.537Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:53:14.094Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:54:03.851Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:56:25.793Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T18:56:25.894Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:08:46.752Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:08:46.855Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:13:32.499Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:13:32.605Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:13:59.056Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:14:33.570Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:14:33.675Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:18:35.522Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:18:35.639Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:23:23.484Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:24:22.497Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:25:03.183Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:25:30.142Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:27:08.210Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:30:51.345Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:37:38.452Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:39:38.041Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:43:34.391Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:48:41.543Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:49:08.469Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:49:08.569Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:49:33.095Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T19:59:12.081Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T20:02:24.483Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T20:02:24.585Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T20:14:38.164Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T20:14:38.356Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T20:17:09.786Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T20:19:55.340Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T20:19:55.504Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T20:21:57.791Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T20:21:57.883Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T20:23:53.804Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T20:23:53.910Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T20:27:44.998Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T20:29:34.676Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T20:40:26.409Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T20:48:54.699Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T20:50:29.891Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T20:50:29.993Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T20:53:08.188Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T20:58:14.816Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T20:59:07.207Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T20:59:07.318Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T21:07:40.414Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T21:09:56.870Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T21:14:03.913Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T21:16:29.228Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T21:20:42.618Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T21:30:24.303Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T21:30:57.747Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T21:33:12.750Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T21:35:34.397Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T21:35:56.852Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T21:36:35.958Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T21:36:36.071Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T21:40:42.760Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T21:41:31.538Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T21:44:03.485Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T21:44:03.594Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T21:45:07.857Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T21:46:51.543Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T21:49:38.847Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T22:32:04.587Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T22:33:02.801Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T22:36:23.380Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T22:37:13.740Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T22:38:02.707Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T22:39:28.759Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T22:40:20.261Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T22:41:41.565Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T22:43:09.406Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T22:53:39.721Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T22:54:28.534Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T22:55:43.945Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T23:02:04.558Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T23:02:34.751Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T23:04:13.293Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T23:05:46.287Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T23:05:46.387Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T23:07:26.755Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T23:08:33.720Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T23:12:03.557Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T23:14:04.172Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T23:15:33.477Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T23:16:22.492Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T23:17:45.393Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T23:19:05.595Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T23:19:40.477Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-11T23:20:38.641Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T13:31:41.777Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T13:49:28.544Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T13:51:51.289Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T13:57:47.321Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T13:58:54.746Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T14:13:28.895Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T14:27:52.187Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T14:28:45.443Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T14:42:10.279Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T14:42:51.994Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T14:43:30.451Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T14:55:57.862Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T14:56:42.910Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T14:57:20.189Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T15:04:35.693Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T15:08:52.142Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T15:15:57.631Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T15:24:23.893Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T15:25:03.053Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T15:25:35.350Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T15:34:18.972Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T15:36:40.730Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T15:37:02.843Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T15:43:46.956Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T15:44:21.980Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T15:45:55.809Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T15:49:48.151Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T15:50:30.655Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T16:03:36.122Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T16:16:36.908Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T16:22:31.126Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T16:26:01.480Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T16:28:26.836Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T16:30:15.233Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T16:32:52.417Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T16:35:22.962Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T16:36:56.337Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T16:38:54.408Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T16:39:38.110Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T16:39:38.218Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T16:41:51.894Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T16:44:10.753Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T16:45:39.282Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T16:47:19.376Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T16:51:19.526Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T16:51:19.529Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T16:54:23.730Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T16:55:27.836Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T16:55:57.724Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T17:06:19.056Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T17:08:58.869Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T17:08:58.981Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T20:13:06.764Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T20:13:06.861Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T20:21:13.450Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T20:22:02.037Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T20:24:18.482Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T20:39:40.111Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T20:39:40.218Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T20:43:20.848Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T20:47:09.974Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T20:47:51.484Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T20:51:08.747Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T20:53:48.251Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T20:53:48.374Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T21:23:14.849Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T21:23:14.856Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T21:24:44.085Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T21:24:44.217Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T21:26:26.541Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T21:31:08.694Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T21:31:08.883Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T22:42:36.429Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T22:42:36.537Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T22:52:25.242Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T22:52:57.975Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T22:54:57.527Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T22:57:16.316Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T22:58:01.333Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T22:59:25.144Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:00:33.406Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:00:33.411Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:02:59.322Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:04:59.378Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:04:59.428Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:04:59.491Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:06:32.228Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:06:32.357Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:06:32.476Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:07:07.923Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:07:08.140Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:11:07.430Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:11:07.436Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:11:07.438Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:11:40.774Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:11:40.783Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:12:45.801Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:12:45.804Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:14:40.799Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:14:40.807Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:14:40.906Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:15:54.172Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:15:54.275Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:15:54.384Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:16:23.772Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:16:23.951Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:18:41.306Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:18:41.313Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:19:09.156Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:19:09.245Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:20:13.936Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:20:13.940Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:20:13.942Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:20:18.013Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:20:18.018Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:20:27.509Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:20:27.617Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:20:52.074Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:21:42.877Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:21:42.982Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:31:03.347Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:39:00.963Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:39:00.970Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:39:00.976Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:41:23.931Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:41:23.933Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:41:23.936Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:42:30.032Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:42:30.431Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:44:03.932Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
+2024-07-12T23:44:03.980Z - Unhandled Exception: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:218:20)
