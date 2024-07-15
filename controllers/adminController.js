@@ -137,6 +137,13 @@ const getAnios = (req, res) => {
     });
 };
 
+const getRoles = (req, res) => {
+    db.query('SELECT * FROM roles', (err, result) => {
+        if (err) return res.status(500).send('Error interno del servidor');
+        res.send(result);
+    });
+};
+
 const crearTemporada = (req, res) => {
     const { año, sede, categoria, torneo, division, descripcion } = req.body;
     db.query('INSERT INTO temporadas(id_torneo, id_categoria, id_año, id_sede, id_division, descripcion) VALUES (?, ?, ?, ?, ?, ?)', [torneo, categoria, año, sede, division, descripcion], (err, result) => {
@@ -183,15 +190,12 @@ const deleteTemporada = (req, res) => {
 
 
 const crearEquipo = (req, res) => {
-    const { nombre, img, id_categoria, descripcion } = req.body;
-    db.query('INSERT INTO equipos(nombre, id_categoria, descripcion, img) VALUES (?, ?, ?, ?)', [nombre, id_categoria, descripcion, img], (err, result) => {
+    const { nombre, img, categoria, division, descripcion } = req.body;
+    db.query('INSERT INTO equipos(nombre, id_categoria, id_division, descripcion, img) VALUES (?, ?, ?, ?, ?)', [nombre, categoria, division, descripcion, img], (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send('Temporada registrada con éxito');
     });
 };
-
-
-
 
 const getDivisiones = (req, res) => {
     db.query('SELECT * FROM divisiones', (err, result) => {
@@ -216,22 +220,140 @@ const getUsuarios = (req, res) => {
             usuarios.id_usuario, 
             usuarios.dni, 
             CONCAT(UPPER(usuarios.apellido), ', ', usuarios.nombre) AS usuario, 
-            usuarios.nacimiento, 
             usuarios.telefono, 
-            roles.nombre AS rol, 
-            equipos.nombre AS equipo, 
+            usuarios.id_rol, 
+            equipos.id_equipo, 
+            usuarios.email,
             usuarios.estado,
-            usuarios.img
+            usuarios.img,
+            usuarios.nombre,
+            usuarios.apellido,
+            DATE_FORMAT(usuarios.nacimiento, '%d/%m/%Y') AS nacimiento,
+            usuarios.fecha_creacion,
+            usuarios.fecha_actualizacion
         FROM 
             usuarios 
         INNER JOIN 
             roles ON roles.id_rol = usuarios.id_rol 
         INNER JOIN 
-            equipos ON equipos.id_equipo = usuarios.id_equipo_fav;`
+            equipos ON equipos.id_equipo = usuarios.id_equipo;`
     ,(err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send(result);
     });
+};
+
+const deleteUsuario = (req, res) => {
+    const { id } = req.body;
+    
+    // Sentencia SQL para eliminar el año por ID
+    const sql = 'DELETE FROM usuarios WHERE id_usuario = ?';
+
+    db.query(sql, [id], (err, result) => {
+        if (err) {
+            console.error('Error eliminando el usuario:', err);
+            return res.status(500).send('Error eliminando el usuario');
+        }
+        res.status(200).send('Usuario eliminado correctamente');
+    });
+};
+
+const updateUsuario = (req, res) => {
+    const { dni, nombre, apellido, email, telefono, id_rol, id_equipo, id_usuario} = req.body;
+
+    // Validar que id_usuario esté presente
+    if (!id_usuario) {
+        return res.status(400).send('ID de usuario es requerido');
+    }
+    // Construir la consulta SQL
+    const sql = `
+        UPDATE usuarios
+        SET 
+            dni = ?, 
+            nombre = ?, 
+            apellido = ?, 
+            email = ?, 
+            telefono = ?, 
+            id_rol = ?, 
+            id_equipo = ?,
+            fecha_actualizacion = CONVERT_TZ(NOW(), 'UTC', 'America/Argentina/Buenos_Aires')
+        WHERE id_usuario = ?;
+    `;
+
+    // Ejecutar la consulta
+    db.query(sql, [dni, nombre, apellido, email, telefono, id_rol, id_equipo, id_usuario], (err, result) => {
+        if (err) {
+            return res.status(500).send('Error interno del servidor');
+        }
+        res.send('Usuario actualizado exitosamente');
+    });
+};
+
+const crearJugador = (req, res) => {
+    const { dni, nombre, apellido, posicion, id_equipo } = req.body;
+    console.log(dni, nombre, apellido, posicion, id_equipo);
+    db.query('CALL sp_crear_jugador(?, ?, ?, ?, ?)', 
+        [dni, nombre, apellido, posicion, id_equipo],
+        (err, result) => {
+            if (err) {
+                if (err.sqlState === '45000') {
+                    return res.status(400).send(err.sqlMessage);
+                }
+                console.error("Error al insertar el jugador en la tabla jugadores:", err);
+                return res.status(500).send("Error interno del servidor");
+            }
+            res.status(200).send("Jugador creado exitosamente");
+        }
+    );
+}
+
+const importarJugadores = async (req, res) => {
+    const jugadores = req.body;
+    if (!Array.isArray(jugadores)) {
+        return res.status(400).send('Invalid data format');
+    }
+
+    const getOrCreateTeamId = async (equipo) => {
+        return new Promise((resolve, reject) => {
+            db.query('SELECT id_equipo FROM equipos WHERE nombre = ?', [equipo], (err, result) => {
+                if (err) {
+                    console.error('Error al buscar el equipo:', err);
+                    return reject(err);
+                }
+                if (result.length > 0) {
+                    resolve(result[0].id_equipo);
+                } else {
+                    db.query('INSERT INTO equipos (nombre) VALUES (?)', [equipo], (err, result) => {
+                        if (err) {
+                            console.error('Error al crear el equipo:', err);
+                            return reject(err);
+                        }
+                        resolve(result.insertId);
+                    });
+                }
+            });
+        });
+    };
+
+    try {
+        const values = await Promise.all(jugadores.map(async (jugador) => {
+            const id_equipo = await getOrCreateTeamId(jugador.equipo);
+            return [jugador.dni, jugador.nombre, jugador.apellido, jugador.posicion, id_equipo];
+        }));
+
+        const query = 'INSERT INTO jugadores (dni, nombre, apellido, posicion, id_equipo) VALUES ?';
+
+        db.query(query, [values], (err, result) => {
+            if (err) {
+                console.error('Error al insertar jugadores:', err);
+                return res.status(500).send('Error al insertar datos en la base de datos');
+            }
+            res.status(200).send('Datos importados correctamente');
+        });
+    } catch (error) {
+        console.error('Error durante la importación:', error);
+        res.status(500).send('Error interno del servidor');
+    }
 };
 
 
@@ -256,5 +378,14 @@ module.exports = {
     crearEquipo,
     getDivisiones,
     crearDivision,
-    getUsuarios
+    getUsuarios,
+    getRoles,
+    updateUsuario,
+    deleteUsuario,
+
+
+
+
+    crearJugador,
+    importarJugadores
 };
