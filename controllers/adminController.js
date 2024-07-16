@@ -456,7 +456,6 @@ module.exports = {
 
     crearPartido,
     updatePartido,
-
     crearJugador,
     importarJugadores,
     deleteJugador
