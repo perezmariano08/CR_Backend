@@ -396,12 +396,12 @@ const crearPartido = (req, res) => {
 
 const updatePartido = (req, res) => {
     const { goles_local, goles_visita, descripcion, id_partido } = req.body;
+    console.log('Request received:', req.body);
 
-    // Validar que id_usuario esté presente
     if (!id_partido) {
         return res.status(400).send('ID de partido es requerido');
     }
-    // Construir la consulta SQL
+
     const sql = `
         UPDATE partidos
         SET 
@@ -411,15 +411,14 @@ const updatePartido = (req, res) => {
         WHERE id_partido = ?
     `;
 
-    // Ejecutar la consulta
     db.query(sql, [goles_local, goles_visita, descripcion, id_partido], (err, result) => {
         if (err) {
+            console.error('Database error:', err);
             return res.status(500).send('Error interno del servidor');
         }
         res.send('Usuario actualizado exitosamente');
     });
 };
-
 
 module.exports = {
     crearCategoria,

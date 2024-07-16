@@ -8,6 +8,8 @@ router.get('/get-roles', userController.getRoles);
 router.get('/get-partidos', userController.getPartidos);
 router.get('/get-equipos', userController.getEquipos);
 router.get('/get-jugadores', userController.getJugadores);
+router.put('/update-partido', userController.updatePartido);
+
 
 
 module.exports = router;

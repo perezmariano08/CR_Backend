@@ -124,10 +124,38 @@ const getJugadores = (req, res) => {
     });
 };
 
+const updatePartido = (req, res) => {
+    const { goles_local, goles_visita, descripcion, id_partido } = req.body;
+    console.log('Request received:', req.body);
+
+    if (!id_partido) {
+        return res.status(400).send('ID de partido es requerido');
+    }
+
+    const sql = `
+        UPDATE partidos
+        SET 
+            goles_local = ?, 
+            goles_visita = ?, 
+            descripcion = ?
+        WHERE id_partido = ?
+    `;
+
+    db.query(sql, [goles_local, goles_visita, descripcion, id_partido], (err, result) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).send('Error interno del servidor');
+        }
+        res.send('Usuario actualizado exitosamente');
+    });
+};
+
+
 module.exports = {
     getUsers,
     getRoles,
     getEquipos,
     getPartidos,
-    getJugadores
+    getJugadores,
+    updatePartido
 };
