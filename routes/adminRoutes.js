@@ -12,6 +12,7 @@ router.post('/crear-equipo', revisarCookie, revisarAdmin, adminController.crearE
 router.post('/crear-division', revisarCookie, revisarAdmin, adminController.crearDivision);
 router.post('/crear-categoria', revisarCookie, revisarAdmin, adminController.crearCategoria);
 router.post('/crear-jugador', revisarCookie, revisarAdmin, adminController.crearJugador);
+router.post('/crear-partido', revisarCookie, revisarAdmin, adminController.crearPartido);
 
 router.get('/get-torneos', revisarCookie, revisarAdmin, adminController.getTorneos);
 router.get('/get-sedes', revisarCookie, revisarAdmin, adminController.getSedes);
@@ -28,8 +29,10 @@ router.post('/delete-anio', revisarCookie, revisarAdmin, adminController.deleteA
 router.post('/delete-sede', revisarCookie, revisarAdmin, adminController.deleteSede);
 router.post('/delete-torneo', revisarCookie, revisarAdmin, adminController.deleteTorneo);
 router.post('/delete-categoria', revisarCookie, revisarAdmin, adminController.deleteCategoria);
+router.post('/delete-jugador', revisarCookie, revisarAdmin, adminController.deleteJugador);
 
 router.put('/update-usuario', revisarCookie, revisarAdmin, adminController.updateUsuario);
+router.put('/update-partido', revisarCookie, revisarAdmin, adminController.updatePartido);
 
 router.post('/importar-anios', revisarCookie, revisarAdmin, adminController.importarAnio);
 router.post('/importar-jugadores', revisarCookie, revisarAdmin, adminController.importarJugadores);

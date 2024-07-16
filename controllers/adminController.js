@@ -160,7 +160,8 @@ const getTemporadas = (req, res) => {
         años.año, 
         sedes.nombre AS sede, 
         divisiones.nombre AS division,
-        temporadas.descripcion
+        temporadas.descripcion,
+        CONCAT(divisiones.nombre, ' - ', torneos.nombre, ' ', años.año) AS nombre_temporada
             FROM temporadas 
             INNER JOIN torneos ON temporadas.id_torneo = torneos.id_torneo 
             INNER JOIN categorias ON temporadas.id_categoria = categorias.id_categoria 
@@ -356,36 +357,107 @@ const importarJugadores = async (req, res) => {
     }
 };
 
+const deleteJugador = (req, res) => {
+    const { id } = req.body;
+    
+    // Sentencia SQL para eliminar el año por ID
+    const sql = 'DELETE FROM jugadores WHERE id_jugador = ?';
+
+    db.query(sql, [id], (err, result) => {
+        if (err) {
+            console.error('Error eliminando el jugador:', err);
+            return res.status(500).send('Error eliminando el jugador');
+        }
+        res.status(200).send('Jugador eliminado correctamente');
+    });
+};
+
+
+
+const crearPartido = (req, res) => {
+    const { id_temporada, id_equipoLocal, id_equipoVisita, jornada, dia, hora, cancha, arbitro, id_planillero } = req.body;
+    db.query(`
+        INSERT INTO partidos
+        (id_temporada, 
+        id_equipoLocal, 
+        id_equipoVisita, 
+        jornada, 
+        dia, 
+        hora, 
+        cancha, 
+        arbitro, 
+        id_planillero) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+        [id_temporada, id_equipoLocal, id_equipoVisita, jornada, dia, hora, cancha, arbitro, id_planillero], (err, result) => {
+        if (err) return res.status(500).send('Error interno del servidor');
+        res.send('Temporada registrada con éxito');
+    });
+};
+
+const updatePartido = (req, res) => {
+    const { goles_local, goles_visita, descripcion, id_partido } = req.body;
+
+    // Validar que id_usuario esté presente
+    if (!id_partido) {
+        return res.status(400).send('ID de partido es requerido');
+    }
+    // Construir la consulta SQL
+    const sql = `
+        UPDATE partidos
+        SET 
+            goles_local = ?, 
+            goles_visita = ?, 
+            descripcion = ?
+        WHERE id_partido = ?
+    `;
+
+    // Ejecutar la consulta
+    db.query(sql, [goles_local, goles_visita, descripcion, id_partido], (err, result) => {
+        if (err) {
+            return res.status(500).send('Error interno del servidor');
+        }
+        res.send('Usuario actualizado exitosamente');
+    });
+};
 
 
 module.exports = {
     crearCategoria,
     getCategorias,
     deleteCategoria,
+
     crearTorneo,
     getTorneos,
     deleteTorneo,
+
     crearSede,
     getSedes,
     deleteSede,
+
     crearAnio,
     importarAnio,
     deleteAnio,
     getAnios,
+
     crearTemporada,
     getTemporadas,
     deleteTemporada,
+
     crearEquipo,
+
     getDivisiones,
     crearDivision,
-    getUsuarios,
+    
     getRoles,
+
+    getUsuarios,
     updateUsuario,
     deleteUsuario,
 
-
-
+    crearPartido,
+    updatePartido,
 
     crearJugador,
-    importarJugadores
+    importarJugadores,
+    deleteJugador
 };
