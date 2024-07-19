@@ -449,7 +449,6 @@ module.exports = {
     crearDivision,
     
     getRoles,
-
     getUsuarios,
     updateUsuario,
     deleteUsuario,
