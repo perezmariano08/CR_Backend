@@ -47,6 +47,7 @@ const getPartidos = (req, res) => {
             END AS dia_nombre,
             p.id_equipoLocal,
             p.id_equipoVisita,
+            p.estado,
             p.jornada,
             p.susp,
             p.dia,
@@ -124,10 +125,39 @@ const getJugadores = (req, res) => {
     });
 };
 
+const updatePartido = (req, res) => {
+    const { goles_local, goles_visita, descripcion, estado, id_partido} = req.body;
+    console.log('Request received:', req.body);
+
+    if (!id_partido) {
+        return res.status(400).send('ID de partido es requerido');
+    }
+
+    const sql = `
+        UPDATE partidos
+        SET 
+            goles_local = ?, 
+            goles_visita = ?, 
+            descripcion = ?,
+            estado = ?
+        WHERE id_partido = ?
+    `;
+
+    db.query(sql, [goles_local, goles_visita, descripcion, estado, id_partido], (err, result) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).send('Error interno del servidor');
+        }
+        res.send('Usuario actualizado exitosamente');
+    });
+};
+
+
 module.exports = {
     getUsers,
     getRoles,
     getEquipos,
     getPartidos,
-    getJugadores
+    getJugadores,
+    updatePartido
 };
