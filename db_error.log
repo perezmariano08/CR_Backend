@@ -1,0 +1,70 @@
+2024-07-22T13:56:45.832Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T13:56:45.843Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T13:56:45.847Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T13:56:45.851Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T13:56:46.048Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T13:56:46.052Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T13:57:32.230Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T13:57:32.238Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T13:57:32.433Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T13:57:55.692Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T13:57:55.695Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T15:27:33.099Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T15:28:30.130Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T15:28:30.132Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T15:28:30.151Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T15:28:30.201Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T15:28:30.204Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T15:28:30.208Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T15:28:30.211Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T15:33:02.099Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T15:33:02.102Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T15:33:02.105Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T15:33:02.109Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T15:33:02.161Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-22T15:33:02.165Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-23T19:39:00.677Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-23T19:39:00.684Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-23T19:39:00.689Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-23T19:39:00.727Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-23T19:39:00.740Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-23T19:39:00.743Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-23T19:39:01.007Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-23T20:22:21.736Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-23T20:22:22.082Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
+2024-07-23T20:22:22.412Z - Error en la conexión: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:217:20)
