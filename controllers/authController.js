@@ -95,7 +95,10 @@ const checkAuthentication = (req, res) => {
         const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET);
         db.query('SELECT * FROM usuarios WHERE dni = ?', [decoded.user], (err, result) => {
             if (err || result.length === 0) return res.status(401).send('Usuario no encontrado');
+            
+            // Definir la variable 'usuario' con el resultado de la consulta
             const usuario = result[0];
+            
             res.status(200).json({ message: "Usuario autenticado", usuario });
         });
     } catch (error) {
@@ -103,6 +106,7 @@ const checkAuthentication = (req, res) => {
         return res.status(500).send('Error interno del servidor');
     }
 };
+
 
 module.exports = {
     checkEmail,
