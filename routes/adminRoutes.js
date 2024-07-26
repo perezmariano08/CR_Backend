@@ -1,6 +1,7 @@
 const express = require('express');
 const { revisarCookie, revisarAdmin } = require('../middlewares/auth');
 const adminController = require('../controllers/adminController');
+const equiposController = require('../controllers/equiposController');
 
 const router = express.Router();
 
@@ -33,6 +34,7 @@ router.post('/delete-jugador', revisarCookie, revisarAdmin, adminController.dele
 
 router.put('/update-usuario', revisarCookie, revisarAdmin, adminController.updateUsuario);
 router.put('/update-partido', revisarCookie, revisarAdmin, adminController.updatePartido);
+router.put('/update-equipo', revisarCookie, revisarAdmin, equiposController.updateEquipo);
 
 router.post('/importar-anios', revisarCookie, revisarAdmin, adminController.importarAnio);
 router.post('/importar-jugadores', revisarCookie, revisarAdmin, adminController.importarJugadores);

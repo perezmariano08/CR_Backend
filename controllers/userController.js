@@ -94,7 +94,8 @@ const getEquipos = (req, res) => {
             e.img,
             c.nombre AS categoria,
             e.descripcion,
-            d.nombre AS division
+            d.nombre AS division,
+            e.id_temporada
         FROM equipos AS e
         INNER JOIN categorias AS c ON c.id_categoria = e.id_categoria
         LEFT JOIN divisiones AS d ON d.id_division = e.id_division
