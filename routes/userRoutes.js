@@ -2,6 +2,7 @@ const express = require('express');
 const userController = require('../controllers/userController');
 const equiposController = require('../controllers/equiposController');
 const expulsadosController = require('../controllers/expulsadosController');
+const partidosController = require('../controllers/partidosController');
 
 const router = express.Router();
 
@@ -23,5 +24,7 @@ router.post('/crear-amarillas', userController.crearAmarillas);
 router.put('/update-jugadores', userController.insertarJugadoresEventuales);
 router.get('/get-partidos-eventuales', userController.partidosJugadorEventual)
 
+router.get('/get-partidos-incidencias', partidosController.getIncidenciasPartido);
+router.get('/get-partidos-formaciones', partidosController.getFormacionesPartido);
 
 module.exports = router;
