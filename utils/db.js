@@ -19,7 +19,7 @@ const pool = mysql.createPool({
 const logFile = fs.createWriteStream('db_error.log', { flags: 'a' });
 
 pool.on('connection', (connection) => {
-  console.log('Nueva conexión establecida');
+  // console.log('Nueva conexión establecida');
   connection.on('error', (err) => {
     console.error('Error en la conexión:', err);
     logFile.write(`${new Date().toISOString()} - Error en la conexión: ${err.stack}\n`);
@@ -32,11 +32,11 @@ pool.on('connection', (connection) => {
 });
 
 pool.on('acquire', (connection) => {
-  console.log('Conexión adquirida:', connection.threadId);
+  // console.log('Conexión adquirida:', connection.threadId);
 });
 
 pool.on('release', (connection) => {
-  console.log('Conexión liberada:', connection.threadId);
+  // console.log('Conexión liberada:', connection.threadId);
 });
 
 const handleDisconnect = () => {
