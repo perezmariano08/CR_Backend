@@ -61,7 +61,7 @@ const getPartidos = (req, res) => {
             p.destacado,
             p.descripcion,
             p.id_planillero,
-            j.nombre AS jugador_destacado
+            j.id_jugador AS jugador_destacado
         FROM 
             partidos p
         INNER JOIN 
@@ -232,37 +232,56 @@ const crearAsistencias = (req, res) => {
     });
 };
 
-const crearRojas = (req, res) => {
+const crearRojas = async (req, res) => {
     const rojas = req.body;
 
     if (!Array.isArray(rojas)) {
         return res.status(400).send('Bad request: Expected an array of red cards');
     }
 
-    const values = rojas.map(({ id_partido, id_jugador, minuto, descripcion = '', motivo, estado = 'A', fechas = 1 }) => {
+    const values = [];
+    const jugadoresIds = [];
+
+    for (const { id_partido, id_jugador, minuto, descripcion = '', motivo, estado = 'A', fechas = 1 } of rojas) {
         if (!id_partido || !id_jugador || !minuto || !motivo) {
             return res.status(400).send('Missing required fields');
         }
-        return [id_partido, id_jugador, minuto, descripcion, motivo, estado, fechas];
-    });
-
-    if (values.some(value => value instanceof Error)) {
-        return; // Return early if there were validation errors
+        values.push([id_partido, id_jugador, minuto, descripcion, motivo, estado, fechas]);
+        jugadoresIds.push(id_jugador);
     }
 
-    const query = `
+    const queryInsert = `
         INSERT INTO expulsados
         (id_partido, id_jugador, minuto, descripcion, motivo, estado, fechas) 
         VALUES ?;
     `;
 
-    db.query(query, [values], (err, result) => {
-        if (err) {
-            console.error('Error inserting red cards:', err);
-            return res.status(500).send('Internal server error');
-        }
-        res.send('Rojas registradas con éxito');
-    });
+    const queryUpdate = `
+        UPDATE jugadores
+        SET sancionado = 'S'
+        WHERE id_jugador IN (?);
+    `;
+
+    try {
+        await new Promise((resolve, reject) => {
+            db.query(queryInsert, [values], (err, result) => {
+                if (err) return reject(err);
+                resolve(result);
+            });
+        });
+
+        await new Promise((resolve, reject) => {
+            db.query(queryUpdate, [jugadoresIds], (err, result) => {
+                if (err) return reject(err);
+                resolve(result);
+            });
+        });
+
+        res.send('Rojas registradas con éxito y estado de los jugadores actualizado.');
+    } catch (err) {
+        console.error('Error inserting red cards or updating player status:', err);
+        res.status(500).send('Internal server error');
+    }
 };
 
 
