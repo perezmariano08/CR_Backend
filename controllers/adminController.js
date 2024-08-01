@@ -260,7 +260,7 @@ const deleteUsuario = (req, res) => {
 };
 
 const updateUsuario = (req, res) => {
-    const { dni, nombre, apellido, email, telefono, id_rol, id_equipo, id_usuario} = req.body;
+    const { dni, nombre, apellido, nacimiento, email, telefono, id_rol, id_equipo, estado, img, id_usuario} = req.body;
     const fecha_actualizacion = new Date(); // Obtener la fecha actual
 
     // Validar que id_usuario esté presente
@@ -274,16 +274,19 @@ const updateUsuario = (req, res) => {
             dni = ?, 
             nombre = ?, 
             apellido = ?, 
+            nacimiento = ?, 
             email = ?, 
             telefono = ?, 
             id_rol = ?, 
             id_equipo = ?,
+            estado = ?,
+            img = ?,
             fecha_actualizacion = ?
         WHERE id_usuario = ?;
     `;
 
     // Ejecutar la consulta
-    db.query(sql, [dni, nombre, apellido, email, telefono, id_rol, id_equipo, fecha_actualizacion, id_usuario], (err, result) => {
+    db.query(sql, [dni, nombre, apellido, nacimiento, email, telefono, id_rol, id_equipo, estado, img, fecha_actualizacion, id_usuario], (err, result) => {
         if (err) {
             return res.status(500).send('Error interno del servidor');
         }
