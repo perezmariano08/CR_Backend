@@ -9,6 +9,7 @@ const path = require('path');
 const adminRoutes = require('./routes/adminRoutes');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
+const session = require('express-session');
 
 dotenv.config();
 
@@ -30,6 +31,16 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 }));
+
+// app.use(session({
+//     secret: 'tu_secreto',
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: {
+//         sameSite: 'None',
+//         secure: true
+//     }
+// }));
 
 app.use('/admin', adminRoutes);
 app.use('/auth', authRoutes);

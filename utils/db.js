@@ -19,7 +19,7 @@ const pool = mysql.createPool({
 // const logFile = fs.createWriteStream('db_error.log', { flags: 'a' });
 
 pool.on('connection', (connection) => {
-  // console.log('Nueva conexión establecida');
+  console.log('Nueva conexión establecida');
   connection.on('error', (err) => {
     console.error('Error en la conexión:', err);
     // logFile.write(`${new Date().toISOString()} - Error en la conexión: ${err.stack}\n`);
@@ -32,19 +32,18 @@ pool.on('connection', (connection) => {
 });
 
 pool.on('acquire', (connection) => {
-  // console.log('Conexión adquirida:', connection.threadId);
+  console.log('Conexión adquirida:', connection.threadId);
 });
 
 pool.on('release', (connection) => {
-  // console.log('Conexión liberada:', connection.threadId);
+  console.log('Conexión liberada:', connection.threadId);
 });
 
 const handleDisconnect = () => {
   pool.getConnection((err, connection) => {
     if (err) {
       console.error('Error al reconectar:', err);
-      // logFile.write(`${new Date().toISOString()} - Error al reconectar: ${err.stack}\n`);
-      setTimeout(handleDisconnect, 2000);  // Intentar reconectar después de 2 segundos
+      setTimeout(handleDisconnect, 2000); 
     } else {
       console.log('Reconectado a la base de datos');
       if (connection) connection.release();
