@@ -31,6 +31,7 @@ const getPartidos = (req, res) => {
     db.query(
         `SELECT
             p.id_partido,
+            p.id_temporada,
             divisiones.nombre as division,
             torneos.nombre as torneo,
             años.año as año,
@@ -361,6 +362,8 @@ const partidosJugadorEventual = (req, res) => {
         res.send(result);
     });
 }
+
+
 
 module.exports = {
     getUsers,
