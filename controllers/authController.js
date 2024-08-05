@@ -76,7 +76,7 @@ const checkLogin = (req, res) => {
         res.cookie('jwt', token, {   
             httpOnly: true, 
             secure: true, 
-            sameSite: 'Strict', 
+            sameSite: 'None', 
             maxAge: 3600000 });
         res.send({ id_rol: user.id_rol });
     });
