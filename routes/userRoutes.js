@@ -11,6 +11,8 @@ router.get('/get-users', userController.getUsers);
 router.get('/get-roles', userController.getRoles);
 router.get('/get-partidos', userController.getPartidos);
 router.get('/get-jugadores', userController.getJugadores);
+router.get('/get-temporadas', temporadasController.getTemporadas);
+
 router.put('/update-partido', userController.updatePartido);
 
 
@@ -30,6 +32,7 @@ router.get('/get-partidos-incidencias', partidosController.getIncidenciasPartido
 router.get('/get-partidos-formaciones', partidosController.getFormacionesPartido);
 
 router.get('/get-posiciones-temporada', temporadasController.getPosicionesTemporada);
+router.get('/get-estadistica-temporada', temporadasController.getEstadisticasTemporada);
 
 router.get('/get-jugadores-equipo', equiposController.getJugadoresEquipo);
 
