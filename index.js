@@ -19,7 +19,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
     origin: [
-        'https://cr-sistema.vercel.app', 
+        'https://prueba.coparelampago.com', 
         'http://localhost:5173', 
         'http://localhost:5174', 
         'http://192.168.0.4:5173', 
