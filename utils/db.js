@@ -16,13 +16,13 @@ const pool = mysql.createPool({
 });
 
 // Configuración del archivo de registro de errores
-const logFile = fs.createWriteStream('db_error.log', { flags: 'a' });
+// const logFile = fs.createWriteStream('db_error.log', { flags: 'a' });
 
 pool.on('connection', (connection) => {
   // console.log('Nueva conexión establecida');
   connection.on('error', (err) => {
     console.error('Error en la conexión:', err);
-    logFile.write(`${new Date().toISOString()} - Error en la conexión: ${err.stack}\n`);
+    // logFile.write(`${new Date().toISOString()} - Error en la conexión: ${err.stack}\n`);
     if (err.code === 'PROTOCOL_CONNECTION_LOST') {
       handleDisconnect();  // Manejar la pérdida de conexión
     } else {
@@ -43,7 +43,7 @@ const handleDisconnect = () => {
   pool.getConnection((err, connection) => {
     if (err) {
       console.error('Error al reconectar:', err);
-      logFile.write(`${new Date().toISOString()} - Error al reconectar: ${err.stack}\n`);
+      // logFile.write(`${new Date().toISOString()} - Error al reconectar: ${err.stack}\n`);
       setTimeout(handleDisconnect, 2000);  // Intentar reconectar después de 2 segundos
     } else {
       console.log('Reconectado a la base de datos');
