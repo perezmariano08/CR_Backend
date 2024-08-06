@@ -46,9 +46,11 @@ app.use('/user', userRoutes);
         //   logFile.write(`${new Date().toISOString()} - Unhandled Rejection: ${reason.stack}\n`);
     });
 
-app.listen(port, '0.0.0.0', () => {
+const server = app.listen(port, '0.0.0.0', () => {
     console.log(`Corriendo en http://localhost:${port}`);
 });
+
+server.setTimeout(30000)
 
 //  //Crear el directorio 'uploads' y sus subdirectorios si no existen
 //     const uploadDirs = ['uploads', 'uploads/Equipos', 'uploads/Usuarios', 'uploads/Jugadores'];
