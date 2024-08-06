@@ -78,7 +78,6 @@ const checkLogin = (req, res) => {
 };
 
 const logout = (req, res) => {
-    res.clearCookie("jwt", { path: "/" });
     res.send("Sesión cerrada exitosamente");
 };
 
@@ -87,7 +86,7 @@ const checkAuthentication = (req, res) => {
         const token = req.headers.authorization?.split(' ')[1];
         if (!token) return res.status(401).send('Usuario no autenticado');
 
-        const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET);
+        const decoded = jsonwebtoken.verify(token, 'textosecretoDECIFRADO');
         db.query('SELECT * FROM usuarios WHERE dni = ?', [decoded.user], (err, result) => {
             if (err || result.length === 0) return res.status(401).send('Usuario no encontrado');
             
