@@ -111,6 +111,7 @@ app.listen(port, '0.0.0.0', () => {
 //     // Servir archivos estáticos
 //     app.use('/uploads', express.static('uploads'));
 
+
 // Exporta el handler para Vercel
 module.exports = (req, res) => {
     app(req, res);
