@@ -3,9 +3,6 @@ const db = require('../utils/db');
 const getIncidenciasPartido = (req, res) => {
     const { id_partido } = req.query;
 
-    // Verifica que id_partido está siendo recibido
-    console.log("ID Partido:", id_partido);
-
     db.query('CALL sp_partidos_incidencias(?)', [id_partido], (err, result) => {
         if (err) {
             console.error("Error al ejecutar el procedimiento almacenado:", err);
