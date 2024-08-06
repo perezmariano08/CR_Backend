@@ -14,8 +14,8 @@
     ],
     "rewrites": [
       {
-        "source": "/api/(.*)",
-        "destination": "https://api-coparelampago.vercel.app/$1"
+        "src": "/api/(.*)",
+        "dest": "https://api-coparelampago.vercel.app/$1"
       }
     ]
 }
