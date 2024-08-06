@@ -363,6 +363,23 @@ const partidosJugadorEventual = (req, res) => {
     });
 }
 
+const crearJugador = (req, res) => {
+    const { dni, nombre, apellido, posicion, id_equipo } = req.body;
+    console.log(dni, nombre, apellido, posicion, id_equipo);
+    db.query('INSERT INTO jugadores(dni, nombre, apellido, posicion, id_equipo) VALUES (?, ?, ?, ?, ?);', 
+        [dni, nombre, apellido, posicion, id_equipo],
+        (err, result) => {
+            if (err) {
+                if (err.sqlState === '45000') {
+                    return res.status(400).send(err.sqlMessage);
+                }
+                console.error("Error al insertar el jugador en la tabla jugadores:", err);
+                return res.status(500).send("Error interno del servidor");
+            }
+            res.status(200).send("Jugador creado exitosamente");
+        }
+    );
+}
 
 
 module.exports = {
@@ -378,5 +395,6 @@ module.exports = {
     crearRojas,
     crearAmarillas,
     insertarJugadoresEventuales,
-    partidosJugadorEventual
+    partidosJugadorEventual,
+    crearJugador
 };

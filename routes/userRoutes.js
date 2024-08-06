@@ -36,6 +36,8 @@ router.get('/get-estadistica-temporada', temporadasController.getEstadisticasTem
 
 router.get('/get-jugadores-equipo', equiposController.getJugadoresEquipo);
 
+router.post('/crear-jugador', userController.crearJugador);
+
 
 
 module.exports = router;

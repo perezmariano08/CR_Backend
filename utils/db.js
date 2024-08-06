@@ -7,9 +7,9 @@ dotenv.config();
 const pool = mysql.createPool({
   connectionLimit: 20,
   host: 'srv1196.hstgr.io',
-  user: 'u436441116_admin',
-  password: '7Ui]u9k|piwD',
-  database: 'u436441116_cr_db',
+  user: 'u436441116_mariano',
+  password: 'H^0enpzw',
+  database: 'u436441116_database',
   connectTimeout: 60000,
   acquireTimeout: 60000,
   timeout: 60000
