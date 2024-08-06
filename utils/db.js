@@ -5,7 +5,7 @@ const fs = require('fs');
 dotenv.config();
 
 const pool = mysql.createPool({
-  connectionLimit: 10,
+  connectionLimit: 20,
   host: 'srv1196.hstgr.io',
   user: 'u436441116_admin',
   password: '7Ui]u9k|piwD',

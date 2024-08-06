@@ -9,20 +9,11 @@ const path = require('path');
 const adminRoutes = require('./routes/adminRoutes');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
-const session = require('express-session');
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3001;
-
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', req.headers.origin);
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    next();
-});
 
 app.use(cookieParser());
 app.use(express.json());
