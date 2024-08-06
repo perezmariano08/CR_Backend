@@ -34,17 +34,28 @@ app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 
 // Configuración del archivo de registro de errores
-// const logFile = fs.createWriteStream('error.log', { flags: 'a' });
-
+// const logFile = fs.createWriteStream('error.log', { flags: 'a' })
 // process.on('uncaughtException', (err) => {
-//   console.error('Unhandled Exception', err);
-//   logFile.write(`${new Date().toISOString()} - Unhandled Exception: ${err.stack}\n`);
+//     console.error('Unhandled Exception', err);
+//     logFile.write(`${new Date().toISOString()} - Unhandled Exception: ${err.stack}\n`);
 // });
 
 // process.on('unhandledRejection', (reason, promise) => {
-//   console.error('Unhandled Rejection', reason);
-//   logFile.write(`${new Date().toISOString()} - Unhandled Rejection: ${reason.stack}\n`);
-// });
+//     console.error('Unhandled Rejection', reason);
+//     logFile.write(`${new Date().toISOString()} - Unhandled Rejection: ${reason.stack}\n`);
+// })
+
+// Manejo de excepciones no capturadas
+process.on('uncaughtException', (err) => {
+    console.error('Unhandled Exception:', err);
+    // Puedes optar por cerrar el servidor o realizar otras acciones aquí
+});
+
+// Manejo de rechazos de promesas no capturados
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection:', reason);
+    // Puedes optar por cerrar el servidor o realizar otras acciones aquí
+});
 
 app.listen(port, '0.0.0.0', () => {
     console.log(`Corriendo en http://localhost:${port}`);
