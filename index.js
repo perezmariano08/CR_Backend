@@ -59,57 +59,58 @@ app.listen(port, '0.0.0.0', () => {
     console.log(`Corriendo en http://localhost:${port}`);
 });
 
- //Crear el directorio 'uploads' y sus subdirectorios si no existen
-    const uploadDirs = ['uploads', 'uploads/Equipos', 'uploads/Usuarios', 'uploads/Jugadores'];
-    uploadDirs.forEach(dir => {
-        if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, { recursive: true });
-        }
-    })
-// Configurar almacenamiento para Multer
-    const storage = multer.diskStorage({
-        destination: (req, file, cb) => {
-            let folder = 'uploads/';
-            if (req.path.includes('/upload-image/equipo')) {
-            folder += 'Equipos/';
-            } else if (req.path.includes('/upload-image/usuario')) {
-            folder += 'Usuarios/';
-            } else if (req.path.includes('/upload-image/jugador')) {
-            folder += 'Jugadores/';
-            }
-            cb(null, folder);
-        },
-        filename: (req, file, cb) => {
-            cb(null, file.originalname);
-        }
-    });
+//  //Crear el directorio 'uploads' y sus subdirectorios si no existen
+//     const uploadDirs = ['uploads', 'uploads/Equipos', 'uploads/Usuarios', 'uploads/Jugadores'];
+//     uploadDirs.forEach(dir => {
+//         if (!fs.existsSync(dir)) {
+//             fs.mkdirSync(dir, { recursive: true });
+//         }
+//     })
+// // Configurar almacenamiento para Multer
+//     const storage = multer.diskStorage({
+//         destination: (req, file, cb) => {
+//             let folder = 'uploads/';
+//             if (req.path.includes('/upload-image/equipo')) {
+//             folder += 'Equipos/';
+//             } else if (req.path.includes('/upload-image/usuario')) {
+//             folder += 'Usuarios/';
+//             } else if (req.path.includes('/upload-image/jugador')) {
+//             folder += 'Jugadores/';
+//             }
+//             cb(null, folder);
+//         },
+//         filename: (req, file, cb) => {
+//             cb(null, file.originalname);
+//         }
+//     });
 
-const upload = multer({ storage: storage });
+// const upload = multer({ storage: storage });
 
-// Rutas para subir imágenes
-    app.post('/upload-image/equipo', upload.single('image'), (req, res) => {
-        if (!req.file) {
-            return res.status(400).send('No se ha subido ningún archivo.');
-        }
-        res.send({ imageUrl: `/uploads/Equipos/${req.file.filename}` });
-    });
+// // Rutas para subir imágenes
+//     app.post('/upload-image/equipo', upload.single('image'), (req, res) => {
+//         if (!req.file) {
+//             return res.status(400).send('No se ha subido ningún archivo.');
+//         }
+//         res.send({ imageUrl: `/uploads/Equipos/${req.file.filename}` });
+//     });
 
-    app.post('/upload-image/usuario', upload.single('image'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).send('No se ha subido ningún archivo.');
-    }
-    res.send({ imageUrl: `/uploads/Usuarios/${req.file.filename}` });
-    })
+//     app.post('/upload-image/usuario', upload.single('image'), (req, res) => {
+//     if (!req.file) {
+//         return res.status(400).send('No se ha subido ningún archivo.');
+//     }
+//     res.send({ imageUrl: `/uploads/Usuarios/${req.file.filename}` });
+//     })
 
-    app.post('/upload-image/jugador', upload.single('image'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).send('No se ha subido ningún archivo.');
-    }
-    res.send({ imageUrl: `/uploads/Jugadores/${req.file.filename}` });
-    })
+//     app.post('/upload-image/jugador', upload.single('image'), (req, res) => {
+//     if (!req.file) {
+//         return res.status(400).send('No se ha subido ningún archivo.');
+//     }
+//     res.send({ imageUrl: `/uploads/Jugadores/${req.file.filename}` });
+//     })
 
-    // Servir archivos estáticos
-    app.use('/uploads', express.static('uploads'));
+//     // Servir archivos estáticos
+//     app.use('/uploads', express.static('uploads'));
+
 
 // Exporta el handler para Vercel
 module.exports = (req, res) => {
