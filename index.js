@@ -20,6 +20,7 @@ app.use(express.json());
 app.use(cors({
     origin: [
         'https://prueba.coparelampago.com', 
+        'https://appcoparelampago.vercel.app',
         'http://localhost:5173', 
         'http://localhost:5174', 
         'http://192.168.0.13:5173'
