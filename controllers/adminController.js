@@ -213,8 +213,6 @@ const crearDivision = (req, res) => {
     });
 };
 
-
-
 const getUsuarios = (req, res) => {
     db.query(
         `SELECT 
