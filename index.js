@@ -20,6 +20,7 @@ app.use(express.json());
 app.use(cors({
     origin: [
         'https://prueba.coparelampago.com', 
+        'https://appcoparelampago.vercel.app',
         'http://localhost:5173', 
         'http://localhost:5174', 
         'http://192.168.0.13:5173'
@@ -34,12 +35,22 @@ app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 
 // Configuración del archivo de registro de errores
+// const logFile = fs.createWriteStream('error.log', { flags: 'a' });
+
+    process.on('uncaughtException', (err) => {
+        console.error('Unhandled Exception', err);
+        //   logFile.write(`${new Date().toISOString()} - Unhandled Exception: ${err.stack}\n`);
+    });
 // const logFile = fs.createWriteStream('error.log', { flags: 'a' })
 // process.on('uncaughtException', (err) => {
 //     console.error('Unhandled Exception', err);
 //     logFile.write(`${new Date().toISOString()} - Unhandled Exception: ${err.stack}\n`);
 // });
 
+    process.on('unhandledRejection', (reason, promise) => {
+        console.error('Unhandled Rejection', reason);
+        //   logFile.write(`${new Date().toISOString()} - Unhandled Rejection: ${reason.stack}\n`);
+    });
 // process.on('unhandledRejection', (reason, promise) => {
 //     console.error('Unhandled Rejection', reason);
 //     logFile.write(`${new Date().toISOString()} - Unhandled Rejection: ${reason.stack}\n`);
@@ -57,9 +68,11 @@ process.on('unhandledRejection', (reason, promise) => {
     // Puedes optar por cerrar el servidor o realizar otras acciones aquí
 });
 
-app.listen(port, '0.0.0.0', () => {
+const server = app.listen(port, '0.0.0.0', () => {
     console.log(`Corriendo en http://localhost:${port}`);
 });
+
+server.setTimeout(30000)
 
 //  //Crear el directorio 'uploads' y sus subdirectorios si no existen
 //     const uploadDirs = ['uploads', 'uploads/Equipos', 'uploads/Usuarios', 'uploads/Jugadores'];
