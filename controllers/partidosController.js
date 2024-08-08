@@ -52,8 +52,29 @@ const getFormacionesPartido = (req, res) => {
     });
 };
 
+const crearPartido = (req, res) => {
+    const { id_temporada, id_equipoLocal, id_equipoVisita, jornada, dia, hora, cancha, arbitro, id_planillero } = req.body;
+    db.query(`
+        INSERT INTO partidos
+        (id_temporada, 
+        id_equipoLocal, 
+        id_equipoVisita, 
+        jornada, 
+        dia, 
+        hora, 
+        cancha, 
+        arbitro, 
+        id_planillero) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+        [id_temporada, id_equipoLocal, id_equipoVisita, jornada, dia, hora, cancha, arbitro, id_planillero], (err, result) => {
+        if (err) return res.status(500).send('Error interno del servidor');
+        res.send('Temporada registrada con éxito');
+    });
+};
+
 
 module.exports = {
     getIncidenciasPartido,
-    getFormacionesPartido
+    getFormacionesPartido,
+    crearPartido
 };

@@ -107,6 +107,8 @@ const getEquipos = (req, res) => {
     });
 };
 
+
+
 const getJugadores = (req, res) => {
     db.query(
         `SELECT 
@@ -120,7 +122,7 @@ const getJugadores = (req, res) => {
         j.sancionado,
         j.eventual
         FROM jugadores AS j
-        INNER JOIN equipos AS e ON e.id_equipo = j.id_equipo;`
+        LEFT JOIN equipos AS e ON e.id_equipo = j.id_equipo;`
     ,(err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send(result);

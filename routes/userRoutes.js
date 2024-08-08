@@ -4,6 +4,8 @@ const equiposController = require('../controllers/equiposController');
 const expulsadosController = require('../controllers/expulsadosController');
 const partidosController = require('../controllers/partidosController');
 const temporadasController = require('../controllers/temporadasController')
+const divisionesController = require('../controllers/divisionesController')
+const jugadoresController = require('../controllers/jugadoresController')
 
 const router = express.Router();
 
@@ -38,6 +40,19 @@ router.get('/get-jugadores-equipo', equiposController.getJugadoresEquipo);
 
 router.post('/crear-jugador', userController.crearJugador);
 
+// Divisiones
+router.post('/crear-division', divisionesController.crearDivision);
+router.get('/get-divisiones', divisionesController.getDivisiones);
+router.post('/delete-division', divisionesController.deleteDivision);
+router.post('/importar-divisiones', divisionesController.importarDivision);
+
+// Divisiones
+router.get('/get-jugadores', jugadoresController.getJugadores);
+router.post('/delete-jugador', jugadoresController.deleteJugador);
+router.put('/update-jugador', jugadoresController.updateJugador);
+
+
+router.post('/crear-partido', partidosController.crearPartido);
 
 
 module.exports = router;

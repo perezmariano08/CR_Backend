@@ -13,7 +13,7 @@ router.post('/crear-equipo', revisarToken, revisarAdmin, adminController.crearEq
 router.post('/crear-division', revisarToken, revisarAdmin, adminController.crearDivision);
 router.post('/crear-categoria', revisarToken, revisarAdmin, adminController.crearCategoria);
 router.post('/crear-jugador', revisarToken, revisarAdmin, adminController.crearJugador);
-router.post('/crear-partido', revisarToken, revisarAdmin, adminController.crearPartido);
+router.post('/crear-partido', revisarAdmin, adminController.crearPartido);
 
 router.get('/get-torneos', revisarToken, revisarAdmin, adminController.getTorneos);
 router.get('/get-sedes', revisarToken, revisarAdmin, adminController.getSedes);
