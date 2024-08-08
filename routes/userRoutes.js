@@ -50,6 +50,7 @@ router.post('/importar-divisiones', divisionesController.importarDivision);
 router.get('/get-jugadores', jugadoresController.getJugadores);
 router.post('/delete-jugador', jugadoresController.deleteJugador);
 router.put('/update-jugador', jugadoresController.updateJugador);
+router.post('/importar-jugadores', jugadoresController.importarJugadores);
 
 
 router.post('/crear-partido', partidosController.crearPartido);
