@@ -12,7 +12,8 @@ const pool = mysql.createPool({
   database: 'u436441116_database',
   connectTimeout: 60000,
   acquireTimeout: 60000,
-  timeout: 60000
+  timeout: 60000,
+  flags: 'keep-alive'
 });
 
 // Configuración del archivo de registro de errores
