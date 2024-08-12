@@ -6,8 +6,8 @@ const { URL_FRONT, URL_BACK } = require('./utils');
 
 // Configuración del transportador de Nodemailer
 const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
+    host: "pop.hostinger.com",
+    port: 995,
     secure: true, // Use `true` para el puerto 465, `false` para otros puertos
     auth: {
         user: "soporte@coparelampago.com",
@@ -29,7 +29,7 @@ const sendVerificationEmail = async (email, dni, nombre) => {
 
         // Enviar el correo
         await transporter.sendMail({
-            from: '"Validar cuenta" <jpozzocontacto@gmail.com>',
+            from: '"Validar cuenta" <soporte@coparelampago.com>',
             to: email,
             subject: "Validar cuenta",
             html: html
@@ -58,7 +58,7 @@ const forgotPassword = async (email, dni) => {
 
         // Enviar el correo
         await transporter.sendMail({
-            from: '"Recuperar contraseña" <jpozzocontacto@gmail.com>',
+            from: '"Recuperar contraseña" <soporte@coparelampago.com>',
             to: email,
             subject: "Recuperar contraseña",
             html: html
