@@ -29,9 +29,9 @@ const sendVerificationEmail = async (email, dni, nombre) => {
 
         // Enviar el correo
         await transporter.sendMail({
-            from: '"Validar cuenta" <soporte@coparelampago.com>',
+            from: '"Copa Relámpago" <soporte@coparelampago.com>',
             to: email,
-            subject: "Validar cuenta",
+            subject: "Copa Relámpago - Mail de validación",
             html: html
         });
 
@@ -58,9 +58,9 @@ const forgotPassword = async (email, dni) => {
 
         // Enviar el correo
         await transporter.sendMail({
-            from: '"Recuperar contraseña" <soporte@coparelampago.com>',
+            from: '"Copa Relámpago" <soporte@coparelampago.com>',
             to: email,
-            subject: "Recuperar contraseña",
+            subject: "Copa Relámpago - Mail de recuperación de contraseña",
             html: html
         });
 
