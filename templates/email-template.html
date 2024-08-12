@@ -13,24 +13,20 @@
             background-color: #2D2F30;
             margin: 0;
             padding: 0;
+            width: 100% !important;
         }
         .container {
             width: 100%;
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
-            display: flex;
-            flex-direction: column;
+            background-color: #fafafa;
         }
         .header {
             background-color: #2AD174;
             color: #FAFAFA;
             padding: 20px;
             text-align: center;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         .content {
             background-color: #fafafa;
@@ -38,19 +34,7 @@
             border-radius: 0 0 5px 5px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
             text-align: center;
-        }
-        .content-bottom, .content-top {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 20px;
         }
         .button {
             font-size: 16px;
@@ -59,10 +43,10 @@
             padding: 10px 0px;
             text-decoration: none;
             border-radius: 5px;
-            /* margin-top: 20px; */
             font-weight: 700;
             width: 100%;
             text-align: center;
+            display: inline-block;
         }
         .footer {
             text-align: center;
@@ -82,29 +66,37 @@
         .check-icon {
             color: #2AD174;
         }
-
+        .spacer {
+            height: 20px;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <img class="img" src="https://coparelampago.com/uploads/CR/logoCopaRelampago.png" alt="">
-        </div>
-        <div class="content">
-            <div class="content-top">
-                <h3 class="bienvenida">Hola, <span class="nombre">{{nombre}}</span> 👋</h3>
-                <p>Gracias por registrarte al sistema de Copa Relámpago.</p>
-            </div>
-            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0 0h24v24H0z"></path><path class="check-icon" d="M12 19a6.995 6.995 0 0 1 10-6.32V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h8.08c-.05-.33-.08-.66-.08-1zM4 6l8 5 8-5v2l-8 5-8-5V6zm13.34 16-3.54-3.54 1.41-1.41 2.12 2.12 4.24-4.24L23 16.34 17.34 22z"></path></svg>
-            <div class="content-bottom">
-                <p>Para completar el proceso de registro, por favor confirma tu cuenta haciendo clic en el <strong>botón de abajo. 👇</strong> </p>
-                <a href="{{url}}" class="button">VALIDAR CUENTA</a>
-                <p class="text-footer">Si no has solicitado esta verificación, puedes ignorar este correo.</p>
-            </div>
-        </div>
-        <div class="footer">
-            <p>&copy; {{year}} Copa Relámpago. Todos los derechos reservados.</p>
-        </div>
-    </div>
+    <center>
+        <table class="container" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="header">
+                    <img class="img" src="https://coparelampago.com/uploads/CR/logoCopaRelampago.png" alt="">
+                </td>
+            </tr>
+            <tr>
+                <td class="content">
+                    <h3 class="bienvenida">Hola, <span class="nombre">{{nombre}}</span> 👋</h3>
+                    <p>Gracias por registrarte al sistema de Copa Relámpago.</p>
+                    <div class="spacer"></div>
+                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0 0h24v24H0z"></path><path class="check-icon" d="M12 19a6.995 6.995 0 0 1 10-6.32V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h8.08c-.05-.33-.08-.66-.08-1zM4 6l8 5 8-5v2l-8 5-8-5V6zm13.34 16-3.54-3.54 1.41-1.41 2.12 2.12 4.24-4.24L23 16.34 17.34 22z"></path></svg>
+                    <div class="spacer"></div>
+                    <p>Para completar el proceso de registro, por favor confirma tu cuenta haciendo clic en el <strong>botón de abajo. 👇</strong> </p>
+                    <a href="{{url}}" class="button">VALIDAR CUENTA</a>
+                    <p class="text-footer">Si no has solicitado esta verificación, puedes ignorar este correo.</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="footer">
+                    <p>&copy; {{year}} Copa Relámpago. Todos los derechos reservados.</p>
+                </td>
+            </tr>
+        </table>
+    </center>
 </body>
 </html>
