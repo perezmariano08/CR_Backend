@@ -6,12 +6,12 @@ const { URL_FRONT, URL_BACK } = require('./utils');
 
 // Configuración del transportador de Nodemailer
 const transporter = nodemailer.createTransport({
-    host: "pop.hostinger.com",
-    port: 995,
+    host: "smtp.hostinger.com",
+    port: 465,
     secure: true, // Use `true` para el puerto 465, `false` para otros puertos
     auth: {
         user: "soporte@coparelampago.com",
-        pass: "nbsz ilot vqhr zvyu",
+        pass: "Fv@Iz6Akwg1",
     },
 });
 
