@@ -29,9 +29,9 @@ const sendVerificationEmail = async (email, dni, nombre) => {
 
         // Enviar el correo
         await transporter.sendMail({
-            from: '"Validar cuenta 👻" <jpozzocontacto@gmail.com>',
+            from: '"Validar cuenta ✅" <jpozzocontacto@gmail.com>',
             to: email,
-            subject: "Validar cuenta ✔",
+            subject: "Validar cuenta ✅",
             html: html
         });
 
@@ -58,9 +58,9 @@ const forgotPassword = async (email, dni) => {
 
         // Enviar el correo
         await transporter.sendMail({
-            from: '"Recuperar contraseña" <jpozzocontacto@gmail.com>',
+            from: '"Recuperar contraseña 🔒" <jpozzocontacto@gmail.com>',
             to: email,
-            subject: "Recuperar contraseña",
+            subject: "Recuperar contraseña 🔒",
             html: html
         });
 

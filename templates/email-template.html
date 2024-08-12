@@ -36,10 +36,14 @@
             width: 100%;
             text-align: center;
         }
+        .content > a {
+            color: #fafafa;
+        }
         .button {
             text-decoration: none;
             font-size: 16px;
-            color: #fafafa;
+            color: inherit;
+            /* color: #fafafa; */
             background-color: #2AD174;
             padding: 10px 0px;
             text-decoration: none;
@@ -69,8 +73,8 @@
         .img {
             height: 20px;
         }
-        .check-icon {
-            color: #2AD174;
+        .icon {
+            width: 150px;
         }
         .spacer {
             height: 20px;
@@ -90,7 +94,7 @@
                     <h3 class="bienvenida">Hola, <span class="nombre">{{nombre}}</span> 👋</h3>
                     <p>Gracias por registrarte al sistema de Copa Relámpago.</p>
                     <div class="spacer"></div>
-                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0 0h24v24H0z"></path><path class="check-icon" d="M12 19a6.995 6.995 0 0 1 10-6.32V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h8.08c-.05-.33-.08-.66-.08-1zM4 6l8 5 8-5v2l-8 5-8-5V6zm13.34 16-3.54-3.54 1.41-1.41 2.12 2.12 4.24-4.24L23 16.34 17.34 22z"></path></svg>
+                    <img src="https://coparelampago.com/uploads/CR/email.png" alt="icono de casilla de correo" class="icon">
                     <div class="spacer"></div>
                     <p>Para completar el proceso de registro, por favor confirma tu cuenta haciendo clic en el <strong>botón de abajo. 👇</strong> </p>
                     <a href="{{url}}" class="button">VALIDAR CUENTA</a>
