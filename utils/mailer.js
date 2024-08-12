@@ -45,7 +45,7 @@ const sendVerificationEmail = async (email, dni, nombre) => {
 const forgotPassword = async (email, dni) => {
     try {
         //Generar token Y CAMBIAR KEYS
-        const token = jwt.sign({ dni }, 'your-secret-key', {expiresIn: '1h'})
+        const token = jwt.sign({ dni }, 'your-secret-key', {expiresIn: '3m'})
 
         // Leer y procesar la plantilla HTML
         const templatePath = path.join(__dirname, '..', 'templates', 'forgot-password-template.html');
