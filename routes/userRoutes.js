@@ -6,6 +6,7 @@ const partidosController = require('../controllers/partidosController');
 const temporadasController = require('../controllers/temporadasController')
 const divisionesController = require('../controllers/divisionesController')
 const jugadoresController = require('../controllers/jugadoresController')
+const edicionesController = require('../controllers/edicionesController')
 
 const router = express.Router();
 
@@ -55,5 +56,8 @@ router.post('/importar-jugadores', jugadoresController.importarJugadores);
 
 router.post('/crear-partido', partidosController.crearPartido);
 
+// Ediciones
+router.get('/get-ediciones', edicionesController.getEdiciones);
+router.post('/crear-edicion', edicionesController.crearEdicion);
 
 module.exports = router;
