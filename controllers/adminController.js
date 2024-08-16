@@ -9,7 +9,39 @@ const crearCategoria = (req, res) => {
 };
 
 const getCategorias = (req, res) => {
-    db.query('SELECT * FROM categorias', (err, result) => {
+    db.query(`
+        SELECT
+            c.id_categoria,
+            c.id_edicion, 
+            c.nombre AS nombre,
+            CONCAT(
+                IFNULL((SELECT COUNT(*) FROM partidos p WHERE p.id_categoria = c.id_categoria AND p.estado = 'F'), 0),
+                ' / ',
+                IFNULL((SELECT COUNT(*) FROM partidos p WHERE p.id_categoria = c.id_categoria), 0)
+            ) AS partidos,
+            IFNULL((SELECT COUNT(*) FROM equipos e WHERE e.id_categoria = c.id_categoria), 0) AS equipos,
+            CONCAT(
+                IFNULL((SELECT COUNT(*) FROM jugadores j WHERE j.id_categoria = c.id_categoria), 0),
+                ' ',
+                IFNULL(
+                    CASE 
+                        WHEN c.genero = 'F' THEN 
+                            CASE WHEN (SELECT COUNT(*) FROM jugadores j WHERE j.id_categoria = c.id_categoria) = 1 THEN 'jugadora' ELSE 'jugadoras' END
+                        ELSE 
+                            CASE WHEN (SELECT COUNT(*) FROM jugadores j WHERE j.id_categoria = c.id_categoria) = 1 THEN 'jugador' ELSE 'jugadores' END
+                    END,
+                    ''
+                )
+            ) AS jugadores,
+            CASE
+                WHEN EXISTS (SELECT 1 FROM partidos p WHERE p.id_categoria = c.id_categoria AND p.estado = 'F') THEN 'JUGANDO'
+                ELSE 'SIN INICIAR'
+            END AS estado
+        FROM 
+            categorias c
+        ORDER BY 
+            c.id_categoria DESC`,
+        (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send(result);
     });
