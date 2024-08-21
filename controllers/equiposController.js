@@ -2,7 +2,7 @@ const db = require('../utils/db');
 
 const getEquipos = (req, res) => {
     db.query(
-        `SELECT
+        `SSELECT
     e.id_equipo,
     e.nombre,
     e.img,
@@ -19,17 +19,16 @@ const getEquipos = (req, res) => {
             END,
             ''
         )
-    ) AS jugadores
-    c.id_categoria,
+    ) AS jugadores,
     z.id_zona,
-    e.nombre,
-    e.img,
     e.descripcion,
     CONCAT(c.nombre, ' ', z.nombre) AS nombre_categoria
 FROM 
     equipos AS e
 LEFT JOIN 
     categorias AS c ON c.id_categoria = e.id_categoria
+LEFT JOIN 
+    zonas AS z ON z.id_zona = e.id_zona
 ORDER BY 
     e.nombre;`
     ,(err, result) => {
