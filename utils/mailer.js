@@ -8,7 +8,7 @@ const { URL_FRONT, URL_BACK } = require('./utils');
 const transporter = nodemailer.createTransport({
     host: "smtp.hostinger.com",
     port: 465,
-    secure: true, // Use `true` para el puerto 465, `false` para otros puertos
+    secure: true,
     auth: {
         user: "soporte@coparelampago.com",
         pass: "Fv@Iz6Akwg1",
@@ -25,7 +25,7 @@ const sendVerificationEmail = async (email, dni, nombre) => {
         const currentYear = new Date().getFullYear();
         html = html.replace('{{url}}', `${URL_BACK}/auth/activar-cuenta?dni=${dni}`);
         html = html.replace('{{year}}', currentYear);
-        html = html.replace('{{nombre}}', nombre)
+        html = html.replace('{{nombre}}', nombre);
 
         // Enviar el correo
         await transporter.sendMail({
@@ -38,14 +38,14 @@ const sendVerificationEmail = async (email, dni, nombre) => {
         console.log('Correo de verificación enviado');
     } catch (error) {
         console.error('Error al enviar el correo:', error);
-        throw new Error('Error al enviar el correo'); // Re-lanzar el error para manejarlo en la función de creación de cuenta
+        throw new Error('Error al enviar el correo');
     }
 };
 
 const forgotPassword = async (email, dni) => {
     try {
-        //Generar token Y CAMBIAR KEYS
-        const token = jwt.sign({ dni }, 'your-secret-key', {expiresIn: '3m'})
+        // Generar token de recuperación
+        const token = jwt.sign({ dni }, 'your-secret-key', { expiresIn: '3m' });
 
         // Leer y procesar la plantilla HTML
         const templatePath = path.join(__dirname, '..', 'templates', 'forgot-password-template.html');

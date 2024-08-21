@@ -1,9 +1,9 @@
 const db = require('../utils/db');
 
 const getPosicionesTemporada = (req, res) => {
-    const { id_temporada } = req.query;
+    const { id_zona } = req.query;
 
-    db.query('CALL sp_posiciones_temporada(?)', [id_temporada], (err, result) => {
+    db.query('CALL sp_posiciones_zona(?)', [id_zona], (err, result) => {
         if (err) {
             console.error("Error al ejecutar el procedimiento almacenado:", err);
             if (err.sqlState === '45000') {
@@ -25,10 +25,10 @@ const getPosicionesTemporada = (req, res) => {
     });
 }
 
-const getEstadisticasTemporada = (req, res) => {
-    const { id_temporada, estadistica } = req.query;
+const getEstadisticasCategoria = (req, res) => {
+    const { id_categoria, estadistica } = req.query;
 
-    db.query('CALL sp_estadisticas_temporada(?,?)', [estadistica, id_temporada], (err, result) => {
+    db.query('CALL sp_estadisticas_categoria(?,?)', [id_categoria, estadistica], (err, result) => {
             if (err) {
                 console.error("Error al ejecutar el procedimiento almacenado:", err);
                 if (err.sqlState === '45000') {
@@ -50,22 +50,19 @@ const getEstadisticasTemporada = (req, res) => {
         });
 }
 
-const getTemporadas = (req, res) => {
-    db.query(`SELECT 
-        id_temporada, 
-        torneos.nombre AS torneo, 
-        categorias.nombre AS categoria, 
-        años.año, 
-        sedes.nombre AS sede, 
-        divisiones.nombre AS division,
-        temporadas.descripcion,
-        CONCAT(divisiones.nombre, ' - ', torneos.nombre, ' ', años.año) AS nombre_temporada
-            FROM temporadas 
-            INNER JOIN torneos ON temporadas.id_torneo = torneos.id_torneo 
-            INNER JOIN categorias ON temporadas.id_categoria = categorias.id_categoria 
-            INNER JOIN años ON temporadas.id_año = años.id_año 
-            INNER JOIN sedes ON temporadas.id_sede = sedes.id_sede
-            INNER JOIN divisiones ON temporadas.id_division = divisiones.id_division`, 
+const getZonas = (req, res) => {
+    db.query(`SELECT
+        z.id_zona,
+        c.id_categoria,
+        CONCAT(e.nombre, ' ', e.temporada) AS nombre_edicion,
+        c.nombre AS nombre_categoria,
+        z.nombre AS nombre_zona,
+        c.genero AS genero
+    FROM
+        categorias AS c
+        INNER JOIN ediciones AS e ON e.id_edicion = c.id_edicion
+        INNER JOIN zonas AS z ON z.id_categoria = c.id_categoria
+    ORDER BY 3`, 
     (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send(result);
@@ -74,6 +71,6 @@ const getTemporadas = (req, res) => {
 
 module.exports = {
     getPosicionesTemporada,
-    getEstadisticasTemporada,
-    getTemporadas
+    getEstadisticasCategoria,
+    getZonas
 };

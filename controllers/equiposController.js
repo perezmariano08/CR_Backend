@@ -3,20 +3,16 @@ const db = require('../utils/db');
 const getEquipos = (req, res) => {
     db.query(
         `SELECT
-            e.id_equipo,
-            e.nombre,
-            e.img,
-            c.nombre AS categoria,
-            e.descripcion,
-            d.nombre AS division,
-            t.id_temporada,
-            CONCAT(tor.nombre, ' ', a.año, ' - ', d.nombre) as temporada
+    e.id_equipo,
+    c.id_categoria,
+    z.id_zona,
+    e.nombre,
+    e.img,
+    e.descripcion,
+    CONCAT(c.nombre, ' ', z.nombre) AS nombre_categoria
         FROM equipos AS e
         INNER JOIN categorias AS c ON c.id_categoria = e.id_categoria
-        LEFT JOIN temporadas AS t ON t.id_temporada = e.id_temporada
-        LEFT JOIN torneos AS tor ON tor.id_torneo = t.id_torneo
-        LEFT JOIN años AS a ON a.id_año = t.id_año
-        LEFT JOIN divisiones AS d ON d.id_division = e.id_division
+        INNER JOIN zonas AS z ON z.id_zona = e.id_zona
         ORDER BY e.nombre`
     ,(err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
@@ -61,9 +57,9 @@ const updateEquipo = (req, res) => {
 };
 
 const getJugadoresEquipo = (req, res) => {
-    const { id_temporada, id_equipo } = req.query;
+    const { id_zona, id_equipo } = req.query;
 
-    db.query('CALL sp_jugadores_equipo(?, ?)', [id_temporada ,id_equipo], (err, result) => {
+    db.query('CALL sp_jugadores_equipo(?, ?)', [id_zona ,id_equipo], (err, result) => {
         if (err) {
             console.error("Error al ejecutar el procedimiento almacenado:", err);
             if (err.sqlState === '45000') {

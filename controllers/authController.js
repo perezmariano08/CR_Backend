@@ -171,11 +171,11 @@ const activarCuenta = (req, res) => {
     });
 };
 
-const forgotPasswordHandler = (req, res) => {
+
+const forgotPasswordHandler = async (req, res) => {
     const { email } = req.body;
 
     if (!email) {
-        console.log('Falta email');
         return res.status(400).send('Falta Email');
     }
 
@@ -192,13 +192,25 @@ const forgotPasswordHandler = (req, res) => {
 
             const { dni, email: userEmail } = result[0];
 
-            if (userEmail) {
-                // Enviar el correo de recuperación
-                await mailer.forgotPassword(userEmail, dni);
-                return res.status(200).send("Mail de recuperación enviado con éxito");
-            } else {
-                return res.status(404).send("Cuenta no encontrada.");
-            }
+            // Generar y almacenar el token de recuperación
+            const tokenExpiration = Date.now() + 3 * 60 * 1000; // 3 minutos desde ahora
+            const resetToken = jsonwebtoken.sign({ dni }, 'your-secret-key', { expiresIn: '3m' });
+
+            db.query('UPDATE usuarios SET reset_token = ?, reset_token_expiration = ? WHERE dni = ?', 
+            [resetToken, tokenExpiration, dni], async (err) => {
+                if (err) {
+                    console.error('Error al guardar el token de recuperación en la base de datos:', err);
+                    return res.status(500).send('Error interno del servidor');
+                }
+
+                try {
+                    await mailer.forgotPassword(userEmail, dni);
+                    return res.status(200).send("Mail de recuperación enviado con éxito");
+                } catch (mailError) {
+                    console.error('Error al enviar el correo:', mailError);
+                    return res.status(500).json({ message: 'Hubo un error en el envío del mail de recuperación' });
+                }
+            });
         });
     } catch (error) {
         console.error('Error al procesar la solicitud:', error);
@@ -206,6 +218,7 @@ const forgotPasswordHandler = (req, res) => {
     }
 };
 
+// Handler para cambiar la contraseña
 const changeNewPassword = (req, res) => {
     const { clave, token } = req.body;
 
@@ -221,29 +234,50 @@ const changeNewPassword = (req, res) => {
 
         const { dni } = decoded;
 
-        bcryptjs.genSalt(10, (err, salt) => {
+        // Verificar si el token ha expirado
+        db.query('SELECT reset_token_expiration FROM usuarios WHERE dni = ?', [dni], (err, results) => {
             if (err) {
-                console.error("Error al generar la sal:", err);
+                console.error("Error al consultar la base de datos:", err);
                 return res.status(500).send("Error interno del servidor");
             }
 
-            bcryptjs.hash(clave, salt, (err, hash) => {
+            if (results.length === 0) {
+                return res.status(404).send("Usuario no encontrado");
+            }
+
+            const resetTokenExpiration = results[0].reset_token_expiration;
+            const currentTime = Date.now();
+
+            if (currentTime > resetTokenExpiration) {
+                return res.status(400).send("El token ha expirado");
+            }
+
+            // Si el token es válido y no ha expirado, actualizar la contraseña
+            bcryptjs.genSalt(10, (err, salt) => {
                 if (err) {
-                    console.error("Error al encriptar la contraseña:", err);
+                    console.error("Error al generar la sal:", err);
                     return res.status(500).send("Error interno del servidor");
                 }
 
-                const query = 'UPDATE usuarios SET clave = ? WHERE dni = ?';
-                db.query(query, [hash, dni], (err, results) => {
+                bcryptjs.hash(clave, salt, (err, hash) => {
                     if (err) {
-                        console.error("Error al actualizar la contraseña en la base de datos:", err);
+                        console.error("Error al encriptar la contraseña:", err);
                         return res.status(500).send("Error interno del servidor");
                     }
 
-                    if (results.affectedRows === 0) {
-                        return res.status(404).send("Usuario no encontrado");
-                    }
-                    res.status(200).send("Contraseña actualizada exitosamente");
+                    db.query('UPDATE usuarios SET clave = ?, reset_token = NULL, reset_token_expiration = NULL WHERE dni = ?', 
+                    [hash, dni], (err, results) => {
+                        if (err) {
+                            console.error("Error al actualizar la contraseña en la base de datos:", err);
+                            return res.status(500).send("Error interno del servidor");
+                        }
+
+                        if (results.affectedRows === 0) {
+                            return res.status(404).send("Usuario no encontrado");
+                        }
+
+                        res.status(200).send("Contraseña actualizada exitosamente");
+                    });
                 });
             });
         });
