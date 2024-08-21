@@ -20,6 +20,12 @@ const getEquipos = (req, res) => {
             ''
         )
     ) AS jugadores
+    c.id_categoria,
+    z.id_zona,
+    e.nombre,
+    e.img,
+    e.descripcion,
+    CONCAT(c.nombre, ' ', z.nombre) AS nombre_categoria
 FROM 
     equipos AS e
 LEFT JOIN 
@@ -69,9 +75,9 @@ const updateEquipo = (req, res) => {
 };
 
 const getJugadoresEquipo = (req, res) => {
-    const { id_temporada, id_equipo } = req.query;
+    const { id_zona, id_equipo } = req.query;
 
-    db.query('CALL sp_jugadores_equipo(?, ?)', [id_temporada ,id_equipo], (err, result) => {
+    db.query('CALL sp_jugadores_equipo(?, ?)', [id_zona ,id_equipo], (err, result) => {
         if (err) {
             console.error("Error al ejecutar el procedimiento almacenado:", err);
             if (err.sqlState === '45000') {
