@@ -14,7 +14,8 @@ router.get('/get-users', userController.getUsers);
 router.get('/get-roles', userController.getRoles);
 router.get('/get-partidos', userController.getPartidos);
 router.get('/get-jugadores', userController.getJugadores);
-router.get('/get-temporadas', temporadasController.getTemporadas);
+router.get('/get-zonas', temporadasController.getZonas);
+router.get('/get-categorias', userController.getCategorias);
 
 router.put('/update-partido', userController.updatePartido);
 
@@ -34,8 +35,8 @@ router.get('/get-partidos-eventuales', userController.partidosJugadorEventual)
 router.get('/get-partidos-incidencias', partidosController.getIncidenciasPartido);
 router.get('/get-partidos-formaciones', partidosController.getFormacionesPartido);
 
-router.get('/get-posiciones-temporada', temporadasController.getPosicionesTemporada);
-router.get('/get-estadistica-temporada', temporadasController.getEstadisticasTemporada);
+router.get('/get-posiciones-zona', temporadasController.getPosicionesTemporada);
+router.get('/get-estadistica-categoria', temporadasController.getEstadisticasCategoria);
 
 router.get('/get-jugadores-equipo', equiposController.getJugadoresEquipo);
 
@@ -52,7 +53,6 @@ router.get('/get-jugadores', jugadoresController.getJugadores);
 router.post('/delete-jugador', jugadoresController.deleteJugador);
 router.put('/update-jugador', jugadoresController.updateJugador);
 router.post('/importar-jugadores', jugadoresController.importarJugadores);
-
 
 router.post('/crear-partido', partidosController.crearPartido);
 

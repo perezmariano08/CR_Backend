@@ -31,10 +31,9 @@ const getPartidos = (req, res) => {
     db.query(
         `SELECT
             p.id_partido,
-            p.id_temporada,
-            divisiones.nombre as division,
-            torneos.nombre as torneo,
-            años.año as año,
+            p.id_edicion,
+            p.id_categoria,
+            p.id_zona,
             DAY(p.dia) AS dia_numero,
             MONTH(p.dia) AS mes,
             CASE
@@ -46,6 +45,7 @@ const getPartidos = (req, res) => {
                 WHEN DAYNAME(p.dia) = 'Saturday' THEN 'Sábado'
                 WHEN DAYNAME(p.dia) = 'Sunday' THEN 'Domingo'
             END AS dia_nombre,
+            YEAR(p.dia) AS año,
             p.id_equipoLocal,
             p.id_equipoVisita,
             p.estado,
@@ -61,26 +61,26 @@ const getPartidos = (req, res) => {
             p.arbitro,
             p.destacado,
             p.descripcion,
+            CONCAT(e.nombre, ' ', e.temporada) AS nombre_edicion,
+            c.nombre AS nombre_categoria,
             p.id_planillero,
             j.id_jugador AS jugador_destacado
         FROM 
             partidos p
         INNER JOIN 
-            temporadas t ON p.id_temporada = t.id_temporada
+            categorias c ON p.id_categoria = c.id_categoria
         INNER JOIN 
             equipos e1 ON p.id_equipoLocal = e1.id_equipo
         INNER JOIN 
             equipos e2 ON p.id_equipoVisita = e2.id_equipo
         INNER JOIN
-            divisiones ON divisiones.id_division = t.id_division
+            zonas ON zonas.id_categoria = c.id_categoria
         INNER JOIN
-            torneos ON torneos.id_torneo = t.id_torneo
-        INNER JOIN
-            años ON años.id_año = t.id_año
+			ediciones AS e ON e.id_edicion = p.id_edicion
         LEFT JOIN 
             usuarios u ON p.id_planillero = u.id_usuario
         LEFT JOIN 
-            jugadores j ON p.id_jugador_destacado = j.id_jugador`
+            jugadores j ON p.id_jugador_destacado = j.id_jugador;`
     ,(err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send(result);
@@ -106,8 +106,6 @@ const getEquipos = (req, res) => {
         res.send(result);
     });
 };
-
-
 
 const getJugadores = (req, res) => {
     db.query(
@@ -287,7 +285,6 @@ const crearRojas = async (req, res) => {
     }
 };
 
-
 const crearAmarillas = (req, res) => {
     const amarillas = req.body;
 
@@ -383,6 +380,12 @@ const crearJugador = (req, res) => {
     );
 }
 
+const getCategorias = (req, res) => {
+    db.query('SELECT * FROM categorias', (err, result) => {
+        if (err) return res.status(500).send('Error interno del servidor');
+        res.send(result);
+    });
+};
 
 module.exports = {
     getUsers,
@@ -398,5 +401,6 @@ module.exports = {
     crearAmarillas,
     insertarJugadoresEventuales,
     partidosJugadorEventual,
-    crearJugador
+    crearJugador,
+    getCategorias
 };
