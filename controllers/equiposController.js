@@ -2,7 +2,7 @@ const db = require('../utils/db');
 
 const getEquipos = (req, res) => {
     db.query(
-        `SSELECT
+        `SELECT
     e.id_equipo,
     e.nombre,
     e.img,
