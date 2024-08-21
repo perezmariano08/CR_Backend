@@ -4,15 +4,15 @@ const equiposController = require('../controllers/equiposController');
 const expulsadosController = require('../controllers/expulsadosController');
 const partidosController = require('../controllers/partidosController');
 const temporadasController = require('../controllers/temporadasController')
-const divisionesController = require('../controllers/divisionesController')
 const jugadoresController = require('../controllers/jugadoresController')
 const edicionesController = require('../controllers/edicionesController')
+const categoriasController = require('../controllers/categoriasController')
 
 const router = express.Router();
 
 router.get('/get-users', userController.getUsers);
 router.get('/get-roles', userController.getRoles);
-router.get('/get-partidos', userController.getPartidos);
+// router.get('/get-partidos', userController.getPartidos);
 router.get('/get-jugadores', userController.getJugadores);
 router.get('/get-temporadas', temporadasController.getTemporadas);
 
@@ -41,23 +41,32 @@ router.get('/get-jugadores-equipo', equiposController.getJugadoresEquipo);
 
 router.post('/crear-jugador', userController.crearJugador);
 
-// Divisiones
-router.post('/crear-division', divisionesController.crearDivision);
-router.get('/get-divisiones', divisionesController.getDivisiones);
-router.post('/delete-division', divisionesController.deleteDivision);
-router.post('/importar-divisiones', divisionesController.importarDivision);
-
-// Divisiones
+// Jugadores
 router.get('/get-jugadores', jugadoresController.getJugadores);
 router.post('/delete-jugador', jugadoresController.deleteJugador);
 router.put('/update-jugador', jugadoresController.updateJugador);
 router.post('/importar-jugadores', jugadoresController.importarJugadores);
 
-
+// Partidos
+router.get('/get-partidos', partidosController.getPartidos);
 router.post('/crear-partido', partidosController.crearPartido);
+router.post('/importar-partidos', partidosController.importarPartidos);
 
 // Ediciones
 router.get('/get-ediciones', edicionesController.getEdiciones);
 router.post('/crear-edicion', edicionesController.crearEdicion);
+router.put('/actualizar-edicion', edicionesController.actualizarEdicion);
+router.post('/eliminar-edicion', edicionesController.eliminarEdicion);
+
+// Categorias
+router.get('/get-categorias', categoriasController.getCategorias);
+router.post('/crear-categoria', categoriasController.crearCategoria);
+router.put('/actualizar-categoria', categoriasController.actualizarCategoria);
+router.post('/eliminar-categoria', categoriasController.eliminarCategoria);
+
+// Equipos
+router.post('/crear-equipo', equiposController.crearEquipo);
+router.post('/eliminar-equipo', equiposController.eliminarEquipo);
+router.put('/actualizar-categoria-equipo', equiposController.actualizarCategoriaEquipo);
 
 module.exports = router;
