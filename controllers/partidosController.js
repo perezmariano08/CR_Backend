@@ -1,5 +1,54 @@
 const db = require('../utils/db');
 
+const getPartidos = (req, res) => {
+    db.query(
+        `SELECT
+            p.id_zona,
+            p.id_categoria,
+            p.id_partido,
+            DAY(p.dia) AS dia_numero,
+            MONTH(p.dia) AS mes,
+            CASE
+                WHEN DAYNAME(p.dia) = 'Monday' THEN 'Lunes'
+                WHEN DAYNAME(p.dia) = 'Tuesday' THEN 'Martes'
+                WHEN DAYNAME(p.dia) = 'Wednesday' THEN 'Miércoles'
+                WHEN DAYNAME(p.dia) = 'Thursday' THEN 'Jueves'
+                WHEN DAYNAME(p.dia) = 'Friday' THEN 'Viernes'
+                WHEN DAYNAME(p.dia) = 'Saturday' THEN 'Sábado'
+                WHEN DAYNAME(p.dia) = 'Sunday' THEN 'Domingo'
+            END AS dia_nombre,
+            p.id_equipoLocal,
+            p.id_equipoVisita,
+            p.estado,
+            p.jornada,
+            p.dia,
+            p.hora,
+            p.goles_local,
+            p.goles_visita,
+            p.pen_local,
+            p.pen_visita,
+            p.cancha,
+            p.arbitro,
+            p.destacado,
+            p.descripcion,
+            p.id_planillero,
+            j.id_jugador AS jugador_destacado
+        FROM 
+            partidos p
+        INNER JOIN 
+            equipos e1 ON p.id_equipoLocal = e1.id_equipo
+        INNER JOIN 
+            equipos e2 ON p.id_equipoVisita = e2.id_equipo
+        LEFT JOIN 
+            usuarios u ON p.id_planillero = u.id_usuario
+        LEFT JOIN 
+            jugadores j ON p.id_jugador_destacado = j.id_jugador`
+    ,(err, result) => {
+        if (err) return res.status(500).send('Error interno del servidor');
+        res.send(result);
+    });
+};
+
 const getIncidenciasPartido = (req, res) => {
     const { id_partido } = req.query;
 
@@ -72,9 +121,30 @@ const crearPartido = (req, res) => {
     });
 };
 
+const importarPartidos = (req, res) => {
+    const partidos = req.body;
+    if (!Array.isArray(partidos)) {
+        return res.status(400).send('Invalid data format');
+    }
+
+    // Construye el query para insertar múltiples registros
+    const values = partidos.map(({ id_equipoLocal, id_equipoVisita, jornada, dia, hora, cancha, id_categoria }) => [id_equipoLocal, id_equipoVisita, jornada, dia, hora, cancha, id_categoria ]);
+    const query = 'INSERT INTO partidos (id_equipoLocal, id_equipoVisita, jornada, dia, hora, cancha, id_categoria) VALUES ?';
+
+    db.query(query, [values], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Error al insertar datos en la base de datos');
+        }
+        res.status(200).send('Datos importados correctamente');
+    });
+};
+
 
 module.exports = {
+    getPartidos,
     getIncidenciasPartido,
     getFormacionesPartido,
-    crearPartido
+    crearPartido,
+    importarPartidos
 };

@@ -4,16 +4,34 @@ const getEquipos = (req, res) => {
     db.query(
         `SELECT
     e.id_equipo,
+    e.nombre,
+    e.img,
+    e.id_categoria,
+    CONCAT(
+        IFNULL((SELECT COUNT(*) FROM jugadores j WHERE j.id_equipo = e.id_equipo), 0),
+        ' ',
+        IFNULL(
+            CASE 
+                WHEN c.genero = 'F' THEN 
+                    CASE WHEN (SELECT COUNT(*) FROM jugadores j WHERE j.id_equipo = e.id_equipo) = 1 THEN 'jugadora' ELSE 'jugadoras' END
+                ELSE 
+                    CASE WHEN (SELECT COUNT(*) FROM jugadores j WHERE j.id_equipo = e.id_equipo) = 1 THEN 'jugador' ELSE 'jugadores' END
+            END,
+            ''
+        )
+    ) AS jugadores
     c.id_categoria,
     z.id_zona,
     e.nombre,
     e.img,
     e.descripcion,
     CONCAT(c.nombre, ' ', z.nombre) AS nombre_categoria
-        FROM equipos AS e
-        INNER JOIN categorias AS c ON c.id_categoria = e.id_categoria
-        INNER JOIN zonas AS z ON z.id_zona = e.id_zona
-        ORDER BY e.nombre`
+FROM 
+    equipos AS e
+LEFT JOIN 
+    categorias AS c ON c.id_categoria = e.id_categoria
+ORDER BY 
+    e.nombre;`
     ,(err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send(result);
@@ -21,13 +39,13 @@ const getEquipos = (req, res) => {
 };
 
 const crearEquipo = (req, res) => {
-    const { nombre, img, categoria, division, descripcion } = req.body;
+    const { id_categoria, id_edicion, nombre } = req.body;
     db.query(
         `INSERT INTO 
-        equipos(nombre, id_categoria, id_division, descripcion, img) 
-        VALUES (?, ?, ?, ?, ?)`, [nombre, categoria, division, descripcion, img], (err, result) => {
+        equipos(id_categoria, id_edicion, nombre) 
+        VALUES (?, ?, ?)`, [id_categoria, id_edicion, nombre], (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
-        res.send('Temporada registrada con éxito');
+        res.send('Equipo registrado con éxito');
     });
 };
 
@@ -81,9 +99,51 @@ const getJugadoresEquipo = (req, res) => {
     });
 }
 
+const eliminarEquipo = (req, res) => {
+    const { id } = req.body;
+    
+    // Sentencia SQL para eliminar el año por ID
+    const sql = 'DELETE FROM equipos WHERE id_equipo = ?';
+
+    db.query(sql, [id], (err, result) => {
+        if (err) {
+            console.error('Error eliminando la edicion:', err);
+            return res.status(500).send('Error eliminando la edicion');
+        }
+        res.status(200).send('Edicion eliminada correctamente');
+    });
+};
+
+const actualizarCategoriaEquipo = (req, res) => {
+    const { id_categoriaNueva, id_equipo } = req.body;
+
+    // Validar que el id esté presente
+    if (!id_equipo) {
+        return res.status(400).send('ID de equipo es requerido');
+    }
+
+    // Construir la consulta SQL
+    const sql = `
+        UPDATE equipos
+        SET 
+            id_categoria = ?
+        WHERE id_equipo = ?;
+    `;
+
+    // Ejecutar la consulta
+    db.query(sql, [id_categoriaNueva, id_equipo ], (err, result) => {
+        if (err) {
+            return res.status(500).send('Error interno del servidor');
+        }
+        res.send('Equipo actualizado exitosamente');
+    });
+};
+
 module.exports = {
     getEquipos,
     crearEquipo,
     updateEquipo,
-    getJugadoresEquipo
+    actualizarCategoriaEquipo,
+    getJugadoresEquipo,
+    eliminarEquipo
 };
