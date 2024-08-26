@@ -23,9 +23,9 @@ const getExpulsados = (req, res) => {
 
 const calcularExpulsiones = async (req, res) => {
     try {
-        // Traer solo las expulsiones activas
+        // Traer todas las expulsiones con fechas restantes > 0
         const expulsiones = await new Promise((resolve, reject) => {
-            db.query('SELECT * FROM expulsados WHERE estado = "A"', (err, results) => {
+            db.query('SELECT * FROM expulsados WHERE fechas_restantes > 0', (err, results) => {
                 if (err) return reject(err);
                 resolve(results);
             });
@@ -33,67 +33,92 @@ const calcularExpulsiones = async (req, res) => {
 
         // Traer todos los partidos finalizados
         const partidos = await new Promise((resolve, reject) => {
-            db.query('SELECT * FROM partidos WHERE estado = "F"', (err, results) => {
+            db.query('SELECT id_partido, id_equipoLocal, id_equipoVisita, dia, id_categoria FROM partidos WHERE estado = "F"', (err, results) => {
                 if (err) return reject(err);
                 resolve(results);
             });
         });
 
-        // Crear un mapa de partidos por equipo
-        const partidosEquipos = {};
+        // Crear un mapa de partidos por equipo y categoría
+        const partidosEquiposCategorias = {};
         partidos.forEach(p => {
-            if (!partidosEquipos[p.id_equipoLocal]) {
-                partidosEquipos[p.id_equipoLocal] = [];
+            if (!partidosEquiposCategorias[p.id_equipoLocal]) {
+                partidosEquiposCategorias[p.id_equipoLocal] = {};
             }
-            if (!partidosEquipos[p.id_equipoVisita]) {
-                partidosEquipos[p.id_equipoVisita] = [];
+            if (!partidosEquiposCategorias[p.id_equipoVisita]) {
+                partidosEquiposCategorias[p.id_equipoVisita] = {};
             }
-            partidosEquipos[p.id_equipoLocal].push(p);
-            partidosEquipos[p.id_equipoVisita].push(p);
-        });
-
-        // Obtener información de los jugadores
-        const jugadores = await new Promise((resolve, reject) => {
-            db.query('SELECT * FROM jugadores', (err, results) => {
-                if (err) return reject(err);
-                resolve(results);
-            });
+            if (!partidosEquiposCategorias[p.id_equipoLocal][p.id_categoria]) {
+                partidosEquiposCategorias[p.id_equipoLocal][p.id_categoria] = [];
+            }
+            if (!partidosEquiposCategorias[p.id_equipoVisita][p.id_categoria]) {
+                partidosEquiposCategorias[p.id_equipoVisita][p.id_categoria] = [];
+            }
+            partidosEquiposCategorias[p.id_equipoLocal][p.id_categoria].push(p);
+            partidosEquiposCategorias[p.id_equipoVisita][p.id_categoria].push(p);
         });
 
         for (const exp of expulsiones) {
-            const { id_jugador, id_partido, fechas } = exp;
+            const { id_jugador, id_partido, fechas_restantes, id_categoria } = exp;
 
-            // Encontrar el jugador para obtener su equipo
-            const jugador = jugadores.find(j => j.id_jugador === id_jugador);
-            if (!jugador) continue;
+            // Obtener el equipo del jugador y verificar en la tabla planteles
+            const jugadorEnPlantel = await new Promise((resolve, reject) => {
+                db.query('SELECT id_equipo, sancionado FROM planteles WHERE id_jugador = ? AND id_categoria = ?', [id_jugador, id_categoria], (err, results) => {
+                    if (err) return reject(err);
+                    resolve(results[0]);
+                });
+            });
 
-            const equipoDelJugador = jugador.id_equipo;
+            if (!jugadorEnPlantel) continue;
+            const { id_equipo, sancionado } = jugadorEnPlantel;
 
-            // Filtrar y contar los partidos jugados por el equipo después del partido de la expulsión
-            const partidosJugados = partidosEquipos[equipoDelJugador].filter(p => p.id_partido > id_partido).length;
+            // Obtener la fecha de la expulsión
+            const fechaExpulsion = partidos.find(p => p.id_partido === id_partido).dia;
 
-            if (partidosJugados >= fechas) {
+            // Filtrar los partidos jugados por el equipo después de la fecha de expulsión en la misma categoría
+            const partidosJugados = partidosEquiposCategorias[id_equipo][id_categoria].filter(p => new Date(p.dia) > new Date(fechaExpulsion)).length;
+
+            if (partidosJugados > 0) {
+                // Disminuir las fechas restantes y actualizar la tabla expulsados
+                const nuevasFechasRestantes = fechas_restantes - partidosJugados;
+
                 await new Promise((resolve, reject) => {
-                    // Actualizar el estado del jugador solo si ya está sancionado
-                    db.query('UPDATE jugadores SET sancionado = "N" WHERE id_jugador = ? AND sancionado = "S"', [id_jugador], (err, results) => {
+                    db.query('UPDATE expulsados SET fechas_restantes = ? WHERE id_jugador = ? AND id_partido = ?', [nuevasFechasRestantes, id_jugador, id_partido], (err, results) => {
                         if (err) return reject(err);
                         resolve(results);
                     });
                 });
 
-                await new Promise((resolve, reject) => {
-                    db.query('UPDATE expulsados SET estado = "I" WHERE id_jugador = ? AND id_partido = ?', [id_jugador, id_partido], (err, results) => {
-                        if (err) return reject(err);
-                        resolve(results);
+                if (nuevasFechasRestantes <= 0) {
+                    // Cambiar el estado a "N" (no sancionado) en la tabla planteles
+                    await new Promise((resolve, reject) => {
+                        db.query('UPDATE planteles SET sancionado = "N" WHERE id_jugador = ? AND id_categoria = ?', [id_jugador, id_categoria], (err, results) => {
+                            if (err) return reject(err);
+                            resolve(results);
+                        });
                     });
-                });
+
+                    // Cambiar el estado a "I" (inactivo) en la tabla expulsados
+                    await new Promise((resolve, reject) => {
+                        db.query('UPDATE expulsados SET estado = "I" WHERE id_jugador = ? AND id_partido = ?', [id_jugador, id_partido], (err, results) => {
+                            if (err) return reject(err);
+                            resolve(results);
+                        });
+                    });
+                } else if (sancionado === 'N') {
+                    // Si el jugador aún tiene fechas restantes y está en estado "N", cambiar a "S"
+                    await new Promise((resolve, reject) => {
+                        db.query('UPDATE planteles SET sancionado = "S" WHERE id_jugador = ? AND id_categoria = ?', [id_jugador, id_categoria], (err, results) => {
+                            if (err) return reject(err);
+                            resolve(results);
+                        });
+                    });
+                }
             }
         }
-
-        console.log('Expulsiones calculadas y actualizadas con éxito.');
         res.status(200).send('Expulsiones calculadas y actualizadas con éxito.');
     } catch (error) {
-        console.error('Error al calcular expulsiones:', error);
+        console.error(error);
         res.status(500).send('Error al calcular expulsiones.');
     }
 };
