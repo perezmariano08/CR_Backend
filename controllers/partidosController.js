@@ -21,7 +21,7 @@ const getPartidos = (req, res) => {
             p.id_equipoVisita,
             p.estado,
             p.jornada,
-            p.dia,
+            DATE(p.dia) AS dia,
             p.hora,
             p.goles_local,
             p.goles_visita,
@@ -42,7 +42,9 @@ const getPartidos = (req, res) => {
         LEFT JOIN 
             usuarios u ON p.id_planillero = u.id_usuario
         LEFT JOIN 
-            jugadores j ON p.id_jugador_destacado = j.id_jugador`
+            jugadores j ON p.id_jugador_destacado = j.id_jugador
+        ORDER BY
+            p.dia ASC, p.hora ASC`
     ,(err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send(result);

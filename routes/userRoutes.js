@@ -7,6 +7,7 @@ const temporadasController = require('../controllers/temporadasController')
 const jugadoresController = require('../controllers/jugadoresController')
 const edicionesController = require('../controllers/edicionesController')
 const categoriasController = require('../controllers/categoriasController')
+const plantelesController = require('../controllers/plantelesController')
 
 const router = express.Router();
 
@@ -15,7 +16,7 @@ router.get('/get-roles', userController.getRoles);
 // router.get('/get-partidos', userController.getPartidos);
 router.get('/get-jugadores', userController.getJugadores);
 router.get('/get-zonas', temporadasController.getZonas);
-router.get('/get-categorias', userController.getCategorias);
+//router.get('/get-categorias', userController.getCategorias);
 
 router.put('/update-partido', userController.updatePartido);
 
@@ -40,13 +41,18 @@ router.get('/get-estadistica-categoria', temporadasController.getEstadisticasCat
 
 router.get('/get-jugadores-equipo', equiposController.getJugadoresEquipo);
 
-router.post('/crear-jugador', userController.crearJugador);
+//router.post('/crear-jugador', userController.crearJugador);
 
 // Jugadores
 router.get('/get-jugadores', jugadoresController.getJugadores);
 router.post('/delete-jugador', jugadoresController.deleteJugador);
+router.post('/eliminar-jugador-plantel', jugadoresController.eliminarJugadorPlantel);
 router.put('/update-jugador', jugadoresController.updateJugador);
 router.post('/importar-jugadores', jugadoresController.importarJugadores);
+router.post('/agregar-jugador-plantel', jugadoresController.agregarJugadorPlantel);
+router.post('/crear-jugador', jugadoresController.crearJugador);
+// Planteles
+router.get('/get-planteles', plantelesController.getPlanteles);
 
 // Partidos
 router.get('/get-partidos', partidosController.getPartidos);
