@@ -27,6 +27,7 @@ const getRoles = (req, res) => {
     });
 };
 
+// !TRAER NOMBRES DE ZONA Y CATEGORIA
 const getPartidos = (req, res) => {
     db.query(
         `SELECT
@@ -311,6 +312,7 @@ const crearAmarillas = (req, res) => {
     });
 };
 
+// *CORROBORAR*
 const insertarJugadoresEventuales = (req, res) => {
     const jugadores = req.body;
 
@@ -318,30 +320,33 @@ const insertarJugadoresEventuales = (req, res) => {
         return res.status(400).send('Bad request: Expected an array of eventual players');
     }
 
-    // Map the jugadores array to the required format
-    const values = jugadores.map(({ id_jugador, dni, nombre, apellido, id_equipo, eventual, sancionado }) => 
-        [id_jugador, dni, nombre, apellido, id_equipo, eventual, sancionado]
-    );
-
-    // Ensure there is data to insert
-    if (values.length === 0) {
-        return res.status(400).send('No data to insert');
-    }
-
-    const query = `
-        INSERT INTO jugadores
-        (id_jugador, dni, nombre, apellido, id_equipo, eventual, sancionado) 
-        VALUES ?;
-    `;
-
-    db.query(query, [values], (err, result) => {
-        if (err) {
-            console.error('Error inserting eventual players:', err);
-            return res.status(500).send('Internal server error');
-        }
-        res.send('Jugadores registrados con éxito');
+    const promises = jugadores.map(({ id_jugador, dni, nombre, apellido, posicion, id_equipo, id_edicion, id_categoria, eventual, sancionado }) => {
+        return new Promise((resolve, reject) => {
+            const query = `
+                CALL sp_crear_jugador_eventual(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            `;
+            db.query(query, [id_jugador, dni, nombre, apellido, posicion, id_equipo, id_edicion, id_categoria, eventual, sancionado], (err, result) => {
+                if (err) {
+                    console.error('Error inserting eventual player:', err);
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
     });
+
+    Promise.all(promises)
+        .then(() => {
+            res.send('Jugadores registrados con éxito');
+        })
+        .catch(err => {
+            console.error('Error during Promise.all:', err);
+            res.status(500).send('Internal server error');
+        });
 };
+
+
 
 const partidosJugadorEventual = (req, res) => {
     db.query(

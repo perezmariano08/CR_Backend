@@ -52,6 +52,7 @@ router.post('/importar-jugadores', jugadoresController.importarJugadores);
 router.get('/get-partidos', partidosController.getPartidos);
 router.post('/crear-partido', partidosController.crearPartido);
 router.post('/importar-partidos', partidosController.importarPartidos);
+router.get('/get-planteles-partido', partidosController.getPlantelesPartido);
 
 // Ediciones
 router.get('/get-ediciones', edicionesController.getEdiciones);
