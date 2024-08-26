@@ -13,7 +13,9 @@ const getJugadores = (req, res) => {
         j.sancionado,
         j.eventual
         FROM jugadores AS j
-        LEFT JOIN equipos AS e ON e.id_equipo = j.id_equipo;`
+        LEFT JOIN equipos AS e ON e.id_equipo = j.id_equipo
+        ORDER BY 
+            j.apellido`
     ,(err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send(result);
@@ -112,9 +114,75 @@ const importarJugadores = async (req, res) => {
     }
 };
 
+const crearJugador = (req, res) => {
+    const { dni, nombre, apellido, posicion, id_equipo, id_edicion, id_categoria, sancionado = 'N', eventual = 'N' } = req.body;
+
+    db.query('CALL sp_crear_jugador(?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+        [dni, nombre, apellido, posicion, id_equipo, id_edicion, id_categoria, sancionado, eventual],
+        (err, result) => {
+            if (err) {
+                if (err.sqlState === '45000') {
+                    return res.status(400).send(err.sqlMessage);
+                }
+                console.error("Error al crear el jugador:", err);
+                return res.status(500).send("Error interno del servidor");
+            }
+            res.status(200).send("Jugador creado exitosamente");
+        }
+    );
+}
+
+const agregarJugadorPlantel = (req, res) => {
+    const { id_jugador, id_equipo, id_categoria, id_edicion } = req.body;
+
+    // Construye la consulta SQL con los marcadores de posición
+    const query = 'INSERT INTO planteles (id_jugador, id_equipo, id_categoria, id_edicion) VALUES (?, ?, ?, ?)';
+
+    // Pasa los valores como un array
+    const values = [id_jugador, id_equipo, id_categoria, id_edicion];
+
+    db.query(query, values, (err, result) => {
+        if (err) {
+            if (err.sqlState === '45000') {
+                return res.status(400).send(err.sqlMessage);
+            }
+            console.error("Error al crear el jugador:", err);
+            return res.status(500).send("Error interno del servidor");
+        }
+        res.status(200).send("Jugador creado exitosamente");
+    });
+};
+
+
+const eliminarJugadorPlantel = (req, res) => {
+    const { id_jugador, id_equipo, id_edicion, id_categoria } = req.body;
+
+    // Sentencia SQL para eliminar el jugador de la tabla planteles
+    const deletePlantelSQL = `
+        DELETE FROM planteles 
+        WHERE id_jugador = ? 
+        AND id_equipo = ? 
+        AND id_edicion = ? 
+        AND id_categoria = ?`;
+    
+    
+    db.query(deletePlantelSQL, [id_jugador, id_equipo, id_edicion, id_categoria], (err, result) => {
+        if (err) {
+            console.error('Error eliminando el jugador del plantel:', err);
+            return res.status(500).send('Error eliminando el jugador del plantel');
+        }
+        res.status(200).send('Jugador eliminado del plantel correctamente');
+    });
+};
+
+
+
 module.exports = {
     getJugadores,
     deleteJugador,
     updateJugador,
-    importarJugadores
+    importarJugadores,
+    crearJugador,
+    eliminarJugadorPlantel,
+    agregarJugadorPlantel
 };

@@ -17,14 +17,14 @@ const getCategorias = (req, res) => {
             ) AS partidos,
             IFNULL((SELECT COUNT(*) FROM equipos e WHERE e.id_categoria = c.id_categoria), 0) AS equipos,
             CONCAT(
-                IFNULL((SELECT COUNT(*) FROM jugadores j WHERE j.id_categoria = c.id_categoria), 0),
+                IFNULL((SELECT COUNT(*) FROM planteles pl WHERE pl.id_categoria = c.id_categoria), 0),
                 ' ',
                 IFNULL(
                     CASE 
                         WHEN c.genero = 'F' THEN 
-                            CASE WHEN (SELECT COUNT(*) FROM jugadores j WHERE j.id_categoria = c.id_categoria) = 1 THEN 'jugadora' ELSE 'jugadoras' END
+                            CASE WHEN (SELECT COUNT(*) FROM planteles pl WHERE pl.id_categoria = c.id_categoria) = 1 THEN 'jugadora' ELSE 'jugadoras' END
                         ELSE 
-                            CASE WHEN (SELECT COUNT(*) FROM jugadores j WHERE j.id_categoria = c.id_categoria) = 1 THEN 'jugador' ELSE 'jugadores' END
+                            CASE WHEN (SELECT COUNT(*) FROM planteles pl WHERE pl.id_categoria = c.id_categoria) = 1 THEN 'jugador' ELSE 'jugadores' END
                     END,
                     ''
                 )
@@ -36,7 +36,7 @@ const getCategorias = (req, res) => {
         FROM 
             categorias c
         ORDER BY 
-            c.id_categoria DESC`,
+            c.id_categoria DESC;`,
         (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send(result);

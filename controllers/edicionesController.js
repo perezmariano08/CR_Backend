@@ -13,7 +13,7 @@ const getEdiciones = (req, res) => {
                 ' / ',
                 IFNULL((SELECT COUNT(*) FROM partidos p WHERE p.id_edicion = e.id_edicion), 0)
             ) AS partidos,
-            IFNULL((SELECT COUNT(*) FROM jugadores j WHERE j.id_edicion = e.id_edicion), 0) AS jugadores,
+            IFNULL((SELECT COUNT(*) FROM planteles pl WHERE pl.id_edicion = e.id_edicion), 0) AS jugadores,
             IFNULL((SELECT COUNT(*) FROM equipos eq WHERE eq.id_edicion = e.id_edicion), 0) AS equipos,
             IFNULL((SELECT COUNT(*) FROM categorias c WHERE c.id_edicion = e.id_edicion), 0) AS categorias,
             CASE
@@ -27,7 +27,7 @@ const getEdiciones = (req, res) => {
         FROM 
             ediciones e
         ORDER BY
-            e.temporada DESC, e.id_edicion DESC`,
+            e.temporada DESC, e.id_edicion DESC;`,
         (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send(result);
