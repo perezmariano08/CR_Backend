@@ -2,27 +2,30 @@ const db = require('../utils/db');
 
 const getExpulsados = (req, res) => {
     db.query(
-        `SELECT
-            CONCAT(UPPER(j.apellido), ', ', j.nombre) AS jugador,
-            c.nombre AS categoria,
-            e.fechas,
-            e.fechas_restantes,
-            e.multa,
-            eq.id_equipo
-        FROM
-            expulsados AS e
-        INNER JOIN
-            jugadores AS j ON j.id_jugador = e.id_jugador
-        INNER JOIN
-            partidos AS p ON p.id_partido = e.id_partido
-        INNER JOIN
-            categorias AS c ON c.id_categoria = p.id_categoria
-        INNER JOIN
-            planteles AS pl ON pl.id_jugador = j.id_jugador
-        INNER JOIN
-            equipos AS eq ON eq.id_equipo = pl.id_equipo
-        WHERE
-            p.id_categoria = pl.id_categoria;`
+    `SELECT
+        CONCAT(j.apellido, ', ', j.nombre) AS jugador,
+        c.nombre AS categoria,
+        e.fechas,
+        e.fechas_restantes,
+        e.multa,
+        eq.id_equipo,
+        CONCAT(ed.nombre, ' ', ed.temporada) AS edicion
+    FROM
+        expulsados AS e
+    INNER JOIN
+        jugadores AS j ON j.id_jugador = e.id_jugador
+    INNER JOIN
+        partidos AS p ON p.id_partido = e.id_partido
+    INNER JOIN
+        categorias AS c ON c.id_categoria = p.id_categoria
+    INNER JOIN
+        planteles AS pl ON pl.id_jugador = j.id_jugador
+    INNER JOIN
+        equipos AS eq ON eq.id_equipo = pl.id_equipo
+    INNER JOIN
+        ediciones AS ed ON ed.id_edicion = p.id_edicion
+    WHERE
+        p.id_categoria = pl.id_categoria;`
     , (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send(result);

@@ -312,7 +312,7 @@ const crearAmarillas = (req, res) => {
     });
 };
 
-// *CORROBORAR*
+// !CORROBORAR
 const insertarJugadoresEventuales = (req, res) => {
     const jugadores = req.body;
 
@@ -346,11 +346,10 @@ const insertarJugadoresEventuales = (req, res) => {
         });
 };
 
-
-
+// !CAMBIAR
 const partidosJugadorEventual = (req, res) => {
     db.query(
-        `SELECT 
+        `SELECT DISTINCT
             j.id_jugador, 
             j.dni, j.nombre, 
             j.apellido, 

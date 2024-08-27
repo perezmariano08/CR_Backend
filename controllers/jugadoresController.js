@@ -175,6 +175,41 @@ const eliminarJugadorPlantel = (req, res) => {
     });
 };
 
+const verificarJugadorEventual = (req, res) => {
+    const { dni, id_categoria, id_equipo } = req.query;
+
+    const encontrarJugador = `
+    SELECT 
+        p.id_jugador,
+        p.id_categoria,
+        p.id_equipo,
+        j.dni,
+        e.nombre
+    FROM
+        planteles AS p
+        INNER JOIN jugadores as j ON p.id_jugador = j.id_jugador
+        INNER JOIN equipos as e ON p.id_equipo = e.id_equipo
+    WHERE
+        p.id_equipo != ?
+        AND j.dni = ?
+        AND p.id_categoria = ?;`
+    
+    db.query(encontrarJugador, [dni, id_categoria, id_equipo], (err, result) => {
+        if (err) {
+            console.error('Error verificando el jugador eventual:', err);
+            return res.status(500).send('Error verificando el jugador eventual');
+        }
+        
+        if (result.length > 0) {
+            // Se encontró un jugador con ese DNI en la categoría especificada
+            res.status(200).json({ found: true, jugador: result[0] });
+        } else {
+            // No se encontró un jugador
+            res.status(200).json({ found: false });
+        }
+    });
+}
+
 
 
 module.exports = {
@@ -184,5 +219,6 @@ module.exports = {
     importarJugadores,
     crearJugador,
     eliminarJugadorPlantel,
-    agregarJugadorPlantel
+    agregarJugadorPlantel,
+    verificarJugadorEventual
 };
