@@ -20,7 +20,6 @@ router.get('/get-zonas', temporadasController.getZonas);
 
 router.put('/update-partido', userController.updatePartido);
 
-
 router.get('/get-equipos', equiposController.getEquipos);
 router.get('/get-expulsados', expulsadosController.getExpulsados);
 
@@ -28,6 +27,7 @@ router.post('/crear-formaciones', userController.crearFormaciones);
 router.post('/crear-goles', userController.crearGoles);
 router.post('/crear-asistencias', userController.crearAsistencias);
 router.post('/crear-rojas', userController.crearRojas);
+
 router.post('/calcular-expulsiones', expulsadosController.calcularExpulsiones);
 router.post('/crear-amarillas', userController.crearAmarillas);
 router.put('/update-jugadores', userController.insertarJugadoresEventuales);
@@ -51,6 +51,8 @@ router.put('/update-jugador', jugadoresController.updateJugador);
 router.post('/importar-jugadores', jugadoresController.importarJugadores);
 router.post('/agregar-jugador-plantel', jugadoresController.agregarJugadorPlantel);
 router.post('/crear-jugador', jugadoresController.crearJugador);
+router.get('/verificar-jugador', jugadoresController.verificarJugadorEventual)
+
 // Planteles
 router.get('/get-planteles', plantelesController.getPlanteles);
 

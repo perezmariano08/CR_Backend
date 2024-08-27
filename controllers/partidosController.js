@@ -9,6 +9,7 @@ const getPartidos = (req, res) => {
         p.id_partido,
         DAY(p.dia) AS dia_numero,
         MONTH(p.dia) AS mes,
+        YEAR(p.dia) AS año,
         CASE
             WHEN DAYNAME(p.dia) = 'Monday' THEN 'Lunes'
             WHEN DAYNAME(p.dia) = 'Tuesday' THEN 'Martes'
