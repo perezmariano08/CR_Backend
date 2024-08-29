@@ -248,13 +248,13 @@ const crearRojas = async (req, res) => {
         if (!id_partido || !id_jugador || !minuto || !motivo) {
             return res.status(400).send('Missing required fields');
         }
-        values.push([id_partido, id_jugador, minuto, descripcion, motivo, estado, fechas]);
+        values.push([id_partido, id_jugador, minuto, descripcion, motivo, estado, fechas, fechas]); // Añadido fechas_restantes
         jugadoresIds.push(id_jugador);
     }
 
     const queryInsert = `
         INSERT INTO expulsados
-        (id_partido, id_jugador, minuto, descripcion, motivo, estado, fechas) 
+        (id_partido, id_jugador, minuto, descripcion, motivo, estado, fechas, fechas_restantes) 
         VALUES ?;
     `;
 
