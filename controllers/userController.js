@@ -322,22 +322,40 @@ const insertarJugadoresEventuales = (req, res) => {
 
     const promises = jugadores.map(({ id_jugador, dni, nombre, apellido, posicion, id_equipo, id_edicion, id_categoria, eventual, sancionado }) => {
         return new Promise((resolve, reject) => {
-            const query = `
-                CALL sp_crear_jugador_eventual(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            // Consulta para verificar si el jugador ya existe
+            const selectQuery = `
+                SELECT id_jugador FROM jugadores WHERE dni = ? LIMIT 1;
             `;
-            db.query(query, [id_jugador, dni, nombre, apellido, posicion, id_equipo, id_edicion, id_categoria, eventual, sancionado], (err, result) => {
+
+            db.query(selectQuery, [dni], (err, selectResult) => {
                 if (err) {
-                    console.error('Error inserting eventual player:', err);
-                    reject(err);
+                    console.error('Error checking for existing player:', err);
+                    return reject(err);
+                }
+
+                if (selectResult.length > 0) {
+                    // Si ya existe, no se realiza la inserción
+                    console.log(`Player with DNI ${dni} already exists, skipping insertion.`);
+                    return resolve(`Player with DNI ${dni} already exists.`);
                 } else {
-                    resolve(result);
+                    // Si no existe, procedemos a la inserción
+                    const insertQuery = `
+                        CALL sp_crear_jugador_eventual(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                    `;
+                    db.query(insertQuery, [id_jugador, dni, nombre, apellido, posicion, id_equipo, id_edicion, id_categoria, eventual, sancionado], (err, insertResult) => {
+                        if (err) {
+                            console.error('Error inserting eventual player:', err);
+                            return reject(err);
+                        }
+                        resolve(insertResult);
+                    });
                 }
             });
         });
     });
 
     Promise.all(promises)
-        .then(() => {
+        .then((results) => {
             res.send('Jugadores registrados con éxito');
         })
         .catch(err => {
@@ -346,20 +364,22 @@ const insertarJugadoresEventuales = (req, res) => {
         });
 };
 
-// !CAMBIAR
+
 const partidosJugadorEventual = (req, res) => {
+    const { id_categoria } = req.query
     db.query(
         `SELECT DISTINCT
             j.id_jugador, 
             j.dni, j.nombre, 
             j.apellido, 
-            j.id_equipo, 
-            j.sancionado 
+            pl.id_equipo, 
+            pl.sancionado 
             FROM 
             jugadores AS j 
             INNER JOIN formaciones as f ON f.id_jugador = j.id_jugador 
-            INNER JOIN partidos as p ON p.id_partido = f.id_partido 
-            WHERE j.eventual = 'S';`
+            INNER JOIN partidos as p ON p.id_partido = f.id_partido
+            INNER JOIN planteles AS pl ON j.id_jugador = pl.id_jugador
+            WHERE pl.eventual = 'S' AND pl.id_categoria = ${id_categoria};`
     ,(err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send(result);
