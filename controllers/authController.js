@@ -146,8 +146,6 @@ const checkAuthentication = (req, res) => {
 const activarCuenta = (req, res) => {
     const { dni } = req.query;
 
-    console.log(`DNI recibido: ${dni}`); // Log inicial para verificar el parámetro
-
     if (!dni) {
         console.log('Falta DNI');
         return res.status(400).send('Falta DNI');
@@ -168,6 +166,30 @@ const activarCuenta = (req, res) => {
 
         console.log('Redirigiendo a login...'); // Log justo antes de la redirección
         res.redirect(`${URL_FRONT}/login?activada=true`);
+    });
+};
+
+const activarCambioEmail = (req, res) => {
+    const { dni } = req.query;
+
+    if (!dni) {
+        console.log('Falta DNI');
+        return res.status(400).send('Falta DNI');
+    }
+
+    db.query('UPDATE usuarios SET estado = ? WHERE dni = ?', ['A', dni], (err, result) => {
+        if (err) {
+            console.error('Error al actualizar el estado del usuario:', err);
+            return res.status(500).send('Error interno del servidor');
+        }
+
+        console.log(`Resultado de la actualización: ${result.affectedRows}`);
+        
+        if (result.affectedRows === 0) {
+            console.log('El usuario no existe o ya está activado');
+            return res.status(400).send('El usuario no existe o ya está activado');
+        }
+
     });
 };
 
@@ -293,5 +315,6 @@ module.exports = {
     checkAuthentication,
     activarCuenta,
     forgotPasswordHandler,
-    changeNewPassword
+    changeNewPassword,
+    activarCambioEmail
 };

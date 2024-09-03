@@ -8,6 +8,7 @@ const jugadoresController = require('../controllers/jugadoresController')
 const edicionesController = require('../controllers/edicionesController')
 const categoriasController = require('../controllers/categoriasController')
 const plantelesController = require('../controllers/plantelesController')
+const perfilController = require('../controllers/perfilController');
 
 const router = express.Router();
 
@@ -42,6 +43,7 @@ router.get('/get-estadistica-categoria', temporadasController.getEstadisticasCat
 router.get('/get-jugadores-equipo', equiposController.getJugadoresEquipo);
 
 //router.post('/crear-jugador', userController.crearJugador);
+router.post('/update-perfil', perfilController.editarPerfil)
 
 // Jugadores
 router.get('/get-jugadores', jugadoresController.getJugadores);

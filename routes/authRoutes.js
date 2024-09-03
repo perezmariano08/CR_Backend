@@ -12,5 +12,6 @@ router.post('/forgot-password', authController.forgotPasswordHandler);
 router.post('/change-password', authController.changeNewPassword);
 router.get('/check-authentication', authController.checkAuthentication);
 router.get('/activar-cuenta', authController.activarCuenta);
+router.get('/activar-email', authController.activarCambioEmail)
 
 module.exports = router;
