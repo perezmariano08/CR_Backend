@@ -190,6 +190,8 @@ const activarCambioEmail = (req, res) => {
             return res.status(400).send('El usuario no existe o ya está activado');
         }
 
+        res.redirect(`${URL_FRONT}/confirm-email-change`);
+
     });
 };
 
