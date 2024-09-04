@@ -105,6 +105,7 @@ const checkLogin = (req, res) => {
     const { dni, password } = req.body;
     db.query('SELECT * FROM usuarios WHERE dni = ?', [dni], (err, rows) => {
         if (err) return res.status(500).send('Error interno del servidor');
+        
         if (rows.length === 0) return res.status(401).send('Usuario no encontrado');
 
         const user = rows[0];
