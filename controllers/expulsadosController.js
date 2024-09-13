@@ -160,57 +160,61 @@ const calcularExpulsiones = async (req, res) => {
         // Primera consulta: Actualizar la columna fechas_restantes y el estado en la tabla expulsados
         await new Promise((resolve, reject) => {
             const query1 = `
-                UPDATE expulsados e
-                JOIN (
-                    WITH partido_expulsion AS (
-                        SELECT 
-                            e.id_expulsion,
-                            e.id_jugador,
-                            e.id_partido,
-                            p.dia AS fecha_expulsion,
-                            p.id_categoria,
-                            CASE 
-                                WHEN p.id_equipoLocal = pl.id_equipo THEN p.id_equipoLocal
-                                WHEN p.id_equipoVisita = pl.id_equipo THEN p.id_equipoVisita
-                            END AS id_equipo
-                        FROM 
-                            expulsados e
-                        JOIN 
-                            partidos p ON e.id_partido = p.id_partido
-                        JOIN 
-                            planteles pl ON e.id_jugador = pl.id_jugador AND p.id_categoria = pl.id_categoria
-                    ),
-                    partidos_jugados AS (
-                        SELECT 
-                            pe.id_jugador,
-                            pe.id_equipo,
-                            COUNT(pf.id_partido) AS partidos_jugados
-                        FROM 
-                            partido_expulsion pe
-                        JOIN 
-                            partidos pf ON pf.id_categoria = pe.id_categoria 
-                                AND pf.dia > pe.fecha_expulsion
-                                AND (pf.id_equipoLocal = pe.id_equipo OR pf.id_equipoVisita = pe.id_equipo)
-                                AND pf.estado = 'F'
-                        GROUP BY 
-                            pe.id_jugador, 
-                            pe.id_equipo
-                    )
-                    SELECT 
-                        e.id_expulsion,
-                        e.id_jugador,
-                        GREATEST(0, e.fechas - pj.partidos_jugados) AS fechas_restantes_actualizadas
-                    FROM 
-                        expulsados e
-                    JOIN 
-                        partido_expulsion pe ON e.id_jugador = pe.id_jugador AND e.id_expulsion = pe.id_expulsion
-                    JOIN 
-                        partidos_jugados pj ON pe.id_jugador = pj.id_jugador
-                ) calc
-                ON e.id_expulsion = calc.id_expulsion
-                SET 
-                    e.fechas_restantes = calc.fechas_restantes_actualizadas,
-                    e.estado = CASE WHEN calc.fechas_restantes_actualizadas > 0 THEN 'A' ELSE e.estado END;
+UPDATE expulsados e
+JOIN (
+    WITH partido_expulsion AS (
+        SELECT 
+            e.id_expulsion,
+            e.id_jugador,
+            e.id_partido,
+            p.dia AS fecha_expulsion,
+            p.id_categoria,
+            CASE 
+                WHEN p.id_equipoLocal = pl.id_equipo THEN p.id_equipoLocal
+                WHEN p.id_equipoVisita = pl.id_equipo THEN p.id_equipoVisita
+            END AS id_equipo
+        FROM 
+            expulsados e
+        JOIN 
+            partidos p ON e.id_partido = p.id_partido
+        JOIN 
+            planteles pl ON e.id_jugador = pl.id_jugador AND p.id_categoria = pl.id_categoria
+    ),
+    partidos_jugados AS (
+        SELECT 
+            pe.id_jugador,
+            pe.id_equipo,
+            COUNT(pf.id_partido) AS partidos_jugados
+        FROM 
+            partido_expulsion pe
+        JOIN 
+            partidos pf ON pf.id_categoria = pe.id_categoria 
+            AND pf.dia > pe.fecha_expulsion
+            AND (pf.id_equipoLocal = pe.id_equipo OR pf.id_equipoVisita = pe.id_equipo)
+            AND pf.estado = 'F'  -- Solo partidos finalizados cuentan
+        GROUP BY 
+            pe.id_jugador, 
+            pe.id_equipo
+    )
+    SELECT 
+        e.id_expulsion,
+        e.id_jugador,
+        GREATEST(0, e.fechas - pj.partidos_jugados) AS fechas_restantes_actualizadas
+    FROM 
+        expulsados e
+    JOIN 
+        partido_expulsion pe ON e.id_jugador = pe.id_jugador AND e.id_expulsion = pe.id_expulsion
+    JOIN 
+        partidos_jugados pj ON pe.id_jugador = pj.id_jugador
+) calc
+ON e.id_expulsion = calc.id_expulsion
+SET 
+    e.fechas_restantes = calc.fechas_restantes_actualizadas,
+    e.estado = CASE 
+        WHEN calc.fechas_restantes_actualizadas > 0 THEN 'A' -- Activo si aún hay fechas restantes
+        ELSE 'I' -- Inactivo si ya cumplió la sanción
+    END
+WHERE e.fechas_restantes IS NOT NULL AND e.fechas_restantes > 0;
             `;
             db.query(query1, (error, results) => {
                 if (error) {
@@ -227,8 +231,8 @@ const calcularExpulsiones = async (req, res) => {
                 JOIN expulsados e ON pl.id_jugador = e.id_jugador
                 SET 
                     pl.sancionado = CASE 
-                        WHEN e.estado = 'A' THEN 'S' 
-                        ELSE 'N' 
+                        WHEN e.estado = 'A' THEN 'S'  -- Jugador sigue sancionado
+                        ELSE 'N'  -- Jugador habilitado
                     END
                 WHERE e.estado IS NOT NULL;
             `;
@@ -248,7 +252,6 @@ const calcularExpulsiones = async (req, res) => {
         res.status(500).send('Error al calcular expulsiones.');
     }
 };
-
 
 module.exports = {
     getExpulsados,

@@ -106,7 +106,7 @@ const checkLogin = (req, res) => {
     db.query('SELECT * FROM usuarios WHERE dni = ?', [dni], (err, rows) => {
         if (err) return res.status(500).send('Error interno del servidor');
         
-        if (rows.length === 0) return res.status(401).send('Usuario no encontrado');
+        if (rows.length === 0) return res.status(400).send('Usuario no encontrado');
 
         const user = rows[0];
         if (user.estado !== 'A') return res.status(403).send('Cuenta no activada');
@@ -195,7 +195,6 @@ const activarCambioEmail = (req, res) => {
 
     });
 };
-
 
 const forgotPasswordHandler = async (req, res) => {
     const { email } = req.body;

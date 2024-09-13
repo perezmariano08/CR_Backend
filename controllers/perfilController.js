@@ -93,6 +93,22 @@ const editarPerfil = async (req, res) => {
     }
 };
 
+const getNovedades = async (req, res) => {
+    const {id_rol} = req.query;
+
+    db.query('SELECT * FROM novedades WHERE id_rol = ?', [id_rol], (err, result) => {
+        if (err) {
+            return res.status(400).send(err.sqlMessage);
+        }
+
+        if (result.length === 0) {
+            return res.status(500).send('No hay novedades para ese rol')
+        }
+        res.status(200).json(result)
+    })
+}
+
 module.exports = {
-    editarPerfil
+    editarPerfil,
+    getNovedades
 };
