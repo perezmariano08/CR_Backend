@@ -1,4 +1,3 @@
-
 const URL_BACK = 'https://api-coparelampago.vercel.app';
 // const URL_FRONT = 'https://prueba.coparelampago.com';
 const URL_FRONT = 'https://appcoparelampago.vercel.app';

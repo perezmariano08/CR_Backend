@@ -3,6 +3,7 @@ const db = require('../utils/db');
 const getExpulsados = (req, res) => {
     db.query(
     `SELECT
+        e.id_expulsion,
         CONCAT(j.apellido, ', ', j.nombre) AS jugador,
         c.nombre AS categoria,
         e.fechas,
@@ -25,8 +26,7 @@ const getExpulsados = (req, res) => {
     INNER JOIN
         ediciones AS ed ON ed.id_edicion = p.id_edicion
     WHERE
-        p.id_categoria = pl.id_categoria
-        AND e.fechas_restantes > 0;`
+        p.id_categoria = pl.id_categoria`
     , (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send(result);
