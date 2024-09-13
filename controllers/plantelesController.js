@@ -17,7 +17,7 @@ const getPlanteles = (req, res) => {
         j.apellido, 
         j.posicion, 
         j.img,
-        j.sancionado,
+        p.sancionado,
         IFNULL(f.pj, 0) AS pj  -- Columna que muestra los partidos jugados
     FROM 
         planteles p
