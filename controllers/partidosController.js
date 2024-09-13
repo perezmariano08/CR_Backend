@@ -36,6 +36,7 @@ const getPartidos = (req, res) => {
         p.id_planillero,
         j.id_jugador AS jugador_destacado,
         c.nombre AS nombre_categoria,
+        CONCAT(u.nombre, ' ', u.apellido) AS planillero,
         CONCAT(e.nombre, ' ', e.temporada) AS nombre_edicion
     FROM
         partidos p
@@ -110,20 +111,23 @@ const getFormacionesPartido = (req, res) => {
 };
 
 const crearPartido = (req, res) => {
-    const { id_temporada, id_equipoLocal, id_equipoVisita, jornada, dia, hora, cancha, arbitro, id_planillero } = req.body;
+    const { id_equipoLocal, id_equipoVisita, jornada, dia, hora, cancha, arbitro, id_planillero, id_edicion, id_categoria, id_zona } = req.body;
     db.query(`
-        INSERT INTO partidos
-        (id_temporada, 
-        id_equipoLocal, 
-        id_equipoVisita, 
-        jornada, 
-        dia, 
-        hora, 
-        cancha, 
-        arbitro, 
-        id_planillero) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-        [id_temporada, id_equipoLocal, id_equipoVisita, jornada, dia, hora, cancha, arbitro, id_planillero], (err, result) => {
+        INSERT INTO partidos(
+            id_equipoLocal, 
+            id_equipoVisita, 
+            jornada, 
+            dia, 
+            hora, 
+            cancha, 
+            arbitro, 
+            id_planillero,
+            id_edicion,
+            id_categoria,
+            id_zona
+        ) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+        [id_equipoLocal, id_equipoVisita, jornada, dia, hora, cancha, arbitro, id_planillero, id_edicion, id_categoria, id_zona], (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send('Temporada registrada con éxito');
     });
@@ -136,8 +140,8 @@ const importarPartidos = (req, res) => {
     }
 
     // Construye el query para insertar múltiples registros
-    const values = partidos.map(({ id_equipoLocal, id_equipoVisita, jornada, dia, hora, cancha, id_categoria }) => [id_equipoLocal, id_equipoVisita, jornada, dia, hora, cancha, id_categoria ]);
-    const query = 'INSERT INTO partidos (id_equipoLocal, id_equipoVisita, jornada, dia, hora, cancha, id_categoria) VALUES ?';
+    const values = partidos.map(({ id_equipoLocal, id_equipoVisita, jornada, dia, hora, cancha, id_categoria, id_zona, id_edicion }) => [id_equipoLocal, id_equipoVisita, jornada, dia, hora, cancha, id_categoria, id_zona, id_edicion]);
+    const query = 'INSERT INTO partidos (id_equipoLocal, id_equipoVisita, jornada, dia, hora, cancha, id_categoria, id_zona, id_edicion) VALUES ?';
 
     db.query(query, [values], (err, result) => {
         if (err) {
@@ -175,6 +179,82 @@ const getPlantelesPartido = (req, res) => {
     });
 };
 
+const updatePartido = (req, res) => {
+    const { 
+        id_equipoLocal, 
+        id_equipoVisita, 
+        jornada, 
+        dia, 
+        hora, 
+        cancha, 
+        arbitro, 
+        id_planillero, 
+        id_edicion, 
+        id_categoria, 
+        id_zona, 
+        id_partido 
+    } = req.body;
+
+    // Validar que id_partido esté presente
+    if (!id_partido) {
+        return res.status(400).send('ID de partido es requerido');
+    }
+    
+    // Construir la consulta SQL
+    const sql = `
+        UPDATE partidos
+        SET 
+            id_equipoLocal = ?, 
+            id_equipoVisita = ?, 
+            jornada = ?, 
+            dia = ?, 
+            hora = ?,
+            cancha = ?,
+            arbitro = ?,
+            id_planillero = ?,
+            id_edicion = ?, 
+            id_categoria = ?, 
+            id_zona = ?
+        WHERE id_partido = ?
+    `;
+
+    // Ejecutar la consulta
+    db.query(sql, [
+        id_equipoLocal, 
+        id_equipoVisita, 
+        jornada, 
+        dia, 
+        hora, 
+        cancha, 
+        arbitro, 
+        id_planillero, 
+        id_edicion, 
+        id_categoria, 
+        id_zona, 
+        id_partido 
+    ], (err, result) => {
+        if (err) {
+            console.error('Error al actualizar el partido:', err);
+            return res.status(500).send('Error interno del servidor');
+        }
+        res.send('Partido actualizado exitosamente');
+    });
+};
+
+const deletePartido = (req, res) => {
+    const { id } = req.body;
+    
+    // Sentencia SQL para eliminar el año por ID
+    const sql = 'DELETE FROM partidos WHERE id_partido = ?';
+
+    db.query(sql, [id], (err, result) => {
+        if (err) {
+            console.error('Error eliminando el partido:', err);
+            return res.status(500).send('Error eliminando el partido');
+        }
+        res.status(200).send('Partido eliminado correctamente');
+    });
+};
 
 module.exports = {
     getPartidos,
@@ -182,5 +262,7 @@ module.exports = {
     getFormacionesPartido,
     crearPartido,
     importarPartidos,
-    getPlantelesPartido
+    getPlantelesPartido,
+    updatePartido,
+    deletePartido
 };

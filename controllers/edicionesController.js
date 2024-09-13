@@ -14,7 +14,7 @@ const getEdiciones = (req, res) => {
                 IFNULL((SELECT COUNT(*) FROM partidos p WHERE p.id_edicion = e.id_edicion), 0)
             ) AS partidos,
             IFNULL((SELECT COUNT(*) FROM planteles pl WHERE pl.id_edicion = e.id_edicion), 0) AS jugadores,
-            IFNULL((SELECT COUNT(*) FROM equipos eq WHERE eq.id_edicion = e.id_edicion), 0) AS equipos,
+            IFNULL((SELECT COUNT(*) FROM temporadas t WHERE t.id_edicion = e.id_edicion), 0) AS equipos,
             IFNULL((SELECT COUNT(*) FROM categorias c WHERE c.id_edicion = e.id_edicion), 0) AS categorias,
             CASE
                 WHEN (SELECT COUNT(*) FROM partidos p WHERE p.id_edicion = e.id_edicion AND p.estado = 'F') = 0 THEN 'SIN EMPEZAR'

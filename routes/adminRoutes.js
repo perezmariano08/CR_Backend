@@ -21,7 +21,6 @@ router.get('/get-anios', revisarToken, revisarAdmin, adminController.getAnios);
 router.get('/get-divisiones', revisarToken, revisarAdmin, adminController.getDivisiones);
 router.get('/get-usuarios', revisarToken, revisarAdmin, adminController.getUsuarios);
 router.get('/get-roles', revisarToken, revisarAdmin, adminController.getRoles);
-router.get('/get-temporadas', revisarToken, revisarAdmin, adminController.getTemporadas);
 router.get('/get-categorias', revisarToken, revisarAdmin, adminController.getCategorias);
 
 router.post('/delete-usuario', revisarToken, revisarAdmin, adminController.deleteUsuario);

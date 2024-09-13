@@ -63,6 +63,8 @@ router.get('/get-partidos', partidosController.getPartidos);
 router.post('/crear-partido', partidosController.crearPartido);
 router.post('/importar-partidos', partidosController.importarPartidos);
 router.get('/get-planteles-partido', partidosController.getPlantelesPartido);
+router.put('/actualizar-partido', partidosController.updatePartido);
+router.post('/eliminar-partido', partidosController.deletePartido);
 
 // Ediciones
 router.get('/get-ediciones', edicionesController.getEdiciones);
@@ -80,5 +82,9 @@ router.post('/eliminar-categoria', categoriasController.eliminarCategoria);
 router.post('/crear-equipo', equiposController.crearEquipo);
 router.post('/eliminar-equipo', equiposController.eliminarEquipo);
 router.put('/actualizar-categoria-equipo', equiposController.actualizarCategoriaEquipo);
+
+//Temporadas
+router.get('/get-temporadas', temporadasController.getTemporadas);
+
 
 module.exports = router;
