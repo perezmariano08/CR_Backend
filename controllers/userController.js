@@ -236,56 +236,67 @@ const crearAsistencias = (req, res) => {
     });
 };
 
-const crearRojas = async (req, res) => {
+const crearRojas = (req, res) => {
     const rojas = req.body;
 
     if (!Array.isArray(rojas)) {
         return res.status(400).send('Bad request: Expected an array of red cards');
     }
 
-    const values = [];
-    const jugadoresIds = [];
+    if (!rojas || rojas.length === 0) {
+        return res.status(400).send('No hay expulsiones para agregar');
+    }
 
-    for (const { id_partido, id_jugador, minuto, descripcion = '', motivo, estado = 'A', fechas = 1 } of rojas) {
-        if (!id_partido || !id_jugador || !minuto || !motivo) {
-            return res.status(400).send('Missing required fields');
+    const idPartido = rojas[0].id_partido;
+
+    // Consulta para obtener la categoría del partido
+    const partidoQuery = `SELECT id_categoria FROM partidos WHERE id_partido = ?`;
+
+    db.query(partidoQuery, [idPartido], (err, partidoData) => {
+        if (err) {
+            console.error('Error en la consulta de partidos:', err);
+            return res.status(500).send('Error en la base de datos');
         }
-        values.push([id_partido, id_jugador, minuto, descripcion, motivo, estado, fechas, fechas]); // Añadido fechas_restantes
-        jugadoresIds.push(id_jugador);
-    }
 
-    const queryInsert = `
-        INSERT INTO expulsados
-        (id_partido, id_jugador, minuto, descripcion, motivo, estado, fechas, fechas_restantes) 
-        VALUES ?;
-    `;
+        if (!partidoData || partidoData.length === 0) {
+            return res.status(404).send('Partido no encontrado');
+        }
 
-    const queryUpdate = `
-        UPDATE planteles
-        SET sancionado = 'S'
-        WHERE id_jugador IN (?);
-    `;
+        const idCategoria = partidoData[0].id_categoria;
 
-    try {
-        await new Promise((resolve, reject) => {
-            db.query(queryInsert, [values], (err, result) => {
-                if (err) return reject(err);
-                resolve(result);
+        // Query para insertar las expulsiones
+        const expulsionInsertQuery = `
+            INSERT INTO expulsados (id_partido, id_jugador, minuto, descripcion, motivo, estado, fechas, fechas_restantes, multa)
+            VALUES (?, ?, ?, ?, ?, 'A', 1, 1, 'N')
+        `;
+
+        rojas.forEach((roja) => {
+            const { id_partido, id_jugador, minuto, descripcion, motivo } = roja;
+
+            db.query(expulsionInsertQuery, [id_partido, id_jugador, minuto, descripcion || '', motivo], (err) => {
+                if (err) {
+                    console.error('Error al insertar expulsión:', err);
+                    return res.status(500).send('Error al registrar expulsión');
+                }
+
+                // Actualizar la columna 'sancionado' en la tabla 'planteles'
+                const updateSancionadoQuery = `
+                    UPDATE planteles 
+                    SET sancionado = 'S' 
+                    WHERE id_jugador = ? AND id_categoria = ?
+                `;
+
+                db.query(updateSancionadoQuery, [id_jugador, idCategoria], (err) => {
+                    if (err) {
+                        console.error('Error al actualizar sancionado:', err);
+                        return res.status(500).send('Error al actualizar sanción');
+                    }
+                });
             });
         });
 
-        await new Promise((resolve, reject) => {
-            db.query(queryUpdate, [jugadoresIds], (err, result) => {
-                if (err) return reject(err);
-                resolve(result);
-            });
-        });
-
-        res.send('Rojas registradas con éxito y estado de los jugadores actualizado.');
-    } catch (err) {
-        console.error('Error inserting red cards or updating player status:', err);
-        res.status(500).send('Internal server error');
-    }
+        res.send('Expulsiones y sanciones registradas exitosamente');
+    });
 };
 
 const crearAmarillas = (req, res) => {

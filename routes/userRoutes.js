@@ -27,7 +27,7 @@ router.post('/crear-formaciones',  revisarToken, revisarPlanillero, userControll
 router.post('/crear-goles',  revisarToken, revisarPlanillero, userController.crearGoles);
 router.post('/crear-asistencias',  revisarToken, revisarPlanillero, userController.crearAsistencias);
 router.post('/crear-rojas',  revisarToken, revisarPlanillero, userController.crearRojas);
-router.post('/calcular-expulsiones',  revisarToken, revisarPlanillero, expulsadosController.calcularExpulsiones);
+router.post('/calcular-expulsiones', revisarToken, revisarPlanillero, expulsadosController.calcularExpulsiones);
 router.post('/crear-amarillas',  revisarToken, revisarPlanillero, userController.crearAmarillas);
 router.put('/update-jugadores',  revisarToken, revisarPlanillero, userController.insertarJugadoresEventuales);
 router.post('/crear-jugadores-destacados',  revisarToken, revisarPlanillero, userController.insertarJugadoresDestacados)
