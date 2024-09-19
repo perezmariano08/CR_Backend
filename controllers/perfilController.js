@@ -4,7 +4,7 @@ const mailer = require('../utils/mailer');
 
 const editarPerfil = async (req, res) => {
     try {
-        const { id_usuario, dni, nombre, apellido, fechaNacimiento, telefono, email, clave, id_equipo } = req.body;
+        const { id_usuario, dni, nombre, apellido, fechaNacimiento, telefono, email, clave } = req.body;
 
         // Realizar la consulta a la base de datos para verificar si el usuario existe
         db.query('SELECT * FROM usuarios WHERE dni = ?', [dni], async (err, result) => {
@@ -51,11 +51,7 @@ const editarPerfil = async (req, res) => {
             if (email && email !== user.email) {
                 await mailer.sendVerificationChangeEmail(email, dni, nombre);
                 camposActualizados.email = email;
-                camposActualizados.estado = 'P'; // P para pendiente, o cualquier otro indicador que uses
-            }
-
-            if (id_equipo && id_equipo !== user.id_equipo) {
-                camposActualizados.id_equipo = id_equipo;
+                camposActualizados.estado = 'P';
             }
 
             // Si no hay cambios, retornar sin actualizar
