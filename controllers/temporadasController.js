@@ -57,7 +57,9 @@ const getZonas = (req, res) => {
         CONCAT(e.nombre, ' ', e.temporada) AS nombre_edicion,
         c.nombre AS nombre_categoria,
         z.nombre AS nombre_zona,
-        c.genero AS genero
+        c.genero AS genero,
+        z.tipo_zona,
+        z.cantidad_equipos
     FROM
         categorias AS c
         INNER JOIN ediciones AS e ON e.id_edicion = c.id_edicion
@@ -72,25 +74,16 @@ const getZonas = (req, res) => {
 
 const getTemporadas = (req, res) => {
     db.query(`
-        SELECT 
+        SELECT
+    t.id_zona, 
     t.id_edicion, 
     t.id_categoria, 
     t.id_equipo, 
     e.nombre AS nombre_equipo,
-    COUNT(j.dni) AS jugadores_con_dni,
-    SUM(CASE WHEN j.dni IS NULL THEN 1 ELSE 0 END) AS jugadores_sin_dni
+    t.vacante
 FROM 
     temporadas t
-    INNER JOIN equipos e ON e.id_equipo = t.id_equipo
-    INNER JOIN planteles p ON p.id_equipo = t.id_equipo 
-        AND p.id_categoria = t.id_categoria
-        AND p.eventual != 'S'  -- Filtra jugadores que son parte de la lista de buena fe
-    INNER JOIN jugadores j ON j.id_jugador = p.id_jugador
-GROUP BY 
-    t.id_edicion, 
-    t.id_categoria, 
-    t.id_equipo, 
-    e.nombre;
+    INNER JOIN equipos e ON e.id_equipo = t.id_equipo;
 `, 
     (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
@@ -99,9 +92,44 @@ GROUP BY
 };
 
 
+const InsertarEquipoTemporada = (req, res) => {
+    const { id_categoria, id_edicion, id_zona, id_equipo, vacante } = req.body;
+    const query = `
+        INSERT INTO 
+        temporadas(id_categoria, id_edicion, id_zona, id_equipo, vacante) 
+        VALUES (?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE 
+        id_zona = VALUES(id_zona), 
+        vacante = VALUES(vacante)
+    `;
+
+    db.query(query, [id_categoria, id_edicion, id_zona, id_equipo, vacante], (err, result) => {
+        if (err) return res.status(500).send('Error interno del servidor');
+        res.send('Edición registrada o actualizada con éxito');
+    });
+};
+
+
+const eliminarEquipoTemporada = (req, res) => {
+    const { id_equipo, id_categoria, id_edicion } = req.body;
+    
+    // Sentencia SQL para eliminar el año por ID
+    const sql = 'DELETE FROM temporadas WHERE id_equipo = ? AND id_categoria = ? AND id_edicion = ?';
+
+    db.query(sql, [id_equipo, id_categoria, id_edicion], (err, result) => {
+        if (err) {
+            console.error('Error eliminando la edicion:', err);
+            return res.status(500).send('Error eliminando la edicion');
+        }
+        res.status(200).send('Edicion eliminada correctamente');
+    });
+};
+
 module.exports = {
     getPosicionesTemporada,
     getEstadisticasCategoria,
     getZonas,
-    getTemporadas
+    getTemporadas,
+    InsertarEquipoTemporada,
+    eliminarEquipoTemporada
 };

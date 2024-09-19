@@ -1,42 +1,44 @@
 const db = require('../utils/db');
 
 const getCategorias = (req, res) => {
-    db.query(`
-        SELECT
-            c.genero,
-            c.tipo_futbol,
-            c.duracion_tiempo,
-            c.duracion_entretiempo,
-            c.id_categoria,
-            c.id_edicion, 
-            c.nombre AS nombre,
-            CONCAT(
-                IFNULL((SELECT COUNT(*) FROM partidos p WHERE p.id_categoria = c.id_categoria AND p.estado = 'F'), 0),
-                ' / ',
-                IFNULL((SELECT COUNT(*) FROM partidos p WHERE p.id_categoria = c.id_categoria), 0)
-            ) AS partidos,
-            IFNULL((SELECT COUNT(*) FROM equipos e WHERE e.id_categoria = c.id_categoria), 0) AS equipos,
-            CONCAT(
-                IFNULL((SELECT COUNT(*) FROM planteles pl WHERE pl.id_categoria = c.id_categoria), 0),
-                ' ',
-                IFNULL(
-                    CASE 
-                        WHEN c.genero = 'F' THEN 
-                            CASE WHEN (SELECT COUNT(*) FROM planteles pl WHERE pl.id_categoria = c.id_categoria) = 1 THEN 'jugadora' ELSE 'jugadoras' END
-                        ELSE 
-                            CASE WHEN (SELECT COUNT(*) FROM planteles pl WHERE pl.id_categoria = c.id_categoria) = 1 THEN 'jugador' ELSE 'jugadores' END
-                    END,
-                    ''
-                )
-            ) AS jugadores,
-            CASE
-                WHEN EXISTS (SELECT 1 FROM partidos p WHERE p.id_categoria = c.id_categoria AND p.estado = 'F') THEN 'JUGANDO'
-                ELSE 'SIN INICIAR'
-            END AS estado
-        FROM 
-            categorias c
-        ORDER BY 
-            c.id_categoria DESC;`,
+    db.query(
+    `
+    SELECT
+        c.genero,
+        c.tipo_futbol,
+        c.duracion_tiempo,
+        c.duracion_entretiempo,
+        c.id_categoria,
+        c.id_edicion, 
+        c.nombre AS nombre,
+        CONCAT(
+            IFNULL((SELECT COUNT(*) FROM partidos p WHERE p.id_categoria = c.id_categoria AND p.estado = 'F'), 0),
+            ' / ',
+            IFNULL((SELECT COUNT(*) FROM partidos p WHERE p.id_categoria = c.id_categoria), 0)
+        ) AS partidos,
+        IFNULL((SELECT COUNT(*) FROM temporadas t WHERE t.id_categoria = c.id_categoria), 0) AS equipos,
+        CONCAT(
+            IFNULL((SELECT COUNT(*) FROM planteles pl WHERE pl.id_categoria = c.id_categoria), 0),
+            ' ',
+            IFNULL(
+                CASE 
+                    WHEN c.genero = 'F' THEN 
+                        CASE WHEN (SELECT COUNT(*) FROM planteles pl WHERE pl.id_categoria = c.id_categoria) = 1 THEN 'jugadora' ELSE 'jugadoras' END
+                    ELSE 
+                        CASE WHEN (SELECT COUNT(*) FROM planteles pl WHERE pl.id_categoria = c.id_categoria) = 1 THEN 'jugador' ELSE 'jugadores' END
+                END,
+                ''
+            )
+        ) AS jugadores,
+        CASE
+            WHEN EXISTS (SELECT 1 FROM partidos p WHERE p.id_categoria = c.id_categoria AND p.estado = 'F') THEN 'JUGANDO'
+            ELSE 'SIN INICIAR'
+        END AS estado
+    FROM 
+        categorias c
+    ORDER BY 
+        c.id_categoria DESC
+    `,
         (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send(result);
