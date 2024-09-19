@@ -122,15 +122,23 @@ ORDER BY
 };
 
 const crearEquipo = (req, res) => {
-    const { id_categoria, id_edicion, nombre } = req.body;
+    const { nombre, id_categoria, id_edicion, id_zona, vacante } = req.body;
+    console.log(nombre, id_categoria, id_edicion, id_zona, vacante );
+    
+    // Llamar al procedimiento almacenado con los parámetros correspondientes
     db.query(
-        `INSERT INTO 
-        equipos(id_categoria, id_edicion, nombre) 
-        VALUES (?, ?, ?)`, [id_categoria, id_edicion, nombre], (err, result) => {
-        if (err) return res.status(500).send('Error interno del servidor');
-        res.send('Equipo registrado con éxito');
-    });
+        `CALL sp_crear_equipo(?, ?, ?, ?, ?)`, 
+        [nombre, id_categoria, id_edicion, id_zona, vacante], 
+        (err, result) => {
+            if (err) {
+                console.error('Error al ejecutar el procedimiento:', err);
+                return res.status(500).send('Error interno del servidor');
+            }
+            res.send('Equipo registrado y agregado a temporadas con éxito');
+        }
+    );
 };
+
 
 const updateEquipo = (req, res) => {
     const { id_equipo, nombre } = req.body;

@@ -9,6 +9,7 @@ const edicionesController = require('../controllers/edicionesController')
 const categoriasController = require('../controllers/categoriasController')
 const plantelesController = require('../controllers/plantelesController')
 const perfilController = require('../controllers/perfilController');
+const zonasController = require('../controllers/zonasController');
 
 const router = express.Router();
 
@@ -85,6 +86,11 @@ router.put('/actualizar-categoria-equipo', equiposController.actualizarCategoria
 
 //Temporadas
 router.get('/get-temporadas', temporadasController.getTemporadas);
+router.post('/insertar-equipo-temporada', temporadasController.InsertarEquipoTemporada);
+router.post('/eliminar-equipo-temporada', temporadasController.eliminarEquipoTemporada);
 
+//Zonas 
+router.post('/crear-zona', zonasController.crearZona);
+router.post('/eliminar-zona', zonasController.eliminarZona);
 
 module.exports = router;
