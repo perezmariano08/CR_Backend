@@ -153,7 +153,6 @@ const agregarJugadorPlantel = (req, res) => {
     });
 };
 
-
 const eliminarJugadorPlantel = (req, res) => {
     const { id_jugador, id_equipo, id_edicion, id_categoria } = req.body;
 
@@ -175,6 +174,7 @@ const eliminarJugadorPlantel = (req, res) => {
     });
 };
 
+// ESTO ES POR EQUIPO, PARA TRAER J.E. DE CADA EQUIPO Y FACILITAR LA INFORMACION
 const verificarJugadorEventual = (req, res) => {
     const { dni, id_categoria, id_equipo } = req.query;
 
@@ -210,6 +210,49 @@ const verificarJugadorEventual = (req, res) => {
     });
 }
 
+const verificarCategoriaJugadorEventual = (req, res) => {
+    const { dni, id_categoria, id_equipo } = req.query;
+
+    const encontrarJugador = `
+    SELECT 
+        p.id_jugador,
+        p.id_categoria,
+        p.id_equipo,
+        j.id_jugador,
+        j.dni,
+        j.nombre,
+        j.apellido
+    FROM
+        planteles AS p
+        INNER JOIN jugadores as j ON p.id_jugador = j.id_jugador
+    WHERE
+        j.dni = ?;`
+    
+    db.query(encontrarJugador, [dni], (err, result) => {
+        if (err) {
+            console.error('Error verificando el jugador eventual:', err);
+            return res.status(500).send('Error verificando el jugador eventual');
+        }
+        
+        if (result.length > 0) {
+            const jugador = result[0];
+            if (jugador.id_categoria == id_categoria) {
+                if (jugador.id_equipo == id_equipo) {
+                    //Excepcion si el jugador es del mismo equipo
+                    return res.status(200).json({ found: true, matchCategory: false, jugador });
+                }
+                // El jugador pertenece a la categoría especificada
+                return res.status(200).json({ found: true, matchCategory: true, jugador });
+            } else {
+                // El jugador fue encontrado, pero pertenece a una categoría diferente
+                return res.status(200).json({ found: true, matchCategory: false, jugador });
+            }
+        } else {
+            // No se encontró un jugador con el DNI especificado
+            return res.status(200).json({ found: false });
+        }
+    });
+}
 
 
 module.exports = {
@@ -220,5 +263,6 @@ module.exports = {
     crearJugador,
     eliminarJugadorPlantel,
     agregarJugadorPlantel,
-    verificarJugadorEventual
+    verificarJugadorEventual,
+    verificarCategoriaJugadorEventual
 };

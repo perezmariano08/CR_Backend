@@ -248,26 +248,26 @@ const crearDivision = (req, res) => {
 const getUsuarios = (req, res) => {
     db.query(
         `SELECT 
-            usuarios.id_usuario, 
-            usuarios.dni, 
-            CONCAT(UPPER(usuarios.apellido), ', ', usuarios.nombre) AS usuario, 
-            usuarios.telefono, 
-            usuarios.id_rol, 
-            equipos.id_equipo, 
-            usuarios.email,
-            usuarios.estado,
-            usuarios.img,
-            usuarios.nombre,
-            usuarios.apellido,
-            DATE_FORMAT(usuarios.nacimiento, '%d/%m/%Y') AS nacimiento,
-            usuarios.fecha_creacion,
-            usuarios.fecha_actualizacion
-        FROM 
-            usuarios 
-        INNER JOIN 
-            roles ON roles.id_rol = usuarios.id_rol 
-        INNER JOIN 
-            equipos ON equipos.id_equipo = usuarios.id_equipo;`
+    usuarios.id_usuario, 
+    usuarios.dni, 
+    CONCAT(UPPER(usuarios.apellido), ', ', usuarios.nombre) AS usuario, 
+    usuarios.telefono, 
+    usuarios.id_rol, 
+    equipos.id_equipo, 
+    usuarios.email,
+    usuarios.estado,
+    usuarios.img,
+    usuarios.nombre,
+    usuarios.apellido,
+    DATE_FORMAT(usuarios.nacimiento, '%d/%m/%Y') AS nacimiento,
+    usuarios.fecha_creacion,
+    usuarios.fecha_actualizacion
+FROM 
+    usuarios 
+LEFT JOIN 
+    roles ON roles.id_rol = usuarios.id_rol 
+LEFT JOIN 
+    equipos ON equipos.id_equipo = usuarios.id_equipo;`
     ,(err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send(result);

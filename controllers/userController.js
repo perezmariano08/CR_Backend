@@ -129,7 +129,7 @@ const getJugadores = (req, res) => {
 };
 
 const updatePartido = (req, res) => {
-    const { goles_local, goles_visita, descripcion, estado, id_jugador_destacado, id_partido} = req.body;
+    const { goles_local, goles_visita, descripcion, estado, id_jugador_destacado, id_partido, pen_local, pen_visita} = req.body;
     console.log('Request received:', req.body);
 
     if (!id_partido) {
@@ -140,14 +140,16 @@ const updatePartido = (req, res) => {
         UPDATE partidos
         SET 
             goles_local = ?, 
-            goles_visita = ?, 
+            goles_visita = ?,
+            pen_local = ?,
+            pen_visita = ?,
             descripcion = ?,
             estado = ?,
             id_jugador_destacado = ?
         WHERE id_partido = ?
     `;
 
-    db.query(sql, [goles_local, goles_visita, descripcion, estado, id_jugador_destacado, id_partido], (err, result) => {
+    db.query(sql, [goles_local, goles_visita, pen_local, pen_visita, descripcion, estado, id_jugador_destacado, id_partido], (err, result) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).send('Error interno del servidor');
@@ -234,56 +236,67 @@ const crearAsistencias = (req, res) => {
     });
 };
 
-const crearRojas = async (req, res) => {
+const crearRojas = (req, res) => {
     const rojas = req.body;
 
     if (!Array.isArray(rojas)) {
         return res.status(400).send('Bad request: Expected an array of red cards');
     }
 
-    const values = [];
-    const jugadoresIds = [];
+    if (!rojas || rojas.length === 0) {
+        return res.status(400).send('No hay expulsiones para agregar');
+    }
 
-    for (const { id_partido, id_jugador, minuto, descripcion = '', motivo, estado = 'A', fechas = 1 } of rojas) {
-        if (!id_partido || !id_jugador || !minuto || !motivo) {
-            return res.status(400).send('Missing required fields');
+    const idPartido = rojas[0].id_partido;
+
+    // Consulta para obtener la categoría del partido
+    const partidoQuery = `SELECT id_categoria FROM partidos WHERE id_partido = ?`;
+
+    db.query(partidoQuery, [idPartido], (err, partidoData) => {
+        if (err) {
+            console.error('Error en la consulta de partidos:', err);
+            return res.status(500).send('Error en la base de datos');
         }
-        values.push([id_partido, id_jugador, minuto, descripcion, motivo, estado, fechas, fechas]); // Añadido fechas_restantes
-        jugadoresIds.push(id_jugador);
-    }
 
-    const queryInsert = `
-        INSERT INTO expulsados
-        (id_partido, id_jugador, minuto, descripcion, motivo, estado, fechas, fechas_restantes) 
-        VALUES ?;
-    `;
+        if (!partidoData || partidoData.length === 0) {
+            return res.status(404).send('Partido no encontrado');
+        }
 
-    const queryUpdate = `
-        UPDATE jugadores
-        SET sancionado = 'S'
-        WHERE id_jugador IN (?);
-    `;
+        const idCategoria = partidoData[0].id_categoria;
 
-    try {
-        await new Promise((resolve, reject) => {
-            db.query(queryInsert, [values], (err, result) => {
-                if (err) return reject(err);
-                resolve(result);
+        // Query para insertar las expulsiones
+        const expulsionInsertQuery = `
+            INSERT INTO expulsados (id_partido, id_jugador, minuto, descripcion, motivo, estado, fechas, fechas_restantes, multa)
+            VALUES (?, ?, ?, ?, ?, 'A', 1, 1, 'N')
+        `;
+
+        rojas.forEach((roja) => {
+            const { id_partido, id_jugador, minuto, descripcion, motivo } = roja;
+
+            db.query(expulsionInsertQuery, [id_partido, id_jugador, minuto, descripcion || '', motivo], (err) => {
+                if (err) {
+                    console.error('Error al insertar expulsión:', err);
+                    return res.status(500).send('Error al registrar expulsión');
+                }
+
+                // Actualizar la columna 'sancionado' en la tabla 'planteles'
+                const updateSancionadoQuery = `
+                    UPDATE planteles 
+                    SET sancionado = 'S' 
+                    WHERE id_jugador = ? AND id_categoria = ?
+                `;
+
+                db.query(updateSancionadoQuery, [id_jugador, idCategoria], (err) => {
+                    if (err) {
+                        console.error('Error al actualizar sancionado:', err);
+                        return res.status(500).send('Error al actualizar sanción');
+                    }
+                });
             });
         });
 
-        await new Promise((resolve, reject) => {
-            db.query(queryUpdate, [jugadoresIds], (err, result) => {
-                if (err) return reject(err);
-                resolve(result);
-            });
-        });
-
-        res.send('Rojas registradas con éxito y estado de los jugadores actualizado.');
-    } catch (err) {
-        console.error('Error inserting red cards or updating player status:', err);
-        res.status(500).send('Internal server error');
-    }
+        res.send('Expulsiones y sanciones registradas exitosamente');
+    });
 };
 
 const crearAmarillas = (req, res) => {
@@ -334,9 +347,21 @@ const insertarJugadoresEventuales = (req, res) => {
                 }
 
                 if (selectResult.length > 0) {
-                    // Si ya existe, no se realiza la inserción
-                    console.log(`Player with DNI ${dni} already exists, skipping insertion.`);
-                    return resolve(`Player with DNI ${dni} already exists.`);
+                    const existingJugadorId = selectResult[0].id_jugador;
+                    
+                    // Si el jugador ya existe, agregarlo a la tabla planteles
+                    const insertPlantelQuery = `
+                        INSERT INTO planteles (id_equipo, id_jugador, id_edicion, id_categoria, eventual, sancionado) 
+                        VALUES (?, ?, ?, ?, ?, ?);
+                    `;
+                    
+                    db.query(insertPlantelQuery, [id_equipo, existingJugadorId, id_edicion, id_categoria, eventual, sancionado], (err, plantelResult) => {
+                        if (err) {
+                            console.error('Error inserting into planteles:', err);
+                            return reject(err);
+                        }
+                        resolve(`Player with DNI ${dni} added to planteles.`);
+                    });
                 } else {
                     // Si no existe, procedemos a la inserción
                     const insertQuery = `
@@ -411,6 +436,74 @@ const getCategorias = (req, res) => {
     });
 };
 
+const suspenderPartido = (req, res) => {
+    const { goles_local, goles_visita, descripcion, estado, id_partido} = req.body;
+    console.log('Request received:', req.body);
+
+    if (!id_partido) {
+        return res.status(400).send('ID de partido es requerido');
+    }
+
+    if (estado === 'A' ) {
+        const sql = `
+        UPDATE partidos
+        SET 
+            estado = ?,
+        WHERE id_partido = ?
+    `;
+        db.query(sql, [estado, id_partido], (err, result) => {
+            if (err) {
+                console.error('Database error:', err);
+                return res.status(500).send('Error interno del servidor');
+            }
+            res.send('Partido postergado exitosamente');
+        });
+    } else {
+        const sql = `
+        UPDATE partidos
+        SET 
+            goles_local = ?, 
+            goles_visita = ?, 
+            descripcion = ?,
+            estado = ?,
+        WHERE id_partido = ?
+        `;
+        db.query(sql, [goles_local, goles_visita, descripcion, estado, id_partido], (err, result) => {
+            if (err) {
+                console.error('Database error:', err);
+                return res.status(500).send('Error interno del servidor');
+            }
+            res.send('Partido suspendido exitosamente');
+        });
+    }
+};
+
+const insertarJugadoresDestacados = (req, res) => {
+    const dreamTeam = req.body;
+
+    if (!Array.isArray(dreamTeam)) {
+        return res.status(400).send('Bad request: Expected an array of dreamTeam');
+    }
+
+    const values = dreamTeam.map(({ id_partido, id_equipo, id_jugador, id_categoria }) => 
+        [id_partido, id_equipo, id_jugador, id_categoria]
+    );
+
+    const query = `
+        INSERT INTO jugadores_destacados
+        (id_partido, id_equipo, id_jugador, id_categoria) 
+        VALUES ?;
+    `;
+
+    db.query(query, [values], (err, result) => {
+        if (err) {
+            console.error('Error inserting dreamteam:', err);
+            return res.status(500).send('Internal server error');
+        }
+        res.send('DreamTeam registrado con éxito');
+    });
+};
+
 module.exports = {
     getUsers,
     getRoles,
@@ -426,5 +519,7 @@ module.exports = {
     insertarJugadoresEventuales,
     partidosJugadorEventual,
     crearJugador,
-    getCategorias
+    getCategorias,
+    suspenderPartido,
+    insertarJugadoresDestacados
 };

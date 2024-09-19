@@ -47,56 +47,50 @@ const checkDni = (req, res) => {
 };
 
 const crearCuenta = (req, res) => {
-    const { dni, nombre, apellido, fechaNacimiento, telefono, email, clave, equipoFav } = req.body;
+    const { dni, nombre, apellido, fechaNacimiento, telefono, email, clave, rol } = req.body;
     const fecha_creacion = new Date(); // Obtener la fecha actual
 
-    db.query(`SELECT id_equipo FROM equipos WHERE id_equipo = '${equipoFav}'`, (err, rows) => {
+    // Verificar que todos los campos requeridos estén presentes
+    if (!dni || !nombre || !apellido || !fechaNacimiento || !telefono || !email || !clave || !rol) {
+        return res.status(400).send("Faltan datos requeridos");
+    }
+
+    bcryptjs.genSalt(10, (err, salt) => {
         if (err) {
-            console.error("Error al buscar el ID del equipo:", err);
+            console.error("Error al generar la sal:", err);
             return res.status(500).send("Error interno del servidor");
         }
 
-        if (rows.length === 0) {
-            return res.status(400).send("El equipo proporcionado no existe");
-        }
-
-        const idEquipo = rows[0].id_equipo;
-
-        bcryptjs.genSalt(10, (err, salt) => {
+        bcryptjs.hash(clave, salt, (err, hash) => {
             if (err) {
-                console.error("Error al generar la sal:", err);
+                console.error("Error al encriptar la contraseña:", err);
                 return res.status(500).send("Error interno del servidor");
             }
 
-            bcryptjs.hash(clave, salt, (err, hash) => {
-                if (err) {
-                    console.error("Error al encriptar la contraseña:", err);
-                    return res.status(500).send("Error interno del servidor");
-                }
+            db.query(
+                `INSERT INTO usuarios(dni, nombre, apellido, nacimiento, telefono, email, id_rol, clave, fecha_creacion, fecha_actualizacion, estado) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                [dni, nombre, apellido, fechaNacimiento, telefono, email, parseInt(rol), hash, fecha_creacion, null, 'I'],
+                async (err, result) => {
+                    if (err) {
+                        console.error("Error al insertar el usuario en la tabla usuarios:", err);
+                        return res.status(500).send("Error interno del servidor");
+                    }
 
-                db.query(`INSERT INTO usuarios(dni, nombre, apellido, nacimiento, telefono, email, id_rol, clave, id_equipo, fecha_creacion, fecha_actualizacion, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-                    [dni, nombre, apellido, fechaNacimiento, telefono, email, 3, hash, idEquipo, fecha_creacion, null, 'I'],
-                    async (err, result) => {
-                        if (err) {
-                            console.error("Error al insertar el usuario en la tabla usuarios:", err);
-                            return res.status(500).send("Error interno del servidor");
-                        }
-                        
-                        // Enviar el correo de verificación
-                        if (email) {
-                            try {
-                                await mailer.sendVerificationEmail(email, dni, nombre);
-                                res.status(200).send("Cuenta creada exitosamente. Revisa tu correo para activar la cuenta.");
-                            } catch (error) {
-                                console.error('Error al enviar el correo:', error);
-                                res.status(500).json({ message: 'Hubo un error en el envío del mail de autenticación' });
-                            }
-                        } else {
-                            res.status(200).send("Cuenta creada exitosamente.");
+                    // Intentar enviar el correo antes de enviar la respuesta
+                    if (email) {
+                        try {
+                            await mailer.sendVerificationEmail(email, dni, nombre);
+                        } catch (error) {
+                            console.error('Error al enviar el correo:', error);
+                            return res.status(500).json({ message: 'Hubo un error en el envío del mail de autenticación' });
                         }
                     }
-                );
-            });
+                    
+                    // Solo enviar una vez la respuesta
+                    res.status(200).send("Cuenta creada exitosamente.");
+                }
+            );
         });
     });
 };
@@ -106,12 +100,14 @@ const checkLogin = (req, res) => {
     db.query('SELECT * FROM usuarios WHERE dni = ?', [dni], (err, rows) => {
         if (err) return res.status(500).send('Error interno del servidor');
         
-        if (rows.length === 0) return res.status(401).send('Usuario no encontrado');
+        if (rows.length === 0) return res.status(400).send('Usuario no encontrado');
 
         const user = rows[0];
+        if (user.id_rol === null) return res.status(401).send('Usuario no autorizado')  
+
         if (user.estado !== 'A') return res.status(403).send('Cuenta no activada');
 
-        if (!bcryptjs.compareSync(password, user.clave)) return res.status(401).send('Contraseña incorrecta');
+        if (!bcryptjs.compareSync(password, user.clave)) return res.status(405).send('Contraseña incorrecta');
 
         const token = jsonwebtoken.sign({ user: user.dni }, 'textosecretoDECIFRADO', { expiresIn: '1h' });
         res.status(200).json({ token, id_rol: user.id_rol });
@@ -158,14 +154,14 @@ const activarCuenta = (req, res) => {
             return res.status(500).send('Error interno del servidor');
         }
 
-        console.log(`Resultado de la actualización: ${result.affectedRows}`); // Log para verificar la actualización
+        console.log(`Resultado de la actualización: ${result.affectedRows}`);
 
         if (result.affectedRows === 0) {
             console.log('El usuario no existe o ya está activado');
             return res.status(400).send('El usuario no existe o ya está activado');
         }
 
-        console.log('Redirigiendo a login...'); // Log justo antes de la redirección
+        console.log('Redirigiendo a login...');
         res.redirect(`${URL_FRONT}/login?activada=true`);
     });
 };
@@ -195,7 +191,6 @@ const activarCambioEmail = (req, res) => {
 
     });
 };
-
 
 const forgotPasswordHandler = async (req, res) => {
     const { email } = req.body;
