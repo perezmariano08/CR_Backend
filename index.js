@@ -2,11 +2,6 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const fs = require('fs');
-const db = require('./utils/db');
-
-const multer = require('multer');
-const path = require('path');
 
 const adminRoutes = require('./routes/adminRoutes');
 const authRoutes = require('./routes/authRoutes');
