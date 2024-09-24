@@ -29,6 +29,14 @@ app.use(cors({
     credentials: true
 }));
 
+// Deshabilitar el caché para todas las respuestas
+app.use((req, res, next) => {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    next();
+});
+
 app.use('/admin', adminRoutes);
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
