@@ -14,6 +14,7 @@ router.post('/crear-division', revisarToken, revisarAdmin, adminController.crear
 router.post('/crear-categoria', revisarToken, revisarAdmin, adminController.crearCategoria);
 router.post('/crear-jugador', revisarToken, revisarAdmin, adminController.crearJugador);
 router.post('/crear-partido', revisarAdmin, adminController.crearPartido);
+router.post('/crear-expulsion', revisarToken, revisarAdmin, adminController.crearExpulsion);
 
 router.get('/get-torneos', revisarToken, revisarAdmin, adminController.getTorneos);
 router.get('/get-sedes', revisarToken, revisarAdmin, adminController.getSedes);
@@ -34,8 +35,12 @@ router.post('/delete-jugador', revisarToken, revisarAdmin, adminController.delet
 router.put('/update-usuario', revisarToken, revisarAdmin, adminController.updateUsuario);
 router.put('/update-partido', revisarToken, revisarAdmin, adminController.updatePartido);
 router.put('/update-equipo', revisarToken, revisarAdmin, equiposController.updateEquipo);
+router.put('/update-expulsion', revisarToken, revisarAdmin, adminController.actualizarExpulsion);
 
 router.post('/importar-anios', revisarToken, revisarAdmin, adminController.importarAnio);
 router.post('/importar-jugadores', revisarToken, revisarAdmin, adminController.importarJugadores);
+
+router.delete('/borrar-expulsion', revisarToken, revisarAdmin, adminController.borrarExpulsion);
+
 
 module.exports = router;

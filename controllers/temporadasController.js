@@ -71,7 +71,6 @@ const getZonas = (req, res) => {
     });
 };
 
-
 const getTemporadas = (req, res) => {
     db.query(`
         SELECT
