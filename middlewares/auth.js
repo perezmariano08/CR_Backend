@@ -13,6 +13,10 @@ function revisarToken(req, res, next) {
             next();
         });
     } catch (error) {
+        // Verifica si el error fue causado por la expiración del token
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).send('El token ha expirado. Por favor, inicia sesión nuevamente.');
+        }
         console.error('Middleware revisarToken - error:', error);
         return res.status(500).send('Error interno del servidor');
     }

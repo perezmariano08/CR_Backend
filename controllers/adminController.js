@@ -406,8 +406,6 @@ const deleteJugador = (req, res) => {
     });
 };
 
-
-
 const crearPartido = (req, res) => {
     const { id_temporada, id_equipoLocal, id_equipoVisita, jornada, dia, hora, cancha, arbitro, id_planillero } = req.body;
     db.query(`
@@ -454,6 +452,200 @@ const updatePartido = (req, res) => {
     });
 };
 
+const crearExpulsion = async (req, res) => {
+    const { id_jugador, id_equipo, id_edicion, id_categoria } = req.body;
+
+    try {
+        const sql = `
+            SELECT COUNT(*) as expulsiones_activas 
+            FROM expulsados e
+            JOIN partidos p ON e.id_partido = p.id_partido
+            WHERE e.id_jugador = ? 
+                AND p.id_categoria = ?
+                AND e.estado = 'A'
+        `;
+
+        // Primera consulta: Verificar si el jugador ya tiene una expulsión activa
+        db.query(sql, [id_jugador, id_categoria], (err, result) => {
+            if (err) {
+                return res.status(500).send('Error interno del servidor');
+            }
+
+            const { expulsiones_activas } = result[0];
+            if (expulsiones_activas > 0) {
+                // Si hay una expulsión activa, terminamos aquí.
+                return res.status(400).send('El jugador ya tiene una expulsión activa en la categoría');
+            }
+
+            // Si no hay expulsión activa, llamamos al procedimiento almacenado
+            db.query(
+                `CALL sp_crear_expulsion(?, ?, ?, ?);`,
+                [id_jugador, id_equipo, id_edicion, id_categoria],
+                (err, results) => {
+                    if (err) {
+                        console.error("Error al ejecutar el procedimiento almacenado:", err);
+                        if (err.code === 'ER_SIGNAL_EXCEPTION' || err.sqlState === '45000') {
+                            // Error lanzado desde el procedimiento almacenado con SIGNAL
+                            return res.status(400).send({ error: err.sqlMessage || 'Error en el procedimiento almacenado' });
+                        } else {
+                            return res.status(500).send('Error al registrar la expulsión');
+                        }
+                    }
+
+                    // Expulsión registrada exitosamente
+                    res.status(201).send('Expulsión registrada exitosamente');
+                }
+            );
+        });
+    } catch (error) {
+        console.error("Error inesperado:", error);
+        res.status(500).send('Error al procesar la solicitud');
+    }
+};
+
+const borrarExpulsion = async (req, res) => {
+    const { id_expulsion, id_categoria, id_jugador } = req.body;
+
+    // Verificar que todos los datos excluyentes están presentes
+    if (!id_expulsion || !id_categoria || !id_jugador) {
+        return res.status(400).send('Faltan datos excluyentes');
+    }
+
+    // Consulta SQL para encontrar la expulsión activa en la misma categoría y jugador
+    const sqlBuscar = `
+        SELECT * 
+        FROM expulsados 
+        WHERE id_expulsion = ? 
+            AND id_jugador = ? 
+            AND estado = 'A' 
+            AND id_partido IN (
+            SELECT id_partido 
+            FROM partidos 
+            WHERE id_categoria = ?
+        )
+    `;
+
+    db.query(sqlBuscar, [id_expulsion, id_jugador, id_categoria], (err, result) => {
+        if (err) {
+            return res.status(500).send('Error al buscar la expulsión');
+        }
+
+        if (result.length === 0) {
+            return res.status(404).send('No se encontró una expulsión activa para el jugador en esta categoría');
+        }
+
+        // Expulsión encontrada, proceder a eliminarla
+        const sqlBorrar = `
+            DELETE FROM expulsados 
+            WHERE id_expulsion = ?
+        `;
+
+        db.query(sqlBorrar, [id_expulsion], (err) => {
+            if (err) {
+                return res.status(500).send('Error al eliminar la expulsión');
+            }
+
+            // Actualizar el estado del jugador en la tabla 'planteles'
+            const sqlUpdate = `
+                UPDATE planteles
+                SET sancionado = 'N'
+                WHERE id_jugador = ?
+                AND id_categoria = ?
+            `;
+
+            db.query(sqlUpdate, [id_jugador, id_categoria], (err) => {
+                if (err) {
+                    return res.status(500).send('Error al actualizar el estado del jugador');
+                }
+
+                // Solo enviar la respuesta al final de todas las operaciones
+                return res.status(200).send('Expulsión eliminada y estado actualizado correctamente');
+            });
+        });
+    });
+};
+
+const actualizarExpulsion = async (req, res) => {
+    const { id_expulsion, fechas, fechas_restantes, multa } = req.body;
+
+    if (!id_expulsion || typeof fechas !== 'number' || typeof fechas_restantes !== 'number' || !multa) {
+        return res.status(400).send('Falta información excluyente');
+    }
+    
+    const sqlSelect = `
+        SELECT id_partido, id_jugador
+        FROM expulsados
+        WHERE id_expulsion = ?
+    `;
+
+    db.query(sqlSelect, [id_expulsion], (err, result) => {
+        if (err || result.length === 0) {
+            return res.status(400).send('Error al encontrar la expulsión o no existe');
+        }
+
+        const { id_partido, id_jugador } = result[0];
+
+        if (fechas_restantes === 0) {
+            // Obtener el id_categoria del partido
+            const sqlCategoria = `
+                SELECT id_categoria
+                FROM partidos
+                WHERE id_partido = ?
+            `;
+            
+            db.query(sqlCategoria, [id_partido], (err, result) => {
+                if (err || result.length === 0) {
+                    return res.status(400).send('Error al encontrar la categoría del partido');
+                }
+
+                const id_categoria = result[0].id_categoria;
+
+                // Actualizar el campo sancionado en planteles
+                const sqlUpdatePlanteles = `
+                    UPDATE planteles
+                    SET sancionado = 'N'
+                    WHERE id_jugador = ? AND id_categoria = ?
+                `;
+                
+                db.query(sqlUpdatePlanteles, [id_jugador, id_categoria], (err) => {
+                    if (err) {
+                        return res.status(400).send('Error al actualizar el estado de sanción en planteles');
+                    }
+
+                    // Actualizar la expulsión a inactiva
+                    const sqlUpdateExpulsion = `
+                        UPDATE expulsados
+                        SET estado = 'I', fechas_restantes = 0
+                        WHERE id_expulsion = ?
+                    `;
+
+                    db.query(sqlUpdateExpulsion, [id_expulsion], (err) => {
+                        if (err) {
+                            return res.status(400).send('Error al actualizar la expulsión');
+                        }
+                        return res.send('Expulsión actualizada a inactiva y sanción eliminada');
+                    });
+                });
+            });
+        } else {
+            // Actualizar la expulsión con los datos recibidos
+            const sqlUpdateExpulsion = `
+                UPDATE expulsados
+                SET fechas = ?, fechas_restantes = ?, multa = ?, estado = 'A'
+                WHERE id_expulsion = ?
+            `;
+
+            db.query(sqlUpdateExpulsion, [fechas, fechas_restantes, multa, id_expulsion], (err) => {
+                if (err) {
+                    return res.status(400).send('Error al actualizar la expulsión');
+                }
+                return res.send('Expulsión actualizada correctamente');
+            });
+        }
+    });
+};
+
+
 module.exports = {
     crearCategoria,
     getCategorias,
@@ -490,5 +682,9 @@ module.exports = {
     updatePartido,
     crearJugador,
     importarJugadores,
-    deleteJugador
+    deleteJugador,
+
+    crearExpulsion,
+    borrarExpulsion,
+    actualizarExpulsion
 };

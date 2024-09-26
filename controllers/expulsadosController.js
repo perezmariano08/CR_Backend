@@ -4,6 +4,9 @@ const getExpulsados = (req, res) => {
     db.query(
         `SELECT
             e.id_expulsion,
+            e.id_jugador,
+            e.id_partido,
+            p.id_categoria,
             CONCAT(j.apellido, ', ', j.nombre) AS jugador,
             c.nombre AS categoria,
             e.fechas,

@@ -238,7 +238,6 @@ const forgotPasswordHandler = async (req, res) => {
     }
 };
 
-// Handler para cambiar la contraseña
 const changeNewPassword = (req, res) => {
     const { clave, token } = req.body;
 
