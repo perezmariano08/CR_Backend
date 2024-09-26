@@ -191,7 +191,8 @@ const updatePartido = (req, res) => {
         id_planillero, 
         id_edicion, 
         id_categoria, 
-        id_zona, 
+        id_zona,
+        estado, 
         id_partido 
     } = req.body;
 
@@ -214,7 +215,8 @@ const updatePartido = (req, res) => {
             id_planillero = ?,
             id_edicion = ?, 
             id_categoria = ?, 
-            id_zona = ?
+            id_zona = ?,
+            estado = ?
         WHERE id_partido = ?
     `;
 
@@ -231,6 +233,7 @@ const updatePartido = (req, res) => {
         id_edicion, 
         id_categoria, 
         id_zona, 
+        estado,
         id_partido 
     ], (err, result) => {
         if (err) {
