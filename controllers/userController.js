@@ -4,6 +4,7 @@ const getUsers = (req, res) => {
     db.query(`SELECT
                 u.id_usuario,
                 u.dni,
+                CONCAT(UPPER(u.apellido), ', ', u.nombre) AS usuario,
                 u.nombre,
                 u.apellido,
                 DATE_FORMAT(u.nacimiento, '%d/%m/%Y') AS nacimiento,
@@ -12,7 +13,8 @@ const getUsers = (req, res) => {
                 r.nombre,
                 u.fecha_creacion,
                 u.fecha_actualizacion,
-                u.img
+                u.img,
+                u.id_rol
             FROM usuarios as u
             INNER JOIN roles AS r ON r.id_rol = u.id_rol;`, (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');

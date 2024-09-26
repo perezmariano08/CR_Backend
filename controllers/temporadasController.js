@@ -74,16 +74,28 @@ const getZonas = (req, res) => {
 
 const getTemporadas = (req, res) => {
     db.query(`
-        SELECT
-    t.id_zona, 
-    t.id_edicion, 
-    t.id_categoria, 
-    t.id_equipo, 
-    e.nombre AS nombre_equipo,
-    t.vacante
-FROM 
-    temporadas t
-    INNER JOIN equipos e ON e.id_equipo = t.id_equipo;
+    SELECT
+        t.id_zona, 
+        t.id_edicion, 
+        t.id_categoria, 
+        t.id_equipo, 
+        e.nombre AS nombre_equipo,
+        t.vacante,
+        (SELECT COUNT(*)
+            FROM planteles p
+            INNER JOIN jugadores j ON p.id_jugador = j.id_jugador
+            WHERE p.id_equipo = t.id_equipo
+            AND j.dni IS NOT NULL
+            AND p.eventual = 'N') AS jugadores_con_dni,
+        (SELECT COUNT(*)
+            FROM planteles p
+            INNER JOIN jugadores j ON p.id_jugador = j.id_jugador
+            WHERE p.id_equipo = t.id_equipo
+            AND j.dni IS NULL
+            AND p.eventual = 'N') AS jugadores_sin_dni
+    FROM 
+        temporadas t
+        INNER JOIN equipos e ON e.id_equipo = t.id_equipo;
 `, 
     (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
