@@ -14,7 +14,8 @@ const getUsers = (req, res) => {
                 u.fecha_creacion,
                 u.fecha_actualizacion,
                 u.img,
-                u.id_rol
+                u.id_rol,
+                u.estado
             FROM usuarios as u
             INNER JOIN roles AS r ON r.id_rol = u.id_rol;`, (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
