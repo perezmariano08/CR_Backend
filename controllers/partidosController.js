@@ -183,6 +183,8 @@ const updatePartido = (req, res) => {
     const { 
         id_equipoLocal, 
         id_equipoVisita, 
+        goles_local,
+        goles_visita,
         jornada, 
         dia, 
         hora, 
@@ -207,6 +209,8 @@ const updatePartido = (req, res) => {
         SET 
             id_equipoLocal = ?, 
             id_equipoVisita = ?, 
+            goles_local = ?,
+            goles_visita = ?,
             jornada = ?, 
             dia = ?, 
             hora = ?,
@@ -224,6 +228,8 @@ const updatePartido = (req, res) => {
     db.query(sql, [
         id_equipoLocal, 
         id_equipoVisita, 
+        goles_local,
+        goles_visita,
         jornada, 
         dia, 
         hora, 
