@@ -100,4 +100,10 @@ router.post('/eliminar-equipo-temporada', temporadasController.eliminarEquipoTem
 router.post('/crear-zona', zonasController.crearZona);
 router.post('/eliminar-zona', zonasController.eliminarZona);
 
+//DreamTeam
+router.get('/get-jugadores-destacados', jugadoresController.getJugadoresDestacados);
+router.get('/get-jugadores-categoria', jugadoresController.traerJugadoresPorCategoria);
+router.put('/actualizar-jugadores-destacados', jugadoresController.actualizarJugadorDestacado)
+router.put('/resetear-jugadores-destacados', jugadoresController.resetearPosicionesYDT)
+
 module.exports = router;
