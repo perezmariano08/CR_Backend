@@ -1,5 +1,5 @@
 const express = require('express');
-const https = require('https'); // Requerido para usar socket.io
+const http = require('http'); // Requerido para usar socket.io
 const { Server } = require('socket.io');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -10,35 +10,50 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3001;
 
-const server = https.createServer(app); // Cambia app.listen por http.createServer
-
-// Configuración de CORS
-const corsOptions = {
-    origin: [
-        'https://prueba.coparelampago.com', 
-        'https://coparelampago.com',
-        'https://www.coparelampago.com',
-        'https://appcoparelampago.vercel.app',
-        'http://localhost:5173', 
-        'http://localhost:5174',
-        'http://192.168.0.13:5173'
-    ],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true,
-};
-
-app.use(cookieParser());
-app.use(express.json());
-app.use(cors(corsOptions)); // Para las solicitudes HTTP
+const server = http.createServer(app); // Cambia app.listen por http.createServer
 
 // Configuración de socket.io
 const io = new Server(server, {
-    cors: corsOptions, // Usa la misma configuración de CORS
-    transports: ['polling']
+    cors: {
+        origin: [
+            'https://prueba.coparelampago.com', 
+            'https://coparelampago.com',
+            'https://www.coparelampago.com',
+            'https://appcoparelampago.vercel.app',
+            'http://localhost:5173', 
+            'http://localhost:5174', 
+            'http://192.168.0.13:5173'
+        ],
+        methods: ['GET', 'POST'],
+        credentials: true
+    }
 });
 
-// Permitir conexiones WebSocket desde cualquier origen
-io.origins('*');
+app.use(cookieParser());
+app.use(express.json());
+app.use(cors({
+    origin: (origin, callback) => {
+        const allowedOrigins = [
+            'https://prueba.coparelampago.com', 
+            'https://coparelampago.com',
+            'https://www.coparelampago.com',
+            'https://appcoparelampago.vercel.app',
+            'http://localhost:5173', 
+            'http://localhost:5174',
+            'http://192.168.0.13:5173'
+        ];
+
+        // Permitir solicitudes sin 'origin' (por ejemplo, Postman)
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('No autorizado por CORS'));
+        }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Socket-Id']
+}));
 
 
 // Middleware para adjuntar io al objeto req
