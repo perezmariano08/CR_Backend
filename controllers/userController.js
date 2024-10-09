@@ -132,7 +132,7 @@ const getJugadores = (req, res) => {
 };
 
 const updatePartido = (req, res) => {
-    const { goles_local, goles_visita, descripcion, estado, id_jugador_destacado, id_partido, pen_local, pen_visita} = req.body;
+    const { goles_local, goles_visita, descripcion, estado, id_jugador_destacado, id_partido} = req.body;
     console.log('Request received:', req.body);
 
     if (!id_partido) {
@@ -141,18 +141,11 @@ const updatePartido = (req, res) => {
 
     const sql = `
         UPDATE partidos
-        SET 
-            goles_local = ?, 
-            goles_visita = ?,
-            pen_local = ?,
-            pen_visita = ?,
-            descripcion = ?,
-            estado = ?,
-            id_jugador_destacado = ?
+        SET descripcion = ?
         WHERE id_partido = ?
     `;
 
-    db.query(sql, [goles_local, goles_visita, pen_local, pen_visita, descripcion, estado, id_jugador_destacado, id_partido], (err, result) => {
+    db.query(sql, [descripcion, id_partido], (err, result) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).send('Error interno del servidor');

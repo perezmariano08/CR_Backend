@@ -1,66 +1,92 @@
 const express = require('express');
+const http = require('http'); // Requerido para usar socket.io
+const { Server } = require('socket.io');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
-
-const adminRoutes = require('./routes/adminRoutes');
-const authRoutes = require('./routes/authRoutes');
-const userRoutes = require('./routes/userRoutes');
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3001;
 
+const server = http.createServer(app); // Cambia app.listen por http.createServer
+
+// Configuración de socket.io
+const io = new Server(server, {
+    cors: {
+        origin: [
+            'https://prueba.coparelampago.com', 
+            'https://coparelampago.com',
+            'https://www.coparelampago.com',
+            'https://appcoparelampago.vercel.app',
+            'http://localhost:5173', 
+            'http://localhost:5174', 
+            'http://192.168.0.13:5173'
+        ],
+        methods: ['GET', 'POST'],
+        credentials: true
+    }
+});
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
-    origin: [
-        'https://prueba.coparelampago.com', 
-        'https://coparelampago.com',
-        'https://www.coparelampago.com',
-        'https://appcoparelampago.vercel.app',
-        'http://localhost:5173', 
-        'http://localhost:5174', 
-        'http://192.168.0.13:5173'
-    ],
+    origin: (origin, callback) => {
+        const allowedOrigins = [
+            'https://prueba.coparelampago.com', 
+            'https://coparelampago.com',
+            'https://www.coparelampago.com',
+            'https://appcoparelampago.vercel.app',
+            'http://localhost:5173', 
+            'http://localhost:5174',
+            'http://192.168.0.13:5173'
+        ];
+
+        // Permitir solicitudes sin 'origin' (por ejemplo, Postman)
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('No autorizado por CORS'));
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Socket-Id']
 }));
 
-// Deshabilitar el caché para todas las respuestas
+
+// Middleware para adjuntar io al objeto req
 app.use((req, res, next) => {
-    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-    res.setHeader('Pragma', 'no-cache');
-    res.setHeader('Expires', '0');
+    req.io = io; // Adjunta la instancia de io a req
     next();
 });
 
-app.use('/admin', adminRoutes);
-app.use('/auth', authRoutes);
-app.use('/user', userRoutes);
+app.use('/admin', require('./routes/adminRoutes'));
+app.use('/auth', require('./routes/authRoutes'));
+app.use('/user', require('./routes/userRoutes'));
 
-// Configuración del archivo de registro de errores
-// const logFile = fs.createWriteStream('error.log', { flags: 'a' });
+io.on('connection', (socket) => {
+    console.log(`User connected: ${socket.id}`);
+
+    // Escucha eventos de acciones y emite la actualización a los clientes
+    socket.on('newAction', (actionData) => {
+        io.emit('actionUpdate', actionData); // Enviar acción a todos los clientes conectados
+    });
+
+    socket.on('disconnect', () => {
+        console.log(`User disconnected: ${socket.id}`);
+    });
+});
 
 process.on('uncaughtException', (err) => {
     console.error('Unhandled Exception', err);
-    //   logFile.write(`${new Date().toISOString()} - Unhandled Exception: ${err.stack}\n`);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
     console.error('Unhandled Rejection', reason);
-    //   logFile.write(`${new Date().toISOString()} - Unhandled Rejection: ${reason.stack}\n`);
 });
 
-const server = app.listen(port, '0.0.0.0', () => {
+server.listen(port, '0.0.0.0', () => {
     console.log(`Corriendo en http://localhost:${port}`);
 });
-
-server.setTimeout(30000)
-
-// Exporta el handler para Vercel
-module.exports = (req, res) => {
-    app(req, res);
-};
