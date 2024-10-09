@@ -1,5 +1,5 @@
 const express = require('express');
-const http = require('http'); // Requerido para usar socket.io
+const https = require('https'); // Requerido para usar socket.io
 const { Server } = require('socket.io');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -10,7 +10,7 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3001;
 
-const server = http.createServer(app); // Cambia app.listen por http.createServer
+const server = https.createServer(app); // Cambia app.listen por http.createServer
 
 // Configuración de socket.io
 const io = new Server(server, {
