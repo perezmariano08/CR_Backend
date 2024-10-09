@@ -12,49 +12,33 @@ const port = process.env.PORT || 3001;
 
 const server = https.createServer(app); // Cambia app.listen por http.createServer
 
-// Configuración de socket.io
-const io = new Server(server, {
-    cors: {
-        origin: [
-            'https://prueba.coparelampago.com', 
-            'https://coparelampago.com',
-            'https://www.coparelampago.com',
-            'https://appcoparelampago.vercel.app',
-            'http://localhost:5173', 
-            'http://localhost:5174', 
-            'http://192.168.0.13:5173'
-        ],
-        methods: ['GET', 'POST'],
-        credentials: true,
-    },
-    transports: ['polling']
-});
+// Configuración de CORS
+const corsOptions = {
+    origin: [
+        'https://prueba.coparelampago.com', 
+        'https://coparelampago.com',
+        'https://www.coparelampago.com',
+        'https://appcoparelampago.vercel.app',
+        'http://localhost:5173', 
+        'http://localhost:5174',
+        'http://192.168.0.13:5173'
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+};
 
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors({
-    origin: (origin, callback) => {
-        const allowedOrigins = [
-            'https://prueba.coparelampago.com', 
-            'https://coparelampago.com',
-            'https://www.coparelampago.com',
-            'https://appcoparelampago.vercel.app',
-            'http://localhost:5173', 
-            'http://localhost:5174',
-            'http://192.168.0.13:5173'
-        ];
+app.use(cors(corsOptions)); // Para las solicitudes HTTP
 
-        // Permitir solicitudes sin 'origin' (por ejemplo, Postman)
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('No autorizado por CORS'));
-        }
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Socket-Id']
-}));
+// Configuración de socket.io
+const io = new Server(server, {
+    cors: corsOptions, // Usa la misma configuración de CORS
+    transports: ['polling']
+});
+
+// Permitir conexiones WebSocket desde cualquier origen
+io.origins('*');
 
 
 // Middleware para adjuntar io al objeto req
