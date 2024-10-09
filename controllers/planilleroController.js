@@ -645,8 +645,8 @@ const verificarJugadores = (req, res) => {
       // Consulta para contar los jugadores por equipo en el partido
       const queryJugadores = `
                 SELECT
-                    (SELECT COUNT(*) FROM formaciones WHERE id_partido = ? AND id_jugador IN (SELECT id_jugador FROM jugadores WHERE id_equipo = ?)) AS jugadores_local,
-                    (SELECT COUNT(*) FROM formaciones WHERE id_partido = ? AND id_jugador IN (SELECT id_jugador FROM jugadores WHERE id_equipo = ?)) AS jugadores_visitante
+                    (SELECT COUNT(*) FROM formaciones WHERE id_partido = ? AND id_jugador IN (SELECT id_jugador FROM planteles WHERE id_equipo = ?)) AS jugadores_local,
+                    (SELECT COUNT(*) FROM formaciones WHERE id_partido = ? AND id_jugador IN (SELECT id_jugador FROM planteles WHERE id_equipo = ?)) AS jugadores_visitante
             `;
 
       db.query(
@@ -771,7 +771,6 @@ const insertarJugadorDestacado = async (req, res) => {
     res.status(500).json({ error: "Error al insertar el jugador destacado." });
   }
 };
-
 
 const eliminarJugadorDestacado = async (req, res) => {
   const { id_partido, id_categoria, id_jugador } = req.query;
