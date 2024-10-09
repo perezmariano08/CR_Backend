@@ -25,8 +25,9 @@ const io = new Server(server, {
             'http://192.168.0.13:5173'
         ],
         methods: ['GET', 'POST'],
-        credentials: true
-    }
+        credentials: true,
+    },
+    transports: ['polling']
 });
 
 app.use(cookieParser());
