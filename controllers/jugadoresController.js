@@ -320,7 +320,7 @@ const verificarJugadorEventual = (req, res) => {
 };
 
 const verificarCategoriaJugadorEventual = (req, res) => {
-  const { dni, id_categoria, id_equipo } = req.query;
+  const { dni, id_categoria, id_equipo, id_partido } = req.query;
 
   const encontrarJugador = `
     SELECT 
@@ -342,15 +342,15 @@ const verificarCategoriaJugadorEventual = (req, res) => {
       console.error("Error verificando el jugador eventual:", err);
       return res.status(500).send("Error verificando el jugador eventual");
     }
-
+    
     if (result.length > 0) {
       const jugador = result[0];
-      if (jugador.id_categoria == id_categoria) {
-        if (jugador.id_equipo == id_equipo) {
-          //Excepcion si el jugador es del mismo equipo
+      if (Number(jugador.id_categoria) === Number(id_categoria)) {
+        if (Number(jugador.id_equipo) === Number(id_equipo)) {
+          //El jugador ya pertenece al equipo
           return res
             .status(200)
-            .json({ found: true, matchCategory: false, jugador });
+            .json({ found: true, matchCategory: true, jugador });
         }
         // El jugador pertenece a la categoría especificada
         return res
@@ -372,24 +372,26 @@ const verificarCategoriaJugadorEventual = (req, res) => {
 const getJugadoresDestacados = (req, res) => {
   const { id_categoria, jornada } = req.query;
 
+  //! HARDCODEADO ID CATEGORIA Y JORNADA
   db.query(
     `SELECT 
-        j.nombre,
-        j.apellido,
-        jd.id_jugador,
-        jd.id_equipo
-    FROM 
-        jugadores_destacados AS jd
-    JOIN 
-        planteles AS p ON jd.id_jugador = p.id_jugador AND jd.id_equipo = p.id_equipo
-    JOIN 
-        jugadores AS j ON jd.id_jugador = j.id_jugador
-    JOIN 
-        partidos AS pt ON jd.id_partido = pt.id_partido
-    WHERE 
-        pt.id_categoria = ?
-        AND pt.jornada = ?
-        AND jd.dt != 'S'
+    j.nombre,
+    j.apellido,
+    jd.id_jugador,
+    jd.id_equipo,
+    jd.id_partido
+FROM 
+    jugadores_destacados AS jd
+JOIN 
+    planteles AS p ON jd.id_jugador = p.id_jugador AND jd.id_equipo = p.id_equipo
+JOIN 
+    jugadores AS j ON jd.id_jugador = j.id_jugador
+JOIN 
+    partidos AS pt ON jd.id_partido = pt.id_partido
+WHERE 
+    pt.id_categoria = ?
+    AND pt.jornada = ?
+    AND jd.dt IS NULL;  -- Cambiado de jd.dt = null a jd.dt IS NULL
 `,
     [id_categoria, jornada],
     (err, result) => {
