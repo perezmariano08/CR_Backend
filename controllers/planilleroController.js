@@ -792,7 +792,7 @@ const insertarJugadorDestacado = async (req, res) => {
   try {
     const insertQuery = 
       `INSERT INTO jugadores_destacados (id_partido, id_equipo, id_jugador, id_categoria, dt, posicion)
-       VALUES (?, ?, ?, ?, ?, ?);`;
+      VALUES (?, ?, ?, ?, ?, ?);`;
 
     const posicion = "Posición no especificada"; 
 
