@@ -203,15 +203,12 @@ const insertarAccion = (req, res) => {
       });
 
       // Ejecutar la inserción en amonestados después de actualizar formaciones
-      db.query(query, params, (err) => {
-        if (err) {
-          console.error("Error al registrar amonestación:", err);
-          return res.status(500).send("Error al registrar amonestación");
-        }
-
-        // Puedes enviar una respuesta aquí si todo se ejecuta correctamente
-        // res.send("Amonestación registrada exitosamente");
-      });
+      // db.query(query, params, (err) => {
+      //   if (err) {
+      //     console.error("Error al registrar amonestación:", err);
+      //     return res.status(500).send("Error al registrar amonestación");
+      //   }
+      // });
 
       // const actionData = {
       //   idPartido,
@@ -332,7 +329,7 @@ const eliminarAccion = (req, res) => {
     id_equipo,
     id_jugador,
     dorsal,
-    tipo,         // "Gol", "Amarilla", "Roja", etc.
+    tipo,
     minuto,
     nombre,
     apellido,
@@ -344,8 +341,7 @@ const eliminarAccion = (req, res) => {
 
   // Obtener el id_categoria del partido
   const {id_partido: idPartido} = req.query; // Asumiendo que el ID del partido viene en los parámetros de la ruta
-  console.log(idPartido);
-  
+
   let query;
   let params;
 
@@ -368,18 +364,67 @@ const eliminarAccion = (req, res) => {
     const idCategoria = results[0].id_categoria;
 
     if (tipo === "Gol") {
-      query = `DELETE FROM goles WHERE id_partido = ? AND id_jugador = ? AND minuto = ?`;
-      params = [idPartido, id_jugador, minuto];
+      // Determinar si el gol fue en contra antes de eliminarlo
+      const verificarGolEnContraQuery = `SELECT en_contra FROM goles WHERE id_partido = ? AND id_jugador = ? AND id_gol = ?`;
+      db.query(verificarGolEnContraQuery, [idPartido, id_jugador, id_accion], (err, results) => {
+        if (err) {
+          console.error("Error al verificar si el gol fue en contra:", err);
+          return res.status(500).send("Error interno al verificar si el gol fue en contra");
+        }
 
-      // Aseguramos que los goles no queden en -1
-      updateQuery = `UPDATE formaciones SET goles = GREATEST(goles - 1, 0) WHERE id_partido = ? AND id_jugador = ?`;
-      updateParams = [idPartido, id_jugador];
+        if (results.length === 0) {
+          console.error("Gol no encontrado para verificar");
+          return res.status(404).send("Gol no encontrado");
+        }
 
-      disminuirGoles(idPartido, id_equipo);
+        const enContra = results[0].en_contra;
 
+        // Lógica para disminuir goles antes de eliminar el gol
+        disminuirGoles(idPartido, id_equipo, enContra, () => {
+          // Ahora que hemos actualizado los goles, procedemos a eliminar el gol
+          const eliminarGolQuery = `DELETE FROM goles WHERE id_partido = ? AND id_jugador = ? AND id_gol = ?`;
+          db.query(eliminarGolQuery, [idPartido, id_jugador, id_accion], (err) => {
+            if (err) {
+              console.error("Error al eliminar el gol:", err);
+              return res.status(500).send("Error interno al eliminar el gol");
+            }
+
+            // Aseguramos que los goles no queden en -1 en la tabla formaciones
+            const updateQuery = `UPDATE formaciones SET goles = GREATEST(goles - 1, 0) WHERE id_partido = ? AND id_jugador = ?`;
+            const updateParams = [idPartido, id_jugador];
+
+            db.query(updateQuery, updateParams, (err) => {
+              if (err) {
+                console.error("Error al actualizar formaciones:", err);
+                return res.status(500).send("Error al actualizar formaciones");
+              }
+
+              // Emitir evento WebSocket
+              const actionData = {
+                tipo,
+                minuto: parseInt(minuto),
+                id_jugador,
+                id_equipo,
+                dorsal,
+                id_accion,
+                nombre,
+                apellido,
+                descripcion,
+                motivo,
+                penal,
+                en_contra,
+              };
+
+              req.io.emit("eliminarAccion", actionData);
+              res.send("Acción eliminada exitosamente");
+            });
+          });
+        });
+      });
+      return; // Evitar ejecución adicional
     } else if (tipo === "Amarilla") {
-      query = `DELETE FROM amonestados WHERE id_partido = ? AND id_jugador = ? AND minuto = ?`;
-      params = [idPartido, id_jugador, minuto];
+      query = `DELETE FROM amonestados WHERE id_partido = ? AND id_jugador = ? AND id_amonestacion = ?`;
+      params = [idPartido, id_jugador, id_accion];
 
       // Aseguramos que las amarillas no queden en -1
       updateQuery = `UPDATE formaciones SET amarillas = GREATEST(amarillas - 1, 0) WHERE id_partido = ? AND id_jugador = ?`;
@@ -460,8 +505,8 @@ const eliminarAccion = (req, res) => {
 
       return; // Salir de la función para evitar ejecución adicional
     } else if (tipo === "Roja") {
-      query = `DELETE FROM expulsados WHERE id_partido = ? AND id_jugador = ? AND minuto = ?`;
-      params = [idPartido, id_jugador, minuto];
+      query = `DELETE FROM expulsados WHERE id_partido = ? AND id_jugador = ? AND id_expulsion = ?`;
+      params = [idPartido, id_jugador, id_accion];
 
       // Aseguramos que las rojas no queden en -1
       updateQuery = `UPDATE formaciones SET rojas = GREATEST(rojas - 1, 0) WHERE id_partido = ? AND id_jugador = ?`;
@@ -1020,22 +1065,24 @@ const actualizarGolesPartido = (idPartido, isLocalTeam, enContra) => {
   });
 };
 
-const disminuirGoles = (idPartido, isLocalTeam) => {
-const queryGoles = `
-    SELECT id_equipoLocal, id_equipoVisita, goles_local, goles_visita 
-    FROM partidos 
-    WHERE id_partido = ?
-`;
 
-db.query(queryGoles, [idPartido], (err, results) => {
+// Modifica la función disminuirGoles para aceptar un callback
+const disminuirGoles = (idPartido, isLocalTeam, enContra, callback) => {
+  const queryGoles = `
+      SELECT id_equipoLocal, id_equipoVisita, goles_local, goles_visita 
+      FROM partidos 
+      WHERE id_partido = ?
+  `;
+
+  db.query(queryGoles, [idPartido], (err, results) => {
     if (err) {
-    console.error("Error al obtener los equipos del partido:", err);
-    return;
+      console.error("Error al obtener los equipos del partido:", err);
+      return callback(err); // Llamar el callback con error
     }
 
     if (results.length === 0) {
-    console.error("Partido no encontrado");
-    return;
+      console.error("Partido no encontrado");
+      return callback(new Error("Partido no encontrado"));
     }
 
     const { id_equipoLocal, id_equipoVisita, goles_local, goles_visita } = results[0];
@@ -1043,27 +1090,35 @@ db.query(queryGoles, [idPartido], (err, results) => {
     let updateGolesQuery;
     let golesActualizados;
 
-    // Verificar si el gol es para el equipo local o visitante y actualizar los goles asegurando que el mínimo sea 0
-    if (isLocalTeam === id_equipoLocal) {
-    golesActualizados = Math.max(goles_local - 1, 0);
-    updateGolesQuery = `UPDATE partidos SET goles_local = ? WHERE id_partido = ?`;
-    } else if (isLocalTeam === id_equipoVisita) {
-    golesActualizados = Math.max(goles_visita - 1, 0);
-    updateGolesQuery = `UPDATE partidos SET goles_visita = ? WHERE id_partido = ?`;
+    // Lógica para actualizar los goles según el tipo de gol
+    if (enContra === 'S') {
+      if (isLocalTeam === id_equipoLocal) {
+        golesActualizados = Math.max(goles_visita - 1, 0);
+        updateGolesQuery = `UPDATE partidos SET goles_visita = ? WHERE id_partido = ?`;
+      } else {
+        golesActualizados = Math.max(goles_local - 1, 0);
+        updateGolesQuery = `UPDATE partidos SET goles_local = ? WHERE id_partido = ?`;
+      }
     } else {
-    console.error("El equipo no coincide con los equipos del partido");
-    return;
+      if (isLocalTeam === id_equipoLocal) {
+        golesActualizados = Math.max(goles_local - 1, 0);
+        updateGolesQuery = `UPDATE partidos SET goles_local = ? WHERE id_partido = ?`;
+      } else {
+        golesActualizados = Math.max(goles_visita - 1, 0);
+        updateGolesQuery = `UPDATE partidos SET goles_visita = ? WHERE id_partido = ?`;
+      }
     }
 
     db.query(updateGolesQuery, [golesActualizados, idPartido], (err) => {
-    if (err) {
+      if (err) {
         console.error("Error al actualizar los goles:", err);
-        return;
-    }
+        return callback(err); // Llamar el callback con error
+      }
 
-    console.log("Goles disminuidos correctamente");
+      console.log("Goles disminuidos correctamente");
+      callback(); // Llamar el callback sin errores
     });
-});
+  });
 };
 
 module.exports = {
