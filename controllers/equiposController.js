@@ -139,7 +139,6 @@ const crearEquipo = (req, res) => {
     );
 };
 
-
 const updateEquipo = (req, res) => {
     const { id_equipo, nombre } = req.body;
 
@@ -230,11 +229,37 @@ const actualizarCategoriaEquipo = (req, res) => {
     });
 };
 
+const actualizarApercibimientos = (req, res) => {
+    const { id_categoria, id_equipo, id_zona, apercibimientos } = req.body;
+
+    // Validar que el id esté presente
+    if (!id_equipo) {
+        return res.status(400).send('ID de equipo es requerido');
+    }
+
+    // Construir la consulta SQL
+    const sql = `
+        UPDATE temporadas
+        SET 
+            apercibimientos = ?
+        WHERE id_equipo = ? AND id_categoria = ? AND id_zona = ?;
+    `;
+
+    // Ejecutar la consulta
+    db.query(sql, [apercibimientos, id_equipo, id_categoria, id_zona], (err, result) => {
+        if (err) {
+            return res.status(500).send('Error interno del servidor');
+        }        
+        res.send('Equipo actualizado exitosamente');
+    });
+};
+
 module.exports = {
     getEquipos,
     crearEquipo,
     updateEquipo,
     actualizarCategoriaEquipo,
     getJugadoresEquipo,
-    eliminarEquipo
+    eliminarEquipo,
+    actualizarApercibimientos
 };

@@ -100,33 +100,75 @@ const insertarAccion = (req, res) => {
     const idCategoria = results[0].id_categoria;
 
     if (accion === "Gol") {
-      const penal = detail.penal === "si" ? "S" : "N"; // Verifica si es penal
-      const enContra = detail.enContra === "si" ? "S" : "N"; // Verifica si es en contra
-  
+      const penal = detail.penal === "si" ? "S" : "N";
+      const enContra = detail.enContra === "si" ? "S" : "N";
+    
       // Insertar el gol en la tabla de goles
       query = `INSERT INTO goles (id_partido, id_jugador, minuto, penal, en_contra) VALUES (?, ?, ?, ?, ?)`;
       params = [idPartido, idJugador, minuto, penal, enContra];
-  
-      // Actualizar los goles en la tabla de formaciones
-      updateQuery = `UPDATE formaciones SET goles = goles + 1 WHERE id_partido = ? AND id_jugador = ?`;
-      updateParams = [idPartido, idJugador];
-  
-      // Llamar a la función para actualizar los goles del equipo en la tabla partidos
-      actualizarGolesPartido(idPartido, isLocalTeam, enContra);
-  
-      // Registrar asistencia si es necesario
-      if (detail.withAssist) {
-          const insertarAsistencia = `INSERT INTO asistencias (id_partido, id_jugador, minuto) VALUES (?, ?, ?)`;
-          db.query(insertarAsistencia, [idPartido, idJugador, minuto], (err) => {
+    
+      db.query(query, params, (err, result) => {
+        if (err) {
+          console.error("Error al insertar el gol:", err);
+          return res.status(500).send("Error al registrar gol");
+        }
+    
+        const idGol = result.insertId; // Obtener el ID del gol insertado
+    
+        // Actualizar los goles en la tabla formaciones
+        updateQuery = `UPDATE formaciones SET goles = goles + 1 WHERE id_partido = ? AND id_jugador = ?`;
+        updateParams = [idPartido, idJugador];
+    
+        db.query(updateQuery, updateParams, (err) => {
+          if (err) {
+            console.error("Error al actualizar goles en formaciones:", err);
+            return res.status(500).send("Error al actualizar goles en formaciones");
+          }
+    
+          // Llamar a la función para actualizar los goles del equipo en la tabla partidos
+          actualizarGolesPartido(idPartido, isLocalTeam, enContra);
+    
+          // Preparar los datos para el socket
+          const actionData = {
+            tipo: accion,
+            minuto: parseInt(minuto),
+            id_jugador: idJugador,
+            id_equipo: isLocalTeam,
+            nombre: nombreJugador.split(" ")[0], // Primer nombre
+            apellido: nombreJugador.split(" ")[1] || "", // Apellido
+            penal: penal,
+            en_contra: enContra,
+            id_accion: idGol, // ID del gol insertado
+            id_partido: idPartido
+          };
+    
+          // Emitir el evento solo una vez después de insertar gol y actualizar formaciones
+          if (!req.io || typeof req.io.emit !== "function") {
+            console.error("Socket.io no está disponible");
+            return res.status(500).send("Error en el servidor de WebSocket");
+          }
+    
+          req.io.emit("nuevaAccion", actionData);
+    
+          // Si hay asistencia, insertarla
+          if (detail.withAssist) {
+            const insertarAsistencia = `INSERT INTO asistencias (id_partido, id_jugador, minuto) VALUES (?, ?, ?)`;
+            db.query(insertarAsistencia, [idPartido, detail.idAsistente, minuto], (err) => {
               if (err) {
-                  console.error("Error al actualizar asistencias:", err);
-                  return res.status(500).send("Error al registrar asistencia");
+                console.error("Error al registrar asistencia:", err);
+                return res.status(500).send("Error al registrar asistencia");
               }
-          });
-          
-          updateQuery = `UPDATE formaciones SET asistencias = asistencias + 1 WHERE id_partido = ? AND id_jugador = ?`;
-      }
-  } else if (accion === "Amarilla") {
+              res.send("Acción registrada y goles actualizados exitosamente");
+            });
+          } else {
+            res.send("Acción registrada y goles actualizados exitosamente");
+          }
+        });
+      });
+    
+      return;
+      
+    } else if (accion === "Amarilla") {
       query = `INSERT INTO amonestados (id_partido, id_jugador, minuto) VALUES (?, ?, ?)`;
       params = [idPartido, idJugador, minuto];
 
@@ -201,34 +243,6 @@ const insertarAccion = (req, res) => {
           }
         );
       });
-
-      // Ejecutar la inserción en amonestados después de actualizar formaciones
-      // db.query(query, params, (err) => {
-      //   if (err) {
-      //     console.error("Error al registrar amonestación:", err);
-      //     return res.status(500).send("Error al registrar amonestación");
-      //   }
-      // });
-
-      // const actionData = {
-      //   idPartido,
-      //   isLocalTeam,
-      //   idJugador,
-      //   nombreJugador,
-      //   dorsal,
-      //   accion,
-      //   minuto,
-      //   detail,
-      //   tipoExpulsion,
-      // };
-
-      // if (!req.io || typeof req.io.emit !== "function") {
-      //   console.error("Socket.io no está disponible");
-      //   return res.status(500).send("Error en el servidor de WebSocket");
-      // }
-
-      // req.io.emit("nuevaAccion", actionData);
-      // return;
     } else if (accion === "Roja") {
       const descripcion = ""; // Descripción vacía
 
@@ -724,60 +738,66 @@ const actualizarEstadoPartido = (req, res) => {
   const { idPartido } = req.body;
 
   if (!idPartido) {
-    return res.status(400).send("Falta el id del partido");
+      return res.status(400).send("Falta el id del partido");
   }
 
   // Consulta para obtener el estado actual del partido
   const queryEstado = `
-        SELECT estado FROM partidos
-        WHERE id_partido = ?
-    `;
+      SELECT estado FROM partidos
+      WHERE id_partido = ?
+  `;
 
   db.query(queryEstado, [idPartido], (err, result) => {
-    if (err) {
-      console.error("Error al obtener el estado del partido:", err);
-      return res.status(500).send("Error al obtener el estado del partido");
-    }
-
-    if (result.length === 0) {
-      return res.status(404).send("Partido no encontrado");
-    }
-
-    let nuevoEstado;
-    const estadoActual = result[0].estado;
-
-    if (estadoActual === "P") {
-      nuevoEstado = "C"; // Comenzar el partido
-    } else if (estadoActual === "C") {
-      nuevoEstado = "T"; // Terminar el partido
-    } else if (estadoActual === "T") {
-      nuevoEstado = "F"; // Finalizar el partido
-    } else {
-      return res
-        .status(400)
-        .send("Estado del partido no válido para la transición");
-    }
-
-    // Actualiza el estado del partido en la base de datos
-    const queryUpdate = `
-            UPDATE partidos
-            SET estado = ?
-            WHERE id_partido = ?
-        `;
-
-    db.query(queryUpdate, [nuevoEstado, idPartido], (err, result) => {
       if (err) {
-        console.error("Error al actualizar el estado del partido:", err);
-        return res
-          .status(500)
-          .send("Error al actualizar el estado del partido");
+          console.error("Error al obtener el estado del partido:", err);
+          return res.status(500).send("Error al obtener el estado del partido");
       }
 
-      // Emitir el nuevo estado del partido a través de WebSocket
-      req.io.emit("estadoPartidoActualizado", { idPartido, nuevoEstado });
+      if (result.length === 0) {
+          return res.status(404).send("Partido no encontrado");
+      }
 
-      res.status(200).send(`Estado del partido cambiado a ${nuevoEstado}`);
-    });
+      let nuevoEstado;
+      const estadoActual = result[0].estado;
+
+      if (estadoActual === "P") {
+          nuevoEstado = "C"; // Comenzar el partido
+      } else if (estadoActual === "C") {
+          nuevoEstado = "T"; // Terminar el partido
+      } else if (estadoActual === "T") {
+          nuevoEstado = "F"; // Finalizar el partido
+      } else {
+          return res.status(400).send("Estado del partido no válido para la transición");
+      }
+
+      // Construir la consulta para actualizar el estado y los goles
+      let queryUpdate = `
+          UPDATE partidos
+          SET estado = ?
+      `;
+      const params = [nuevoEstado];
+
+      // Si el nuevo estado es "C", también se deben establecer los goles a 0
+      if (nuevoEstado === "C") {
+          queryUpdate += `,
+          goles_local = 0,
+          goles_visita = 0`;
+      }
+
+      queryUpdate += ` WHERE id_partido = ?`;
+      params.push(idPartido);
+
+      db.query(queryUpdate, params, (err, result) => {
+          if (err) {
+              console.error("Error al actualizar el estado del partido:", err);
+              return res.status(500).send("Error al actualizar el estado del partido");
+          }
+
+          // Emitir el nuevo estado del partido a través de WebSocket
+          req.io.emit("estadoPartidoActualizado", { idPartido, nuevoEstado });
+
+          res.status(200).send(`Estado del partido cambiado a ${nuevoEstado}`);
+      });
   });
 };
 
@@ -801,7 +821,7 @@ const insertarJugadorDestacado = async (req, res) => {
       id_equipo,
       id_jugador,
       id_categoria,
-      null,
+      'N',
       posicion,
     ]);
 
@@ -1065,7 +1085,6 @@ const actualizarGolesPartido = (idPartido, isLocalTeam, enContra) => {
   });
 };
 
-
 // Modifica la función disminuirGoles para aceptar un callback
 const disminuirGoles = (idPartido, isLocalTeam, enContra, callback) => {
   const queryGoles = `
@@ -1085,7 +1104,7 @@ const disminuirGoles = (idPartido, isLocalTeam, enContra, callback) => {
       return callback(new Error("Partido no encontrado"));
     }
 
-    const { id_equipoLocal, id_equipoVisita, goles_local, goles_visita } = results[0];
+    const { id_equipoLocal, goles_local, goles_visita } = results[0];
 
     let updateGolesQuery;
     let golesActualizados;

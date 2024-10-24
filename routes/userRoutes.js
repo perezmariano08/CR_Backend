@@ -24,7 +24,7 @@ router.get('/get-zonas', temporadasController.getZonas);
 
 // Partido
 router.put('/update-partido', revisarToken, revisarPlanillero, userController.updatePartido);
-router.put('/suspender-partido',  revisarToken, revisarPlanillero, userController.suspenderPartido);
+router.put('/suspender-partido', revisarToken, revisarPlanillero, userController.suspenderPartido);
 router.post('/crear-formaciones',  revisarToken, revisarPlanillero, userController.crearFormaciones);
 router.post('/crear-goles',  revisarToken, revisarPlanillero, userController.crearGoles);
 router.post('/crear-asistencias',  revisarToken, revisarPlanillero, userController.crearAsistencias);
@@ -91,6 +91,7 @@ router.get('/get-categorias', categoriasController.getCategorias);
 router.post('/crear-equipo', equiposController.crearEquipo);
 router.post('/eliminar-equipo', equiposController.eliminarEquipo);
 router.put('/actualizar-categoria-equipo', equiposController.actualizarCategoriaEquipo);
+router.put('/actualizar-apercibimientos', equiposController.actualizarApercibimientos);
 
 //Temporadas
 router.get('/get-temporadas', temporadasController.getTemporadas);
@@ -124,5 +125,7 @@ router.delete('/eliminar-jugador-destacado', planilleroController.eliminarJugado
 router.put('/insertar-mvp-partido', planilleroController.updateMvpPartido)
 
 router.post('/insertar-jugador-eventual', planilleroController.crearJugadorEventual)
+
+router.post('/armar-dreamteam', userController.armarDreamteam)
 
 module.exports = router;

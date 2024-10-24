@@ -80,6 +80,7 @@ const getTemporadas = (req, res) => {
         t.id_equipo, 
         e.nombre AS nombre_equipo,
         t.vacante,
+        t.apercibimientos,
         (SELECT COUNT(*)
             FROM planteles p
             INNER JOIN jugadores j ON p.id_jugador = j.id_jugador
@@ -102,7 +103,6 @@ const getTemporadas = (req, res) => {
     });
 };
 
-
 const InsertarEquipoTemporada = (req, res) => {
     const { id_categoria, id_edicion, id_zona, id_equipo, vacante } = req.body;
     const query = `
@@ -119,7 +119,6 @@ const InsertarEquipoTemporada = (req, res) => {
         res.send('Edición registrada o actualizada con éxito');
     });
 };
-
 
 const eliminarEquipoTemporada = (req, res) => {
     const { id_equipo, id_categoria, id_edicion } = req.body;

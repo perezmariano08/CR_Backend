@@ -1,6 +1,5 @@
 const db = require('../utils/db');
 
-
 const getEdiciones = (req, res) => {
     db.query(
         `SELECT
@@ -23,7 +22,9 @@ const getEdiciones = (req, res) => {
             END AS estado,
             e.puntos_victoria,
             e.puntos_empate,
-            e.puntos_derrota
+            e.puntos_derrota,
+            e.apercibimientos,
+            e.puntos_descuento
         FROM 
             ediciones e
         ORDER BY
@@ -35,18 +36,18 @@ const getEdiciones = (req, res) => {
 };
 
 const crearEdicion = (req, res) => {
-    const { id_torneo = 7, nombre, temporada, puntos_victoria, puntos_empate, puntos_derrota } = req.body;
+    const { nombre, temporada, puntos_victoria, puntos_empate, puntos_derrota, apercibimientos, puntos_descuento } = req.body;
     db.query(
         `INSERT INTO 
-        ediciones(nombre, temporada, puntos_victoria, puntos_empate, puntos_derrota) 
-        VALUES (?, ?, ?, ?, ?)`, [nombre, temporada, puntos_victoria, puntos_empate, puntos_derrota], (err, result) => {
+        ediciones(nombre, temporada, puntos_victoria, puntos_empate, puntos_derrota, apercibimientos, puntos_descuento) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)`, [nombre, temporada, puntos_victoria, puntos_empate, puntos_derrota, apercibimientos, puntos_descuento], (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send('Edición registrada con éxito');
     });
 };
 
 const actualizarEdicion = (req, res) => {
-    const { nombre, temporada, puntos_victoria, puntos_empate, puntos_derrota, id_edicion } = req.body;
+    const { nombre, temporada, puntos_victoria, puntos_empate, puntos_derrota, id_edicion, apercibimientos, puntos_descuento } = req.body;
 
     // Validar que id_usuario esté presente
     if (!id_edicion) {
@@ -60,12 +61,14 @@ const actualizarEdicion = (req, res) => {
             temporada = ?, 
             puntos_victoria = ?, 
             puntos_empate = ?, 
-            puntos_derrota = ?
+            puntos_derrota = ?,
+            apercibimientos = ?,
+            puntos_descuento = ?
         WHERE id_edicion = ?
     `;
 
     // Ejecutar la consulta
-    db.query(sql, [nombre, temporada, puntos_victoria, puntos_empate, puntos_derrota, id_edicion], (err, result) => {
+    db.query(sql, [nombre, temporada, puntos_victoria, puntos_empate, puntos_derrota, id_edicion, apercibimientos, puntos_descuento], (err, result) => {
         if (err) {
             return res.status(500).send('Error interno del servidor');
         }

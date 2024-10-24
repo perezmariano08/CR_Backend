@@ -132,7 +132,7 @@ const getJugadores = (req, res) => {
 };
 
 const updatePartido = (req, res) => {
-    const { goles_local, goles_visita, descripcion, estado, id_jugador_destacado, id_partido} = req.body;
+    const { descripcion, id_partido, pen_local, pen_visita } = req.body;
     console.log('Request received:', req.body);
 
     if (!id_partido) {
@@ -141,11 +141,12 @@ const updatePartido = (req, res) => {
 
     const sql = `
         UPDATE partidos
-        SET descripcion = ?
+        SET descripcion = ?, pen_local = ?, pen_visita = ?
         WHERE id_partido = ?
     `;
 
-    db.query(sql, [descripcion, id_partido], (err, result) => {
+    // Cambia el orden de los parámetros
+    db.query(sql, [descripcion, pen_local, pen_visita, id_partido], (err, result) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).send('Error interno del servidor');
@@ -385,7 +386,6 @@ const insertarJugadoresEventuales = (req, res) => {
         });
 };
 
-
 const partidosJugadorEventual = (req, res) => {
     const { id_categoria } = req.query
     db.query(
@@ -461,7 +461,7 @@ const suspenderPartido = (req, res) => {
             goles_local = ?, 
             goles_visita = ?, 
             descripcion = ?,
-            estado = ?,
+            estado = ?
         WHERE id_partido = ?
         `;
         db.query(sql, [goles_local, goles_visita, descripcion, estado, id_partido], (err, result) => {
@@ -500,6 +500,24 @@ const insertarJugadoresDestacados = (req, res) => {
     });
 };
 
+const armarDreamteam = (req, res) => {
+    const { id_categoria, fecha } = req.body;
+
+    if (!id_categoria || !fecha) {
+        return res.status(400).send('Faltan datos necesarios');
+    }
+
+    const query = `call sp_dreamteam(?, ?)`;
+
+    db.query(query, [fecha, id_categoria], (err, result) => {
+        if (err) {
+            console.error('Error armando dreamteam:', err);
+            return res.status(500).send('Internal server error');
+        }
+        res.send(result[0]);
+    });
+}
+
 module.exports = {
     getUsers,
     getRoles,
@@ -517,5 +535,6 @@ module.exports = {
     crearJugador,
     getCategorias,
     suspenderPartido,
-    insertarJugadoresDestacados
+    insertarJugadoresDestacados,
+    armarDreamteam
 };

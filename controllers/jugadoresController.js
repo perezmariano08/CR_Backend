@@ -372,7 +372,6 @@ const verificarCategoriaJugadorEventual = (req, res) => {
 const getJugadoresDestacados = (req, res) => {
   const { id_categoria, jornada } = req.query;
 
-  //! HARDCODEADO ID CATEGORIA Y JORNADA
   db.query(
     `SELECT 
     j.nombre,
@@ -391,7 +390,7 @@ JOIN
 WHERE 
     pt.id_categoria = ?
     AND pt.jornada = ?
-    AND jd.dt IS NULL;  -- Cambiado de jd.dt = null a jd.dt IS NULL
+    AND jd.dt = 'N'
 `,
     [id_categoria, jornada],
     (err, result) => {
