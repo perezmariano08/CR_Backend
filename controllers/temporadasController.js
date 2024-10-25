@@ -59,12 +59,18 @@ const getZonas = (req, res) => {
         z.nombre AS nombre_zona,
         c.genero AS genero,
         z.tipo_zona,
-        z.cantidad_equipos
+        z.cantidad_equipos,
+        z.fase,
+        z.id_etapa,
+        et.nombre AS nombre_etapa -- Agrega el nombre de la etapa
     FROM
         categorias AS c
         INNER JOIN ediciones AS e ON e.id_edicion = c.id_edicion
         INNER JOIN zonas AS z ON z.id_categoria = c.id_categoria
-    ORDER BY 3`, 
+        INNER JOIN etapas AS et ON et.id_etapa = z.id_etapa -- Asegúrate de que esta relación sea correcta
+    ORDER BY
+        3;
+    `, 
     (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send(result);
