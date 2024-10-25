@@ -37,12 +37,18 @@ const getPartidos = (req, res) => {
         j.id_jugador AS jugador_destacado,
         c.nombre AS nombre_categoria,
         CONCAT(u.nombre, ' ', u.apellido) AS planillero,
-        CONCAT(e.nombre, ' ', e.temporada) AS nombre_edicion
+        CONCAT(e.nombre, ' ', e.temporada) AS nombre_edicion,
+        p.vacante_local,
+        p.vacante_visita,
+        p.id_partido_previo_local,
+        p.id_partido_previo_visita,
+        p.res_partido_previo_local,
+        p.res_partido_previo_visita
     FROM
         partidos p
-    INNER JOIN
+    LEFT JOIN
         equipos e1 ON p.id_equipoLocal = e1.id_equipo
-    INNER JOIN
+    LEFT JOIN
         equipos e2 ON p.id_equipoVisita = e2.id_equipo
     LEFT JOIN
         usuarios u ON p.id_planillero = u.id_usuario
