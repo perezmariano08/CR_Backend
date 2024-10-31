@@ -10,6 +10,21 @@ const crearZona = (req, res) => {
     });
 };
 
+const crearZonaVacantesPartidos = (req, res) => {
+    const { 
+        id_categoria, nombre, cantidad_equipos, id_etapa, fase, 
+        tipo_zona, jornada, id_edicion 
+    } = req.body;
+
+    db.query(`CALL sp_crear_vacantes_partidos_zonas(?, ?, ?, ?, ?, ?, ?, ?)`, 
+        [id_categoria, nombre, cantidad_equipos, id_etapa, fase, tipo_zona, jornada, id_edicion], 
+        (err, result) => {
+            if (err) return res.status(500).send('Error interno del servidor');
+            res.send('Zona de vacantes y partidos registrada con éxito');
+    });
+};
+
+
 const eliminarZona = (req, res) => {
     const { id } = req.body;
     
@@ -27,5 +42,6 @@ const eliminarZona = (req, res) => {
 
 module.exports = {
     crearZona,
+    crearZonaVacantesPartidos,
     eliminarZona
 };
