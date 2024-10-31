@@ -100,6 +100,7 @@ router.post('/eliminar-equipo-temporada', temporadasController.eliminarEquipoTem
 
 //Zonas 
 router.post('/crear-zona', zonasController.crearZona);
+router.post('/crear-zona-vacantes-partidos', zonasController.crearZonaVacantesPartidos);
 router.post('/eliminar-zona', zonasController.eliminarZona);
 
 //DreamTeam
