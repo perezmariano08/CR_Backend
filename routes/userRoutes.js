@@ -110,22 +110,22 @@ router.put('/actualizar-jugadores-destacados', jugadoresController.actualizarJug
 router.put('/resetear-jugadores-destacados', jugadoresController.resetearPosicionesYDT)
 
 //Planillero - Web-Socket
-router.post('/insertar-accion', planilleroController.insertarAccion)
-router.post('/eliminar-accion', planilleroController.eliminarAccion)
-router.post('/editar-accion', planilleroController.editarAccion)
+router.post('/insertar-accion', revisarToken, revisarPlanillero, planilleroController.insertarAccion)
+router.post('/eliminar-accion', revisarToken, revisarPlanillero, planilleroController.eliminarAccion)
+router.post('/editar-accion', revisarToken, revisarPlanillero, planilleroController.editarAccion)
 
-router.post('/firma-jugador', planilleroController.firmaJugador)
-router.delete('/borrar-firma-jugador', planilleroController.borrarFirmaJugador)
+router.post('/firma-jugador', revisarToken, revisarPlanillero, planilleroController.firmaJugador)
+router.delete('/borrar-firma-jugador', revisarToken, revisarPlanillero, planilleroController.borrarFirmaJugador)
 
-router.get('/verificar-comienzo-partido', planilleroController.verificarJugadores)
-router.post('/actualizar-estado-partido', planilleroController.actualizarEstadoPartido)
+router.get('/verificar-comienzo-partido', revisarToken, revisarPlanillero, planilleroController.verificarJugadores)
+router.post('/actualizar-estado-partido', revisarToken, revisarPlanillero, planilleroController.actualizarEstadoPartido)
 
-router.post('/insertar-jugador-destacado', planilleroController.insertarJugadorDestacado)
-router.delete('/eliminar-jugador-destacado', planilleroController.eliminarJugadorDestacado)
+router.post('/insertar-jugador-destacado', revisarToken, revisarPlanillero, planilleroController.insertarJugadorDestacado)
+router.delete('/eliminar-jugador-destacado', revisarToken, revisarPlanillero, planilleroController.eliminarJugadorDestacado)
 
-router.put('/insertar-mvp-partido', planilleroController.updateMvpPartido)
+router.put('/insertar-mvp-partido', revisarToken, revisarPlanillero, planilleroController.updateMvpPartido)
 
-router.post('/insertar-jugador-eventual', planilleroController.crearJugadorEventual)
+router.post('/insertar-jugador-eventual', revisarToken, revisarPlanillero, planilleroController.crearJugadorEventual)
 
 router.post('/armar-dreamteam', userController.armarDreamteam)
 

@@ -97,7 +97,7 @@ const calcularExpulsiones = (req, res) => {
                         FROM partidos 
                         WHERE (id_equipoLocal = ? OR id_equipoVisita = ?)
                         AND dia > ? 
-                        AND estado = 'F'
+                        AND estado IN ('F', 'S');
                     `;
 
                     db.query(partidosPosterioresQuery, [id_equipo, id_equipo, diaString], (err, partidosData) => {
