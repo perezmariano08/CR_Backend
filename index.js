@@ -31,6 +31,7 @@ const io = new Server(server, {
 
 app.use(cookieParser());
 app.use(express.json());
+
 app.use(cors({
     origin: (origin, callback) => {
         const allowedOrigins = [

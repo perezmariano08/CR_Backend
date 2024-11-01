@@ -35,7 +35,6 @@ const crearZonaVacantesPartidos = (req, res) => {
     }
 };
 
-
 const eliminarZona = (req, res) => {
     const { id } = req.body;
     
