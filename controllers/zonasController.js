@@ -16,12 +16,23 @@ const crearZonaVacantesPartidos = (req, res) => {
         tipo_zona, jornada, id_edicion 
     } = req.body;
 
-    db.query(`CALL sp_crear_vacantes_partidos_zonas(?, ?, ?, ?, ?, ?, ?, ?)`, 
-        [id_categoria, nombre, cantidad_equipos, id_etapa, fase, tipo_zona, jornada, id_edicion], 
-        (err, result) => {
+    if (tipo_zona === 'todos-contra-todos') {
+        db.query(`INSERT INTO 
+            zonas(id_categoria, nombre, tipo_zona, cantidad_equipos, fase, id_etapa) 
+            VALUES (?, ?, ?, ?, ?, ?)`, [id_categoria, nombre, tipo_zona, cantidad_equipos, fase, id_etapa], (err, result) => {
             if (err) return res.status(500).send('Error interno del servidor');
-            res.send('Zona de vacantes y partidos registrada con éxito');
-    });
+            return res.send('Categoria registrada con éxito');
+        });
+    }
+
+    if (tipo_zona === 'eliminacion-directa') {
+        db.query(`CALL sp_crear_vacantes_partidos_zonas(?, ?, ?, ?, ?, ?, ?, ?)`, 
+            [id_categoria, nombre, cantidad_equipos, id_etapa, fase, tipo_zona, jornada, id_edicion], 
+            (err, result) => {
+                if (err) return res.status(500).send('Error interno del servidor');
+                return res.send('Zona de vacantes y partidos registrada con éxito');
+        });
+    }
 };
 
 

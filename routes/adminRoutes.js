@@ -42,5 +42,9 @@ router.post('/importar-jugadores', revisarToken, revisarAdmin, adminController.i
 
 router.delete('/borrar-expulsion', revisarToken, revisarAdmin, adminController.borrarExpulsion);
 
+router.get('/get-fases', adminController.getFases);
+router.post('/create-fases', adminController.createFase);
+
+router.get('/get-partido-zona', adminController.getPartidoZona);
 
 module.exports = router;

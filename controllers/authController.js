@@ -109,7 +109,7 @@ const checkLogin = (req, res) => {
 
         if (!bcryptjs.compareSync(password, user.clave)) return res.status(405).send('Contraseña incorrecta');
 
-        const token = jsonwebtoken.sign({ user: user.dni }, 'textosecretoDECIFRADO', { expiresIn: '1h' });
+        const token = jsonwebtoken.sign({ user: user.dni }, 'textosecretoDECIFRADO', { expiresIn: '30d' });
         res.status(200).json({ token, id_rol: user.id_rol });
     });
 };

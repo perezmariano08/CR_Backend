@@ -110,19 +110,47 @@ const getTemporadas = (req, res) => {
 };
 
 const InsertarEquipoTemporada = (req, res) => {
-    const { id_categoria, id_edicion, id_zona, id_equipo, vacante } = req.body;
-    const query = `
-        INSERT INTO 
-        temporadas(id_categoria, id_edicion, id_zona, id_equipo, vacante) 
-        VALUES (?, ?, ?, ?, ?)
-        ON DUPLICATE KEY UPDATE 
-        id_zona = VALUES(id_zona), 
-        vacante = VALUES(vacante)
-    `;
+    const { id_categoria, id_edicion, id_zona, id_equipo, vacante, id_partido } = req.body;
 
-    db.query(query, [id_categoria, id_edicion, id_zona, id_equipo, vacante], (err, result) => {
-        if (err) return res.status(500).send('Error interno del servidor');
-        res.send('Edición registrada o actualizada con éxito');
+    // Paso 1: Consultar el tipo de zona
+    const consultaTipoZona = `SELECT tipo_zona FROM zonas WHERE id_zona = ?`;
+
+    db.query(consultaTipoZona, [id_zona], (err, result) => {
+        if (err) return res.status(500).send('Error interno del servidor al consultar el tipo de zona');
+        
+        // Verificar si se encontró el tipo de zona
+        if (result.length === 0) {
+            return res.status(404).send('Zona no encontrada');
+        }
+
+        const tipoZona = result[0].tipo_zona;
+
+        // Paso 2: Insertar o actualizar el registro en la tabla temporadas
+        const query = `
+            INSERT INTO 
+            temporadas(id_categoria, id_edicion, id_zona, id_equipo, vacante) 
+            VALUES (?, ?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE 
+            id_zona = VALUES(id_zona),
+            id_equipo = VALUES(id_equipo),
+            vacante = VALUES(vacante)
+        `;
+
+        db.query(query, [id_categoria, id_edicion, id_zona, id_equipo, vacante], (err, result) => {
+            if (err) return res.status(500).send('Error interno del servidor al insertar o actualizar');
+
+            // Paso 3: Si el tipo de zona es 'eliminacion-directa', llamar al procedimiento almacenado
+            if (tipoZona === 'eliminacion-directa') {
+                const spQuery = `CALL sp_agregar_vacante_zona(?, ?, ?, ?)`;
+
+                db.query(spQuery, [id_zona, id_equipo, vacante, id_partido], (err, spResult) => {
+                    if (err) return res.status(500).send('Error interno al ejecutar el procedimiento almacenado');
+                    return res.send('Edición registrada o actualizada con éxito, y procedimiento ejecutado');
+                });
+            } else {
+                return res.send('Edición registrada o actualizada con éxito');
+            }
+        });
     });
 };
 
