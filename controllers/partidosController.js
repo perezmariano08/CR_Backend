@@ -271,6 +271,61 @@ const deletePartido = (req, res) => {
     });
 };
 
+const getPartidosZona = (req, res) => {
+    const { id_zona } = req.query;
+
+    const query = `
+    SELECT 
+        CONCAT(r.resultado, '-' ,p.id_partido) AS id_partido,
+        CAST(
+            CONCAT(
+                CASE WHEN r.resultado = 'G' THEN 'Ganador' ELSE 'Perdedor' END,
+                ' ', 
+                CHAR(64 + z.fase), 
+                p.vacante_local, 
+                '-', 
+                CHAR(64 + z.fase), 
+                p.vacante_visita
+            ) AS CHAR
+        ) AS nombre_fase
+    FROM 
+        partidos AS p
+    INNER JOIN 
+        zonas AS z ON p.id_zona = z.id_zona
+    CROSS JOIN 
+        (SELECT 'G' AS resultado UNION ALL SELECT 'P') AS r
+    WHERE 
+        p.id_zona = ?
+    ORDER BY 
+        r.resultado ASC, -- Primero ganadores ('G') y luego perdedores ('P')
+        p.id_partido;
+`;
+
+    db.query(query, [id_zona], (err, result) => {
+        if (err) {
+            console.error('Error al obtener los partidos de la zona:', err);
+            return res.status(500).send('Error interno del servidor');
+        }
+
+        // Devuelve los datos
+        res.status(200).json(result);
+    });
+};
+
+const guardarVacantePlayOff = (req, res) => {
+    const {id_partido, id_partido_previo, vacante, resultado} = req.body;
+
+    const query = `CALL sp_agregar_enfrentamiento_vacante(?, ?, ?, ?)`;
+
+    db.query(query, [id_partido, id_partido_previo, vacante, resultado], (err, result) => {
+        if (err) {
+            console.error('Error al guardar el vacante:', err);
+            return res.status(500).send('Error interno del servidor');
+        }
+        res.send('Vacante guardada con éxito');
+    });
+}
+
 module.exports = {
     getPartidos,
     getIncidenciasPartido,
@@ -279,5 +334,7 @@ module.exports = {
     importarPartidos,
     getPlantelesPartido,
     updatePartido,
-    deletePartido
+    deletePartido,
+    getPartidosZona,
+    guardarVacantePlayOff
 };

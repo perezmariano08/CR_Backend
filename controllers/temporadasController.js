@@ -62,6 +62,7 @@ const getZonas = (req, res) => {
         z.cantidad_equipos,
         z.fase,
         z.id_etapa,
+        CONCAT(z.nombre, ' - ', et.nombre) AS nombre_zona_etapa,
         et.nombre AS nombre_etapa -- Agrega el nombre de la etapa
     FROM
         categorias AS c
