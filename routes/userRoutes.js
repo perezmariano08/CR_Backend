@@ -129,4 +129,6 @@ router.post('/insertar-jugador-eventual', planilleroController.crearJugadorEvent
 
 router.post('/armar-dreamteam', userController.armarDreamteam)
 
+router.post('/actualizar-partido-vacante', partidosController.actualizarPartidoVacante)
+
 module.exports = router;

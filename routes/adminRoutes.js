@@ -3,6 +3,7 @@ const { revisarToken, revisarAdmin } = require('../middlewares/auth');
 const adminController = require('../controllers/adminController');
 const equiposController = require('../controllers/equiposController');
 const partidosController = require('../controllers/partidosController');
+const zonasController = require('../controllers/zonasController');
 
 const router = express.Router();
 
@@ -46,7 +47,9 @@ router.delete('/borrar-expulsion', revisarToken, revisarAdmin, adminController.b
 router.get('/get-fases', adminController.getFases);
 router.post('/create-fases', adminController.createFase);
 
+router.get('/get-etapas', zonasController.getEtapas);
 router.get('/get-partido-zona', adminController.getPartidoZona);
+router.get('/get-partidos-categoria', partidosController.getPartidosCategoria);
 router.get('/get-partidos-zona', partidosController.getPartidosZona);
 router.post('/guardar-vacante-play-off', revisarToken, revisarAdmin, partidosController.guardarVacantePlayOff)
 

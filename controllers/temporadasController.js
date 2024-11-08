@@ -113,18 +113,25 @@ const getTemporadas = (req, res) => {
 const InsertarEquipoTemporada = (req, res) => {
     const { id_categoria, id_edicion, id_zona, id_equipo, vacante, id_partido } = req.body;
 
+    console.log("Datos recibidos en el request:", req.body);
+
     // Paso 1: Consultar el tipo de zona
     const consultaTipoZona = `SELECT tipo_zona FROM zonas WHERE id_zona = ?`;
 
     db.query(consultaTipoZona, [id_zona], (err, result) => {
-        if (err) return res.status(500).send('Error interno del servidor al consultar el tipo de zona');
+        if (err) {
+            console.error("Error al consultar el tipo de zona:", err);
+            return res.status(500).send('Error interno del servidor al consultar el tipo de zona');
+        }
         
         // Verificar si se encontró el tipo de zona
         if (result.length === 0) {
+            console.warn("Zona no encontrada para id_zona:", id_zona);
             return res.status(404).send('Zona no encontrada');
         }
 
         const tipoZona = result[0].tipo_zona;
+        console.log("Tipo de zona obtenida:", tipoZona);
 
         // Paso 2: Insertar o actualizar el registro en la tabla temporadas
         const query = `
@@ -138,17 +145,38 @@ const InsertarEquipoTemporada = (req, res) => {
         `;
 
         db.query(query, [id_categoria, id_edicion, id_zona, id_equipo, vacante], (err, result) => {
-            if (err) return res.status(500).send('Error interno del servidor al insertar o actualizar');
+            if (err) {
+                console.error("Error al insertar o actualizar en temporadas:", err);
+                return res.status(500).send('Error interno del servidor al insertar o actualizar');
+            }
+
+            console.log("Registro en temporadas insertado o actualizado con éxito:", result);
 
             // Paso 3: Si el tipo de zona es 'eliminacion-directa', llamar al procedimiento almacenado
             if (tipoZona === 'eliminacion-directa') {
                 const spQuery = `CALL sp_agregar_vacante_zona(?, ?, ?, ?)`;
+                const spParams = [id_zona, id_equipo, vacante, id_partido];
 
-                db.query(spQuery, [id_zona, id_equipo, vacante, id_partido], (err, spResult) => {
-                    if (err) return res.status(500).send('Error interno al ejecutar el procedimiento almacenado');
+                console.log("Llamando al procedimiento almacenado con parámetros:", spParams);
+
+                db.query(spQuery, spParams, (err, spResult) => {
+                    if (err) {
+                        console.error("Error al ejecutar el procedimiento almacenado:", err);
+                        return res.status(500).send('Error interno al ejecutar el procedimiento almacenado');
+                    }
+
+                    // Mostrar todos los detalles del resultado
+                    console.log("Resultado del procedimiento almacenado:");
+                    console.log("affectedRows:", spResult.affectedRows);
+                    console.log("changedRows:", spResult.changedRows);
+                    console.log("insertId:", spResult.insertId);
+                    console.log("warningStatus:", spResult.warningStatus);
+                    console.log("Detalles completos del resultado:", spResult);
+
                     return res.send('Edición registrada o actualizada con éxito, y procedimiento ejecutado');
                 });
             } else {
+                console.log("Zona no es de tipo 'eliminacion-directa', no se llama al procedimiento almacenado.");
                 return res.send('Edición registrada o actualizada con éxito');
             }
         });
