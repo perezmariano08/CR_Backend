@@ -11,11 +11,12 @@ const getJugadores = (req, res) => {
         j.id_equipo,
         j.img,
         j.sancionado,
+        j.email,
         j.eventual
         FROM jugadores AS j
         LEFT JOIN equipos AS e ON e.id_equipo = j.id_equipo
         ORDER BY 
-            j.apellido`,
+          j.apellido`,
     (err, result) => {
       if (err) return res.status(500).send("Error interno del servidor");
       res.send(result);

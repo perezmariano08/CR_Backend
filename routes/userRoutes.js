@@ -83,6 +83,7 @@ router.get('/get-ediciones', edicionesController.getEdiciones);
 // Categorias
 router.post('/crear-categoria', categoriasController.crearCategoria);
 router.put('/actualizar-categoria', categoriasController.actualizarCategoria);
+router.put('/publicar-categoria', categoriasController.publicarCategoria);
 router.post('/eliminar-categoria', categoriasController.eliminarCategoria);
 
 router.get('/get-categorias', categoriasController.getCategorias);
