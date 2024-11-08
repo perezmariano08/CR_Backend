@@ -357,24 +357,6 @@ const getPartidosZona = (req, res) => {
     });
 };
 
-const getPartidosCategoria = (req, res) => {
-    const { id_categoria } = req.query;
-
-    const query = `
-        SELECT id_partido, id_equipoLocal, id_equipoVisita, goles_local, goles_visita, pen_local, pen_visita, estado, id_zona, vacante_local, vacante_visita, id_partido_previo_local, id_partido_previo_visita, res_partido_previo_local, res_partido_previo_visita, id_partido_posterior_ganador, id_partido_posterior_perdedor FROM partidos 
-        WHERE id_categoria = ?;
-    `;
-
-    db.query(query, [id_categoria], (err, result) => {
-        if (err) {
-            console.error('Error al obtener los partidos de la zona:', err);
-            return res.status(500).send('Error interno del servidor');
-        }
-
-        // Devuelve los datos
-        res.status(200).json(result);
-    });
-};
 
 const guardarVacantePlayOff = (req, res) => {
     const {id_partido, id_partido_previo, vacante, resultado} = req.body;
@@ -413,7 +395,6 @@ module.exports = {
     getPlantelesPartido,
     updatePartido,
     deletePartido,
-    getPartidosCategoria,
     getPartidosZona,
     guardarVacantePlayOff,
     getPartidosCategoria,
