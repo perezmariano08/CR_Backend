@@ -98,6 +98,7 @@ router.put('/actualizar-apercibimientos', equiposController.actualizarApercibimi
 router.get('/get-temporadas', temporadasController.getTemporadas);
 router.post('/insertar-equipo-temporada', temporadasController.InsertarEquipoTemporada);
 router.post('/eliminar-equipo-temporada', temporadasController.eliminarEquipoTemporada);
+router.get('/determinar-ventaja', temporadasController.determinarVentaja);
 
 //Zonas 
 router.post('/crear-zona', zonasController.crearZona);

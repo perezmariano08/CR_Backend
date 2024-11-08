@@ -198,11 +198,32 @@ const eliminarEquipoTemporada = (req, res) => {
     });
 };
 
+const determinarVentaja = (req, res) => {
+    const { id_zona, vacante } = req.body;
+
+    const query = `
+        SELECT t.ventaja
+        FROM temporadas t
+        JOIN zonas z ON t.id_zona = z.id_zona
+        WHERE t.id_zona = ?
+        AND t.vacante = ?
+        AND z.tipo_zona = 'eliminacion-directa';
+    `
+    db.query(query, [id_zona, vacante], (err, result) => {
+        if (err) {
+            console.error('Error al obtener la ventaja:', err);
+            return res.status(500).send('Error interno del servidor');
+        }
+        return res.status(200).json(result[0]);
+    })
+}
+
 module.exports = {
     getPosicionesTemporada,
     getEstadisticasCategoria,
     getZonas,
     getTemporadas,
     InsertarEquipoTemporada,
-    eliminarEquipoTemporada
+    eliminarEquipoTemporada,
+    determinarVentaja
 };
