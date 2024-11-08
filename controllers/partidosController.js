@@ -43,7 +43,9 @@ const getPartidos = (req, res) => {
         p.id_partido_previo_local,
         p.id_partido_previo_visita,
         p.res_partido_previo_local,
-        p.res_partido_previo_visita
+        p.res_partido_previo_visita,
+        p.id_partido_posterior_ganador,
+        p.id_partido_posterior_perdedor
     FROM
         partidos p
     LEFT JOIN
@@ -271,6 +273,49 @@ const deletePartido = (req, res) => {
     });
 };
 
+const getPartidosCategoria = (req, res) => {
+    const { id_categoria } = req.query;
+
+    const query = `
+    SELECT 
+        CONCAT(r.resultado, '-' ,p.id_partido) AS id_partido,
+        r.resultado,
+        p.id_partido as id_partido_numero,
+        CAST(
+            CONCAT(
+                CASE WHEN r.resultado = 'G' THEN 'Ganador' ELSE 'Perdedor' END,
+                ' ', 
+                CHAR(64 + z.fase), 
+                p.vacante_local, 
+                '-', 
+                CHAR(64 + z.fase), 
+                p.vacante_visita
+            ) AS CHAR
+        ) AS nombre_fase
+    FROM 
+        partidos AS p
+    INNER JOIN 
+        zonas AS z ON p.id_zona = z.id_zona
+    CROSS JOIN 
+        (SELECT 'G' AS resultado UNION ALL SELECT 'P') AS r
+    WHERE 
+        p.id_categoria = ?
+    ORDER BY 
+        r.resultado ASC, -- Primero ganadores ('G') y luego perdedores ('P')
+        p.id_partido;
+`;
+
+    db.query(query, [id_categoria], (err, result) => {
+        if (err) {
+            console.error('Error al obtener los partidos de la zona:', err);
+            return res.status(500).send('Error interno del servidor');
+        }
+
+        // Devuelve los datos
+        res.status(200).json(result);
+    });
+};
+
 const getPartidosZona = (req, res) => {
     const { id_zona } = req.query;
 
@@ -368,6 +413,7 @@ module.exports = {
     getPlantelesPartido,
     updatePartido,
     deletePartido,
+    getPartidosCategoria,
     getPartidosZona,
     guardarVacantePlayOff,
     getPartidosCategoria,

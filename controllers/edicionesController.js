@@ -39,8 +39,8 @@ const crearEdicion = (req, res) => {
     const { nombre, temporada, puntos_victoria, puntos_empate, puntos_derrota, apercibimientos, puntos_descuento } = req.body;
     db.query(
         `INSERT INTO 
-        ediciones(nombre, temporada, puntos_victoria, puntos_empate, puntos_derrota, apercibimientos, puntos_descuento) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)`, [nombre, temporada, puntos_victoria, puntos_empate, puntos_derrota, apercibimientos, puntos_descuento], (err, result) => {
+        ediciones(id_torneo, nombre, temporada, puntos_victoria, puntos_empate, puntos_derrota, apercibimientos, puntos_descuento) 
+        VALUES (1, ?, ?, ?, ?, ?, ?, ?)`, [nombre, temporada, puntos_victoria, puntos_empate, puntos_derrota, apercibimientos, puntos_descuento], (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send('Edición registrada con éxito');
     });
@@ -48,7 +48,7 @@ const crearEdicion = (req, res) => {
 
 const actualizarEdicion = (req, res) => {
     const { nombre, temporada, puntos_victoria, puntos_empate, puntos_derrota, id_edicion, apercibimientos, puntos_descuento } = req.body;
-
+    
     // Validar que id_usuario esté presente
     if (!id_edicion) {
         return res.status(400).send('ID de edicion es requerido');
@@ -68,7 +68,7 @@ const actualizarEdicion = (req, res) => {
     `;
 
     // Ejecutar la consulta
-    db.query(sql, [nombre, temporada, puntos_victoria, puntos_empate, puntos_derrota, id_edicion, apercibimientos, puntos_descuento], (err, result) => {
+    db.query(sql, [nombre, temporada, puntos_victoria, puntos_empate, puntos_derrota, apercibimientos, puntos_descuento, id_edicion], (err, result) => {
         if (err) {
             return res.status(500).send('Error interno del servidor');
         }

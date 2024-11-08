@@ -4,6 +4,7 @@ const getCategorias = (req, res) => {
     db.query(
     `
     SELECT
+        c.publicada,
         c.genero,
         c.tipo_futbol,
         c.duracion_tiempo,
@@ -83,6 +84,33 @@ const actualizarCategoria = (req, res) => {
     });
 };
 
+
+const publicarCategoria = (req, res) => {
+    const { publicada, id_categoria } = req.body;
+
+    // Validar que id_usuario esté presente
+    if (!id_categoria) {
+        return res.status(400).send('ID de edicion es requerido');
+    }
+
+    // Construir la consulta SQL
+    const sql = `
+        UPDATE categorias
+        SET 
+            publicada = ?
+        WHERE id_categoria = ?
+    `;
+
+    // Ejecutar la consulta
+    db.query(sql, [publicada, id_categoria], (err, result) => {
+        if (err) {
+            return res.status(500).send('Error interno del servidor');
+        }
+        res.send('Categoria actualizada exitosamente');
+    });
+};
+
+
 const eliminarCategoria = (req, res) => {
     const { id } = req.body;
     console.log(id);
@@ -103,5 +131,6 @@ module.exports = {
     getCategorias,
     crearCategoria,
     actualizarCategoria,
-    eliminarCategoria
+    eliminarCategoria,
+    publicarCategoria
 };
