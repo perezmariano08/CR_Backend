@@ -242,8 +242,13 @@ const agregarJugadorPlantel = (req, res) => {
   const { id_jugador, id_equipo, id_categoria, id_edicion } = req.body;
 
   // Construye la consulta SQL con los marcadores de posición
-  const query =
-    "INSERT INTO planteles (id_jugador, id_equipo, id_categoria, id_edicion) VALUES (?, ?, ?, ?)";
+  const query = `
+  INSERT INTO planteles (id_jugador, id_equipo, id_categoria, id_edicion)
+  VALUES (?, ?, ?, ?)
+  ON DUPLICATE KEY UPDATE 
+      id_jugador = VALUES(id_jugador)
+`;
+
 
   // Pasa los valores como un array
   const values = [id_jugador, id_equipo, id_categoria, id_edicion];

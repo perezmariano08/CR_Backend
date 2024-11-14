@@ -279,8 +279,15 @@ const getPartidosCategoria = (req, res) => {
     const query = `
     SELECT 
         CONCAT(r.resultado, '-' ,p.id_partido) AS id_partido,
+        p.id_zona,
+        p.vacante_local,
+        p.vacante_visita,
+        p.res_partido_previo_local,
+        p.res_partido_previo_visita,
+        p.id_partido_previo_local,
+        p.id_partido_previo_visita,
         r.resultado,
-        p.id_partido as id_partido_numero,
+        p.id_partido,
         CAST(
             CONCAT(
                 CASE WHEN r.resultado = 'G' THEN 'Ganador' ELSE 'Perdedor' END,

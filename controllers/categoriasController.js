@@ -12,6 +12,10 @@ const getCategorias = (req, res) => {
         c.id_categoria,
         c.id_edicion, 
         c.nombre AS nombre,
+        c.puntos_victoria,
+        c.puntos_empate,
+        c.puntos_derrota,
+        c.publicada,
         CONCAT(
             IFNULL((SELECT COUNT(*) FROM partidos p WHERE p.id_categoria = c.id_categoria AND p.estado = 'F'), 0),
             ' / ',
@@ -47,17 +51,17 @@ const getCategorias = (req, res) => {
 };
 
 const crearCategoria = (req, res) => {
-    const { id_edicion,	nombre,	genero,	tipo_futbol, duracion_tiempo, duracion_entretiempo } = req.body;
+    const { id_edicion,	nombre,	genero,	tipo_futbol, duracion_tiempo, duracion_entretiempo, puntos_victoria, puntos_empate, puntos_derrota } = req.body;
     db.query(`INSERT INTO 
-        categorias(id_edicion, nombre, genero, tipo_futbol, duracion_tiempo, duracion_entretiempo) 
-        VALUES (?, ?, ?, ?, ?, ?)`, [id_edicion, nombre, genero, tipo_futbol, duracion_tiempo, duracion_entretiempo], (err, result) => {
+        categorias(id_edicion, nombre, genero, tipo_futbol, duracion_tiempo, duracion_entretiempo, puntos_victoria, puntos_empate, puntos_derrota) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, [id_edicion, nombre, genero, tipo_futbol, duracion_tiempo, duracion_entretiempo, puntos_victoria, puntos_empate, puntos_derrota], (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
         res.send('Categoria registrada con éxito');
     });
 };
 
 const actualizarCategoria = (req, res) => {
-    const { nombre,	genero,	tipo_futbol, duracion_tiempo, duracion_entretiempo, id_categoria } = req.body;
+    const { nombre,	genero,	tipo_futbol, duracion_tiempo, duracion_entretiempo, id_categoria, puntos_victoria, puntos_empate, puntos_derrota } = req.body;
 
     // Validar que id_usuario esté presente
     if (!id_categoria) {
@@ -71,19 +75,22 @@ const actualizarCategoria = (req, res) => {
             genero = ?, 
             tipo_futbol = ?, 
             duracion_tiempo = ?, 
-            duracion_entretiempo = ?
+            duracion_entretiempo = ?,
+            puntos_victoria = ?,
+            puntos_empate = ?,
+            puntos_derrota = ?
         WHERE id_categoria = ?
     `;
 
     // Ejecutar la consulta
-    db.query(sql, [nombre, genero, tipo_futbol, duracion_tiempo, duracion_entretiempo, id_categoria], (err, result) => {
+    db.query(sql, [nombre, genero, tipo_futbol, duracion_tiempo, duracion_entretiempo, puntos_victoria, puntos_empate, puntos_derrota, id_categoria], (err, result) => {
         if (err) {
+            console.log(err);
             return res.status(500).send('Error interno del servidor');
         }
         res.send('Categoria actualizada exitosamente');
     });
 };
-
 
 const publicarCategoria = (req, res) => {
     const { publicada, id_categoria } = req.body;
@@ -109,7 +116,6 @@ const publicarCategoria = (req, res) => {
         res.send('Categoria actualizada exitosamente');
     });
 };
-
 
 const eliminarCategoria = (req, res) => {
     const { id } = req.body;

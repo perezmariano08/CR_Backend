@@ -113,8 +113,6 @@ const getTemporadas = (req, res) => {
 const InsertarEquipoTemporada = (req, res) => {
     const { id_categoria, id_edicion, id_zona, id_equipo, vacante, id_partido } = req.body;
 
-    console.log("Datos recibidos en el request:", req.body);
-
     // Paso 1: Consultar el tipo de zona
     const consultaTipoZona = `SELECT tipo_zona FROM zonas WHERE id_zona = ?`;
 
@@ -131,26 +129,24 @@ const InsertarEquipoTemporada = (req, res) => {
         }
 
         const tipoZona = result[0].tipo_zona;
-        console.log("Tipo de zona obtenida:", tipoZona);
 
         // Paso 2: Insertar o actualizar el registro en la tabla temporadas
         const query = `
-            INSERT INTO 
-            temporadas(id_categoria, id_edicion, id_zona, id_equipo, vacante) 
-            VALUES (?, ?, ?, ?, ?)
-            ON DUPLICATE KEY UPDATE 
-            id_zona = VALUES(id_zona),
-            id_equipo = VALUES(id_equipo),
-            vacante = VALUES(vacante)
+            UPDATE temporadas 
+            SET 
+                id_equipo = ?
+            WHERE 
+                id_categoria = ? AND 
+                id_edicion = ? AND
+                vacante = ? AND
+                id_zona = ?
         `;
-
-        db.query(query, [id_categoria, id_edicion, id_zona, id_equipo, vacante], (err, result) => {
+    
+        db.query(query, [id_equipo, id_categoria, id_edicion, vacante, id_zona], (err, result) => {
             if (err) {
                 console.error("Error al insertar o actualizar en temporadas:", err);
                 return res.status(500).send('Error interno del servidor al insertar o actualizar');
             }
-
-            console.log("Registro en temporadas insertado o actualizado con éxito:", result);
 
             // Paso 3: Si el tipo de zona es 'eliminacion-directa', llamar al procedimiento almacenado
             if (tipoZona === 'eliminacion-directa') {
@@ -164,14 +160,6 @@ const InsertarEquipoTemporada = (req, res) => {
                         console.error("Error al ejecutar el procedimiento almacenado:", err);
                         return res.status(500).send('Error interno al ejecutar el procedimiento almacenado');
                     }
-
-                    // Mostrar todos los detalles del resultado
-                    console.log("Resultado del procedimiento almacenado:");
-                    console.log("affectedRows:", spResult.affectedRows);
-                    console.log("changedRows:", spResult.changedRows);
-                    console.log("insertId:", spResult.insertId);
-                    console.log("warningStatus:", spResult.warningStatus);
-                    console.log("Detalles completos del resultado:", spResult);
 
                     return res.send('Edición registrada o actualizada con éxito, y procedimiento ejecutado');
                 });

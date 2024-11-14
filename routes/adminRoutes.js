@@ -51,6 +51,11 @@ router.get('/get-etapas', zonasController.getEtapas);
 router.get('/get-partido-zona', adminController.getPartidoZona);
 router.get('/get-partidos-categoria', partidosController.getPartidosCategoria);
 router.get('/get-partidos-zona', partidosController.getPartidosZona);
+
 router.post('/guardar-vacante-play-off', revisarToken, revisarAdmin, partidosController.guardarVacantePlayOff)
+
+router.put('/actualizar-zona', revisarToken, revisarAdmin, zonasController.actualizarZona);
+router.put('/vaciar-vacante', revisarToken, revisarAdmin, zonasController.vaciarVacante);
+router.put('/eliminar-vacante', revisarToken, revisarAdmin, zonasController.eliminarVacante);
 
 module.exports = router;
