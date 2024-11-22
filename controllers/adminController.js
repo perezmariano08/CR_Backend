@@ -1,3 +1,4 @@
+const { query } = require("express");
 const db = require("../utils/db");
 
 const crearCategoria = (req, res) => {
@@ -816,10 +817,15 @@ const getFases = (req, res) => {
 
 const createFase = (req, res) => {
   const { id_categoria, numero_fase } = req.body;
+  console.log(id_categoria, numero_fase);
+  
+  if (!id_categoria || !numero_fase) {
+    return res.status(400).json({ mensaje: "Faltan datos para crear la fase" });
+  }
 
   db.query(
     "INSERT INTO fases (id_categoria, numero_fase) VALUES (?, ?)",
-    [id_categoria, numero_fase],
+    [parseInt(id_categoria), parseInt(numero_fase)],
     (err, result) => {
       if (err) return res.status(500).send("Error interno del servidor");
       res.send(result);
@@ -851,6 +857,112 @@ const getPartidoZona = (req, res) => {
     );
 };
 
+const checkEquipoPlantel = (req, res) => {
+  const { id_equipo, id_edicion } = req.query;
+  console.log(id_equipo, id_edicion);
+  
+  if (!id_edicion || !id_equipo) {
+    return res.status(500).json({ mensaje: 'Faltan datos importantes' });
+  }
+
+  // Verificar si el equipo ya tiene un plantel en la edición actual
+  const checkPlantelActualSql = `
+    SELECT 
+      COUNT(p.id_jugador) AS total_jugadores
+    FROM 
+      planteles p
+    WHERE 
+      p.id_equipo = ? AND p.id_edicion = ?;
+  `;
+
+  const paramsActual = [id_equipo, id_edicion];
+
+  db.query(checkPlantelActualSql, paramsActual, (err, result) => {
+    if (err) {
+      return res.status(500).json({ mensaje: "Error en la consulta de la base de datos." });
+    }
+
+    if (result[0]?.total_jugadores > 0) {
+      // Si el equipo ya tiene plantel en la edición actual
+      return res.status(400).json({ mensaje: "El equipo ya tiene un plantel en esta edición." });
+    }
+
+    // Si no tiene plantel en la edición actual, buscar planteles en otras ediciones
+    const checkPlantelOtrasEdicionesSql = `
+      SELECT 
+        p.id_edicion,
+        p.id_categoria,
+        COUNT(p.id_jugador) AS total_jugadores,
+        CONCAT(e.nombre, ' ', e.temporada) AS nombre_edicion
+      FROM 
+        planteles p
+      INNER JOIN
+        ediciones e ON p.id_edicion = e.id_edicion
+      WHERE 
+        p.id_equipo = ? AND p.id_edicion != ?
+      GROUP BY 
+        p.id_edicion;
+    `;
+
+    const paramsOtrasEdiciones = [id_equipo, id_edicion];
+
+    db.query(checkPlantelOtrasEdicionesSql, paramsOtrasEdiciones, (err, result) => {
+      if (err) {
+        return res.status(500).json({ mensaje: "Error en la consulta de la base de datos." });
+      }
+
+      if (result.length === 0) {
+        return res.status(404).json({ mensaje: "No se encontraron planteles en otras ediciones." });
+      }
+
+      return res.status(200).json({ data: result });
+    });
+  });
+};
+
+const copiarPlantelesTemporada = async (req, res) => {
+  const {id_equipo, id_categoria_previo, id_categoria, id_edicion} = req.body;
+
+  if (!id_equipo || !id_categoria_previo || !id_categoria || !id_edicion) {
+    return res.status(400).json({ mensaje: "Faltan datos importantes" });
+  }
+
+  const sql = `
+    CALL sp_copiar_planteles_temporada(?, ?, ?, ?);
+  `;
+
+  const params = [id_equipo, id_categoria_previo, id_categoria, id_edicion];
+
+  db.query(sql, params, (err, result) => {
+    if (err) {
+      console.error("Error al copiar planteles temporada:", err);
+      return res.status(500).json({ mensaje: "Error al copiar planteles" });
+    }
+
+    return res.status(200).json({ mensaje: "Planteles copiados correctamente" });
+  });
+
+}
+
+const eliminarFase = async (req, res) => {
+  const { id } = req.body;
+  const { id_categoria, numero_fase } = id;
+
+  if (!id_categoria || !numero_fase) {
+    return res.status(400).json({ mensaje: "Faltan datos para eliminar la fase" });
+  }
+
+  const sql = `DELETE FROM fases WHERE id_categoria = ? AND numero_fase = ?`;
+  db.query(sql, [id_categoria, numero_fase], (err, result) => {
+    if (err) {
+      console.error("Error al eliminar fase:", err);
+      return res.status(500).json({ mensaje: "Error al eliminar fase" });
+    }
+
+    return res.status(200).json({ mensaje: "Fase eliminada correctamente" });
+  });
+
+}
 
 module.exports = {
   crearCategoria,
@@ -896,6 +1008,9 @@ module.exports = {
 
   getFases,
   createFase,
-  getPartidoZona
+  getPartidoZona,
 
+  checkEquipoPlantel,
+  copiarPlantelesTemporada,
+  eliminarFase
 };

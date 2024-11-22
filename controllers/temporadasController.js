@@ -80,29 +80,40 @@ const getZonas = (req, res) => {
 
 const getTemporadas = (req, res) => {
     db.query(`
-    SELECT
-        t.id_zona, 
-        t.id_edicion, 
-        t.id_categoria, 
-        t.id_equipo, 
-        e.nombre AS nombre_equipo,
-        t.vacante,
-        t.apercibimientos,
-        (SELECT COUNT(*)
-            FROM planteles p
-            INNER JOIN jugadores j ON p.id_jugador = j.id_jugador
-            WHERE p.id_equipo = t.id_equipo
+SELECT
+    t.id_zona, 
+    t.id_edicion, 
+    t.id_categoria, 
+    t.id_equipo, 
+    e.nombre AS nombre_equipo,
+    t.vacante,
+    t.apercibimientos,
+    (
+        SELECT COUNT(*)
+        FROM planteles p
+        INNER JOIN jugadores j ON p.id_jugador = j.id_jugador
+        WHERE 
+            p.id_equipo = t.id_equipo
+            AND p.id_categoria = t.id_categoria
+            AND p.id_edicion = t.id_edicion
             AND j.dni IS NOT NULL
-            AND p.eventual = 'N') AS jugadores_con_dni,
-        (SELECT COUNT(*)
-            FROM planteles p
-            INNER JOIN jugadores j ON p.id_jugador = j.id_jugador
-            WHERE p.id_equipo = t.id_equipo
+            AND p.eventual = 'N'
+    ) AS jugadores_con_dni,
+    (
+        SELECT COUNT(*)
+        FROM planteles p
+        INNER JOIN jugadores j ON p.id_jugador = j.id_jugador
+        WHERE 
+            p.id_equipo = t.id_equipo
+            AND p.id_categoria = t.id_categoria
+            AND p.id_edicion = t.id_edicion
             AND j.dni IS NULL
-            AND p.eventual = 'N') AS jugadores_sin_dni
-    FROM 
-        temporadas t
-        INNER JOIN equipos e ON e.id_equipo = t.id_equipo;
+            AND p.eventual = 'N'
+    ) AS jugadores_sin_dni
+FROM 
+    temporadas t
+INNER JOIN 
+    equipos e ON e.id_equipo = t.id_equipo
 `, 
     (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
@@ -119,13 +130,13 @@ const InsertarEquipoTemporada = (req, res) => {
     db.query(consultaTipoZona, [id_zona], (err, result) => {
         if (err) {
             console.error("Error al consultar el tipo de zona:", err);
-            return res.status(500).send('Error interno del servidor al consultar el tipo de zona');
+            return res.status(500).json({mensaje: 'Error al consultar el tipo de zona'});
         }
         
         // Verificar si se encontró el tipo de zona
         if (result.length === 0) {
             console.warn("Zona no encontrada para id_zona:", id_zona);
-            return res.status(404).send('Zona no encontrada');
+            return res.status(404).json({mensaje: 'Zona no encontrada'});
         }
 
         const tipoZona = result[0].tipo_zona;
@@ -149,7 +160,7 @@ const InsertarEquipoTemporada = (req, res) => {
             }
 
             // Paso 3: Si el tipo de zona es 'eliminacion-directa', llamar al procedimiento almacenado
-            if (tipoZona === 'eliminacion-directa') {
+            if (tipoZona === 'eliminacion-directa' || tipoZona === 'eliminacion-directa-ida-vuelta') {
                 const spQuery = `CALL sp_agregar_vacante_zona(?, ?, ?, ?)`;
                 const spParams = [id_zona, id_equipo, vacante, id_partido];
 
@@ -175,7 +186,7 @@ const eliminarEquipoTemporada = (req, res) => {
     const { id_equipo, id_categoria, id_edicion } = req.body;
     
     // Sentencia SQL para eliminar el año por ID
-    const sql = 'DELETE FROM temporadas WHERE id_equipo = ? AND id_categoria = ? AND id_edicion = ?';
+    const sql = 'UPDATE temporadas SET id_equipo = NULL WHERE id_equipo = ? AND id_categoria = ? AND id_edicion = ?';
 
     db.query(sql, [id_equipo, id_categoria, id_edicion], (err, result) => {
         if (err) {
