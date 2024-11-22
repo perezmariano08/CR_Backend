@@ -46,16 +46,22 @@ router.delete('/borrar-expulsion', revisarToken, revisarAdmin, adminController.b
 
 router.get('/get-fases', adminController.getFases);
 router.post('/create-fases', adminController.createFase);
+router.post('/eliminar-fase', adminController.eliminarFase);
 
 router.get('/get-etapas', zonasController.getEtapas);
 router.get('/get-partido-zona', adminController.getPartidoZona);
 router.get('/get-partidos-categoria', partidosController.getPartidosCategoria);
 router.get('/get-partidos-zona', partidosController.getPartidosZona);
 
+router.put('/actualizar-zona', revisarToken, revisarAdmin, zonasController.actualizarZona);
+router.post('/eliminar-zona', revisarToken, revisarAdmin, zonasController.eliminarZona);
+
 router.post('/guardar-vacante-play-off', revisarToken, revisarAdmin, partidosController.guardarVacantePlayOff)
 
-router.put('/actualizar-zona', revisarToken, revisarAdmin, zonasController.actualizarZona);
 router.put('/vaciar-vacante', revisarToken, revisarAdmin, zonasController.vaciarVacante);
 router.put('/eliminar-vacante', revisarToken, revisarAdmin, zonasController.eliminarVacante);
+
+router.get('/check-equipo-plantel', adminController.checkEquipoPlantel);
+router.post('/copiar-planteles-temporada', revisarToken, revisarAdmin, adminController.copiarPlantelesTemporada);
 
 module.exports = router;
