@@ -445,9 +445,9 @@ const guardarVacantePlayOff = (req, res) => {
     db.query(query, [id_partido, id_partido_previo, vacante, resultado], (err, result) => {
         if (err) {
             console.error('Error al guardar el vacante:', err);
-            return res.status(500).send('Error interno del servidor');
+            return res.status(500).json({mensaje: 'Error interno del servidor'});
         }
-        res.send('Vacante guardada con éxito');
+        res.status(200).send({mensaje: 'Vacante guardada con éxito'});
     });
 }
 
