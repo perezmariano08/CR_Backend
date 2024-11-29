@@ -13,16 +13,16 @@ const crearZona = (req, res) => {
 const crearZonaVacantesPartidos = (req, res) => {
     const { 
         id_categoria, nombre, cantidad_equipos, id_etapa, fase, 
-        tipo_zona, id_edicion 
+        tipo_zona, id_edicion, campeon 
     } = req.body;
 
     if (tipo_zona === 'todos-contra-todos') {
         // Insertar en la tabla zonas
         db.query(`INSERT INTO 
-            zonas(id_categoria, nombre, tipo_zona, cantidad_equipos, fase, id_etapa) 
-            VALUES (?, ?, ?, ?, ?, ?)`, [id_categoria, nombre, tipo_zona, cantidad_equipos, fase, id_etapa], (err, result) => {
+            zonas(id_categoria, nombre, tipo_zona, cantidad_equipos, fase, id_etapa, campeon) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)`, [id_categoria, nombre, tipo_zona, cantidad_equipos, fase, id_etapa, campeon], (err, result) => {
             
-            if (err) return res.status(500).send('Error interno del servidor');
+            if (err) return res.status(500).json({mensaje: 'Error interno del servidor'});
             
             // Obtener el id_zona recién insertado
             const id_zona = result.insertId;
@@ -45,8 +45,8 @@ const crearZonaVacantesPartidos = (req, res) => {
             // Insertar múltiples registros en la tabla temporadas
             db.query(`INSERT INTO temporadas (id_categoria, id_equipo, id_edicion, id_zona, vacante, pos_zona_previa, apercibimientos, ventaja) 
                     VALUES ?`, [temporadasInserts], (err, result) => {
-                if (err) return res.status(500).send('Error interno al insertar en temporadas');
-                return res.send('Categoria registrada con éxito');
+                if (err) return res.status(500).json({mensaje: 'Error interno al insertar en temporadas'})
+                return res.status(200).json({mensaje: 'Zona registrada con éxito'});
             });
         });
     }
@@ -56,7 +56,7 @@ const crearZonaVacantesPartidos = (req, res) => {
         db.query(`SELECT id_zona FROM zonas WHERE id_categoria = ? AND fase = ? ORDER BY id_zona DESC LIMIT 1`, 
         [id_categoria, fase - 1], 
         (err, resultZona) => {
-            if (err) return res.status(500).send('Error al obtener la zona de la fase anterior');
+            if (err) return res.status(500).json({mensaje: 'Error al obtener la zona de la fase anterior'});
     
             const zonaAnteriorId = resultZona[0]?.id_zona;
     
@@ -65,10 +65,10 @@ const crearZonaVacantesPartidos = (req, res) => {
                 const nuevaJornada = 1; // Es la jornada 1 si no hay zona anterior
     
                 // Llamar al procedimiento almacenado con la nueva jornada 1
-                db.query(`CALL sp_crear_vacantes_partidos_zonas(?, ?, ?, ?, ?, ?, ?, ?)`, 
-                    [id_categoria, nombre, cantidad_equipos, id_etapa, fase, tipo_zona, nuevaJornada, id_edicion], 
+                db.query(`CALL sp_crear_vacantes_partidos_zonas(?, ?, ?, ?, ?, ?, ?, ?, ?)`, 
+                    [id_categoria, nombre, cantidad_equipos, id_etapa, fase, tipo_zona, nuevaJornada, id_edicion, campeon], 
                     (err, result) => {
-                        if (err) return res.status(500).send('Error interno del servidor');
+                        if (err) return res.status(500).json({mensaje: 'Error interno del servidor'});
                         return res.send('Zona de vacantes y partidos registrada con éxito');
                 });
             } else {
@@ -76,17 +76,17 @@ const crearZonaVacantesPartidos = (req, res) => {
                 db.query(`SELECT MAX(jornada) AS maxJornada FROM partidos WHERE id_zona = ?`, 
                 [zonaAnteriorId], 
                 (err, resultJornada) => {
-                    if (err) return res.status(500).send('Error al obtener la jornada máxima de la zona anterior');
+                    if (err) return res.status(500).json({mensaje: 'Error al obtener la jornada máxima de la zona anterior'});
                     
                     const maxJornada = resultJornada[0]?.maxJornada || 0;
                     const nuevaJornada = maxJornada + 1;
     
                     // Llamar al procedimiento almacenado con la nueva jornada calculada
-                    db.query(`CALL sp_crear_vacantes_partidos_zonas(?, ?, ?, ?, ?, ?, ?, ?)`, 
-                        [id_categoria, nombre, cantidad_equipos, id_etapa, fase, tipo_zona, nuevaJornada, id_edicion], 
+                    db.query(`CALL sp_crear_vacantes_partidos_zonas(?, ?, ?, ?, ?, ?, ?, ?, ?)`, 
+                        [id_categoria, nombre, cantidad_equipos, id_etapa, fase, tipo_zona, nuevaJornada, id_edicion, campeon], 
                         (err, result) => {
-                            if (err) return res.status(500).send('Error interno del servidor');
-                            return res.send('Zona de vacantes y partidos registrada con éxito');
+                            if (err) return res.status(500).json({mensaje: 'Error interno del servidor'});
+                            return res.status(200).json({mensaje: 'Zona de vacantes y partidos registrada con éxito'});
                     });
                 });
             }
@@ -113,74 +113,91 @@ const eliminarZona = (req, res) => {
 
         const zona = result[0];
 
-        // Si el tipo de zona es "todos-contra-todos"
-        if (zona.tipo_zona === 'todos-contra-todos') {
-            // Paso 1.2: Eliminar partidos asociados a la zona
-            const deletePartidosSql = 'DELETE FROM partidos WHERE id_zona = ?';
-            
-            db.query(deletePartidosSql, [id], (err) => {
+        // Función para eliminar todos los registros relacionados con la zona
+        const eliminarRegistrosRelacionados = (idZona) => {
+            const deleteFormacionesSql = 'DELETE FROM formaciones WHERE id_partido IN (SELECT id_partido FROM partidos WHERE id_zona = ?)';
+            const deleteGolesSql = 'DELETE FROM goles WHERE id_partido IN (SELECT id_partido FROM partidos WHERE id_zona = ?)';
+            const deleteExpulsadosSql = 'DELETE FROM expulsados WHERE id_partido IN (SELECT id_partido FROM partidos WHERE id_zona = ?)';
+            const deleteAmonestadosSql = 'DELETE FROM amonestados WHERE id_partido IN (SELECT id_partido FROM partidos WHERE id_zona = ?)';
+            const deleteAsistenciasSql = 'DELETE FROM asistencias WHERE id_partido IN (SELECT id_partido FROM partidos WHERE id_zona = ?)';
+            const deleteJugadoresDestacados = 'DELETE FROM jugadores_destacados WHERE id_partido IN (SELECT id_partido FROM partidos WHERE id_zona = ?)';
+        
+            // Realizamos las eliminaciones en las tablas relacionadas
+            db.query(deleteFormacionesSql, [idZona], (err) => {
                 if (err) {
-                    console.error('Error eliminando partidos:', err);
-                    return res.status(500).json({ mensaje: 'Error eliminando partidos', error: err });
+                    console.error('Error eliminando formaciones:', err);
+                    return res.status(500).json({ mensaje: 'Error eliminando formaciones', error: err });
                 }
-
-                // Paso 1.3: Eliminar registros en la tabla temporadas
-                const deleteTemporadasSql = 'DELETE FROM temporadas WHERE id_categoria = ? AND id_zona = ?';
-                
-                db.query(deleteTemporadasSql, [zona.id_categoria, id], (err) => {
+        
+                db.query(deleteGolesSql, [idZona], (err) => {
                     if (err) {
-                        console.error('Error eliminando temporadas:', err);
-                        return res.status(500).json({ mensaje: 'Error eliminando temporadas', error: err });
+                        console.error('Error eliminando goles:', err);
+                        return res.status(500).json({ mensaje: 'Error eliminando goles', error: err });
                     }
-
-                    // Paso 1.4: Eliminar la zona en la tabla zonas
-                    const deleteZonaSql = 'DELETE FROM zonas WHERE id_zona = ?';
-                    
-                    db.query(deleteZonaSql, [id], (err) => {
+        
+                    db.query(deleteExpulsadosSql, [idZona], (err) => {
                         if (err) {
-                            console.error('Error eliminando la zona:', err);
-                            return res.status(500).json({ mensaje: 'Error eliminando la zona', error: err });
+                            console.error('Error eliminando expulsados:', err);
+                            return res.status(500).json({ mensaje: 'Error eliminando expulsados', error: err });
                         }
-                        return res.status(200).json({ mensaje: 'Zona eliminada correctamente' });
+        
+                        db.query(deleteAmonestadosSql, [idZona], (err) => {
+                            if (err) {
+                                console.error('Error eliminando amonestados:', err);
+                                return res.status(500).json({ mensaje: 'Error eliminando amonestados', error: err });
+                            }
+        
+                            db.query(deleteAsistenciasSql, [idZona], (err) => {
+                                if (err) {
+                                    console.error('Error eliminando asistencias:', err);
+                                    return res.status(500).json({ mensaje: 'Error eliminando asistencias', error: err });
+                                }
+        
+                                // Eliminamos los registros de jugadores destacados
+                                db.query(deleteJugadoresDestacados, [idZona], (err) => {
+                                    if (err) {
+                                        console.error('Error eliminando jugadores destacados:', err);
+                                        return res.status(500).json({ mensaje: 'Error eliminando jugadores destacados', error: err });
+                                    }
+        
+                                    // Ahora que hemos eliminado los registros en las tablas relacionadas, eliminamos los partidos
+                                    const deletePartidosSql = 'DELETE FROM partidos WHERE id_zona = ?';
+                                    db.query(deletePartidosSql, [idZona], (err) => {
+                                        if (err) {
+                                            console.error('Error eliminando partidos:', err);
+                                            return res.status(500).json({ mensaje: 'Error eliminando partidos', error: err });
+                                        }
+        
+                                        // Paso 1.3: Eliminar registros en la tabla temporadas
+                                        const deleteTemporadasSql = 'DELETE FROM temporadas WHERE id_categoria = ? AND id_zona = ?';
+                                        db.query(deleteTemporadasSql, [zona.id_categoria, idZona], (err) => {
+                                            if (err) {
+                                                console.error('Error eliminando temporadas:', err);
+                                                return res.status(500).json({ mensaje: 'Error eliminando temporadas', error: err });
+                                            }
+        
+                                            // Paso 1.4: Eliminar la zona en la tabla zonas
+                                            const deleteZonaSql = 'DELETE FROM zonas WHERE id_zona = ?';
+                                            db.query(deleteZonaSql, [idZona], (err) => {
+                                                if (err) {
+                                                    console.error('Error eliminando la zona:', err);
+                                                    return res.status(500).json({ mensaje: 'Error eliminando la zona', error: err });
+                                                }
+                                                return res.status(200).json({ mensaje: 'Zona eliminada correctamente' });
+                                            });
+                                        });
+                                    });
+                                });
+                            });
+                        });
                     });
                 });
             });
+        };
+        
 
-        } else if (zona.tipo_zona === 'eliminacion-directa' || zona.tipo_zona === 'eliminacion-directa-ida-vuelta') {
-            // Para otros tipos de zonas, eliminar partidos y temporadas
-            const deletePartidosSql = 'DELETE FROM partidos WHERE id_zona = ?';
-            
-            db.query(deletePartidosSql, [id], (err) => {
-                if (err) {
-                    console.error('Error eliminando partidos:', err);
-                    return res.status(500).json({ mensaje: 'Error eliminando partidos', error: err });
-                }
-
-                // Eliminar registros en la tabla temporadas
-                const deleteTemporadasSql = 'DELETE FROM temporadas WHERE id_categoria = ? AND id_zona = ?';
-                
-                db.query(deleteTemporadasSql, [zona.id_categoria, id], (err) => {
-                    if (err) {
-                        console.error('Error eliminando temporadas:', err);
-                        return res.status(500).json({ mensaje: 'Error eliminando temporadas', error: err });
-                    }
-
-                    // Eliminar la zona en la tabla zonas
-                    const deleteZonaSql = 'DELETE FROM zonas WHERE id_zona = ?';
-                    
-                    db.query(deleteZonaSql, [id], (err) => {
-                        if (err) {
-                            console.error('Error eliminando la zona:', err);
-                            return res.status(500).json({ mensaje: 'Error eliminando la zona', error: err });
-                        }
-                        return res.status(200).json({ mensaje: 'Zona eliminada correctamente' });
-                    });
-                });
-            });
-        } else {
-            // Si el tipo de zona no es ninguno de los mencionados
-            return res.status(400).json({ mensaje: 'Tipo de zona no válido' });
-        }
+        // Ejecutar la eliminación de registros relacionados y eliminación de la zona
+        eliminarRegistrosRelacionados(id);
     });
 };
 
@@ -198,9 +215,9 @@ const getEtapas = (req, res) => {
 
 const actualizarZona = (req, res) => {
 
-    const { id_zona, nombre_zona, tipo_zona, etapa, cantidad_equipos, tipo } = req.body;
+    const { id_zona, nombre_zona, tipo_zona, etapa, cantidad_equipos, tipo, campeon, id_equipo_campeon } = req.body;
 
-    if (!id_zona || !nombre_zona || !tipo_zona || !etapa || !cantidad_equipos || !tipo) {
+    if (!id_zona || !nombre_zona || !tipo_zona || !etapa || !cantidad_equipos || !tipo || !campeon) {
         return res.status(400).send('Faltan datos');
     }
 
@@ -211,31 +228,31 @@ const actualizarZona = (req, res) => {
 
     switch (tipo) {
         case 'igual':
-            sql = `UPDATE zonas SET nombre = ?, tipo_zona = ?, id_etapa = ? WHERE id_zona = ?`;
-            params = [nombre_zona, tipo_zona, etapa, id_zona];
+            sql = `UPDATE zonas SET nombre = ?, tipo_zona = ?, id_etapa = ?, campeon = ?, id_equipo_campeon = ? WHERE id_zona = ?`;
+            params = [nombre_zona, tipo_zona, etapa, campeon, id_equipo_campeon, id_zona];
             successMessage = 'Zona actualizada correctamente.';
             errorMessage = 'Error al actualizar la zona.';
             break;
         case 'menor':
-            sql = `CALL sp_eliminar_vacantes_menor(?, ?, ?, ?, ?)`;
-            params = [id_zona, nombre_zona, tipo_zona, etapa, cantidad_equipos];
+            sql = `CALL sp_eliminar_vacantes_menor(?, ?, ?, ?, ?, ?)`;
+            params = [id_zona, nombre_zona, tipo_zona, etapa, cantidad_equipos, id_equipo_campeon, campeon];
             successMessage = 'Vacantes eliminadas correctamente.';
             errorMessage = 'Error al eliminar vacantes.';
             break;
         case 'mayor':
-            sql = 'CALL sp_agregar_vacantes_mayor(?, ?, ?, ?, ?)';
-            params = [id_zona, nombre_zona, tipo_zona, etapa, cantidad_equipos];
+            sql = 'CALL sp_agregar_vacantes_mayor(?, ?, ?, ?, ?, ?)';
+            params = [id_zona, nombre_zona, tipo_zona, etapa, cantidad_equipos, id_equipo_campeon, campeon];
             successMessage = 'Vacantes agregadas correctamente.';
             errorMessage = 'Error al agregar vacantes.';
             break;
         default:
-            return res.status(400).send('Tipo de operación inválido.');
+            return res.status(400).json({mensaje: 'Tipo de operación inválido.'});
     }
 
     db.query(sql, params, (err, result) => {
         if (err) {
             console.error('Error en la base de datos:', err);
-            return res.status(500).send({ mensaje: errorMessage });
+            return res.status(500).json({ mensaje: errorMessage });
         }
 
         res.status(200).send({ mensaje: successMessage });

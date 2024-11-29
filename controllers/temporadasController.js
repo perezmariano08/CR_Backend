@@ -62,6 +62,8 @@ const getZonas = (req, res) => {
         z.cantidad_equipos,
         z.fase,
         z.id_etapa,
+        z.campeon,
+        z.id_equipo_campeon,
         CONCAT(z.nombre, ' - ', et.nombre) AS nombre_zona_etapa,
         et.nombre AS nombre_etapa -- Agrega el nombre de la etapa
     FROM
@@ -156,7 +158,7 @@ const InsertarEquipoTemporada = (req, res) => {
         db.query(query, [id_equipo, id_categoria, id_edicion, vacante, id_zona], (err, result) => {
             if (err) {
                 console.error("Error al insertar o actualizar en temporadas:", err);
-                return res.status(500).send('Error interno del servidor al insertar o actualizar');
+                return res.status(500).json({mensaje: 'Error interno del servidor al insertar o actualizar'});
             }
 
             // Paso 3: Si el tipo de zona es 'eliminacion-directa', llamar al procedimiento almacenado
@@ -164,19 +166,17 @@ const InsertarEquipoTemporada = (req, res) => {
                 const spQuery = `CALL sp_agregar_vacante_zona(?, ?, ?, ?)`;
                 const spParams = [id_zona, id_equipo, vacante, id_partido];
 
-                console.log("Llamando al procedimiento almacenado con parámetros:", spParams);
-
                 db.query(spQuery, spParams, (err, spResult) => {
                     if (err) {
                         console.error("Error al ejecutar el procedimiento almacenado:", err);
-                        return res.status(500).send('Error interno al ejecutar el procedimiento almacenado');
+                        return res.status(500).json({mensaje: 'Error interno al ejecutar el procedimiento almacenado'});
                     }
 
-                    return res.send('Edición registrada o actualizada con éxito, y procedimiento ejecutado');
+                    return res.status(200).json({mensaje: 'Edición registrada o actualizada con éxito, y procedimiento ejecutado'});
                 });
             } else {
                 console.log("Zona no es de tipo 'eliminacion-directa', no se llama al procedimiento almacenado.");
-                return res.send('Edición registrada o actualizada con éxito');
+                return res.status(200).json({mensaje: 'Edición registrada o actualizada con éxito'});
             }
         });
     });
