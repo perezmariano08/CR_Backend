@@ -103,7 +103,6 @@ router.get('/determinar-ventaja', temporadasController.determinarVentaja);
 //Zonas 
 router.post('/crear-zona', zonasController.crearZona);
 router.post('/crear-zona-vacantes-partidos', zonasController.crearZonaVacantesPartidos);
-router.post('/eliminar-zona', zonasController.eliminarZona);
 
 //DreamTeam
 router.get('/get-jugadores-destacados', jugadoresController.getJugadoresDestacados);

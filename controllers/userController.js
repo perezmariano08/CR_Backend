@@ -139,14 +139,17 @@ const updatePartido = (req, res) => {
         return res.status(400).send('ID de partido es requerido');
     }
 
+    // Asigna null si pen_local o pen_visita son iguales a 0
+    const penLocal = pen_local === 0 ? null : pen_local;
+    const penVisita = pen_visita === 0 ? null : pen_visita;
+
     const sql = `
         UPDATE partidos
         SET descripcion = ?, pen_local = ?, pen_visita = ?
         WHERE id_partido = ?
     `;
 
-    // Cambia el orden de los parámetros
-    db.query(sql, [descripcion, pen_local, pen_visita, id_partido], (err, result) => {
+    db.query(sql, [descripcion, penLocal, penVisita, id_partido], (err, result) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).send('Error interno del servidor');
