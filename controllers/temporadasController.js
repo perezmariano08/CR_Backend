@@ -84,6 +84,7 @@ const getTemporadas = (req, res) => {
     db.query(`
 SELECT
     t.id_zona, 
+    z.tipo_zona, 
     t.id_edicion, 
     t.id_categoria, 
     t.id_equipo, 
@@ -110,6 +111,11 @@ SELECT
             AND p.id_categoria = t.id_categoria
             AND p.id_edicion = t.id_edicion
             AND j.dni IS NULL
+            AND p.eventual = 'N') AS jugadores_sin_dni
+    FROM 
+        temporadas t
+        INNER JOIN equipos e ON e.id_equipo = t.id_equipo
+        INNER JOIN zonas z ON z.id_zona = t.id_zona;
             AND p.eventual = 'N'
     ) AS jugadores_sin_dni
 FROM 
