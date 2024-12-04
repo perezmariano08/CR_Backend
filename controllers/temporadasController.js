@@ -81,7 +81,8 @@ const getZonas = (req, res) => {
 const getTemporadas = (req, res) => {
     db.query(`
     SELECT
-        t.id_zona, 
+        t.id_zona,
+        z.tipo_zona, 
         t.id_edicion, 
         t.id_categoria, 
         t.id_equipo, 
@@ -102,7 +103,8 @@ const getTemporadas = (req, res) => {
             AND p.eventual = 'N') AS jugadores_sin_dni
     FROM 
         temporadas t
-        INNER JOIN equipos e ON e.id_equipo = t.id_equipo;
+        INNER JOIN equipos e ON e.id_equipo = t.id_equipo
+        INNER JOIN zonas z ON z.id_zona = t.id_zona;
 `, 
     (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');

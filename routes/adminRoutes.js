@@ -36,7 +36,7 @@ router.post('/delete-jugador', revisarToken, revisarAdmin, adminController.delet
 
 router.put('/update-usuario', revisarToken, revisarAdmin, adminController.updateUsuario);
 router.put('/update-partido', revisarToken, revisarAdmin, adminController.updatePartido);
-router.put('/update-equipo', revisarToken, revisarAdmin, equiposController.updateEquipo);
+router.put('/update-equipo', equiposController.updateEquipo);
 router.put('/update-expulsion', revisarToken, revisarAdmin, adminController.actualizarExpulsion);
 
 router.post('/importar-anios', revisarToken, revisarAdmin, adminController.importarAnio);
