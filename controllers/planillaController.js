@@ -64,8 +64,7 @@ LEFT JOIN
     categorias c ON p.id_categoria = c.id_categoria
 LEFT JOIN
     ediciones e ON p.id_edicion = e.id_edicion
-WHERE id_planillero = ?
-  AND p.estado NOT IN ('S', 'F')`;
+WHERE id_planillero = ?`;
   db.query(sql, [id_planillero], (err, result) => {
     if (err) {
       console.error("Error al traer los partidos del planillero:", err);
