@@ -386,23 +386,21 @@ const getJugadoresDestacados = (req, res) => {
 
   db.query(
     `SELECT 
-    j.nombre,
-    j.apellido,
-    jd.id_jugador,
+    jd.id_partido,
     jd.id_equipo,
-    jd.id_partido
+    jd.id_jugador,
+    jd.id_categoria,
+    jd.dt,
+    jd.posicion,
+    p.jornada
 FROM 
-    jugadores_destacados AS jd
+    jugadores_destacados jd
 JOIN 
-    planteles AS p ON jd.id_jugador = p.id_jugador AND jd.id_equipo = p.id_equipo
-JOIN 
-    jugadores AS j ON jd.id_jugador = j.id_jugador
-JOIN 
-    partidos AS pt ON jd.id_partido = pt.id_partido
-WHERE 
-    pt.id_categoria = ?
-    AND pt.jornada = ?
-    AND jd.dt = 'N'
+    partidos p
+ON 
+    jd.id_partido = p.id_partido
+ORDER BY 
+    p.jornada ASC, jd.posicion ASC;
 `,
     [id_categoria, jornada],
     (err, result) => {

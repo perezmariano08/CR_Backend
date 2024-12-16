@@ -139,7 +139,7 @@ const crearEquipo = (req, res) => {
 };
 
 const updateEquipo = (req, res) => {
-    const { id_equipo, nombre } = req.body;
+    const { id_equipo, nombre, img } = req.body;
 
     // Validar que el id esté presente
     if (!id_equipo) {
@@ -150,12 +150,13 @@ const updateEquipo = (req, res) => {
     const sql = `
         UPDATE equipos
         SET 
-            nombre = ?
+            nombre = ?,
+            img = ?
         WHERE id_equipo = ?;
     `;
 
     // Ejecutar la consulta
-    db.query(sql, [nombre, id_equipo], (err, result) => {
+    db.query(sql, [nombre, img, id_equipo], (err, result) => {
         if (err) {
             return res.status(500).send('Error interno del servidor');
         }
