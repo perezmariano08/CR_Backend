@@ -58,11 +58,11 @@ app.use((req, res, next) => {
     next();
 });
 
-// Rutas
+app.use('/admin', require('./routes/adminRoutes'));
+app.use('/user', require('./routes/userRoutes'));
+app.use('/planilla', require('./routes/planillaRoutes'));
 app.use("/upload", require("./routes/uploadRoutes"));
-app.use("/admin", require("./routes/adminRoutes"));
 app.use("/auth", require("./routes/authRoutes"));
-app.use("/user", require("./routes/userRoutes"));
 
 io.on("connection", (socket) => {
     console.log(`User connected: ${socket.id}`);

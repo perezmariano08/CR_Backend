@@ -131,33 +131,6 @@ const getJugadores = (req, res) => {
     });
 };
 
-const updatePartido = (req, res) => {
-    const { descripcion, id_partido, pen_local, pen_visita } = req.body;
-    console.log('Request received:', req.body);
-
-    if (!id_partido) {
-        return res.status(400).send('ID de partido es requerido');
-    }
-
-    // Asigna null si pen_local o pen_visita son iguales a 0
-    const penLocal = pen_local === 0 ? null : pen_local;
-    const penVisita = pen_visita === 0 ? null : pen_visita;
-
-    const sql = `
-        UPDATE partidos
-        SET descripcion = ?, pen_local = ?, pen_visita = ?
-        WHERE id_partido = ?
-    `;
-
-    db.query(sql, [descripcion, penLocal, penVisita, id_partido], (err, result) => {
-        if (err) {
-            console.error('Database error:', err);
-            return res.status(500).send('Error interno del servidor');
-        }
-        res.send('Partido actualizado exitosamente');
-    });
-};
-
 const crearFormaciones = (req, res) => {
     const formaciones = req.body;
 
@@ -435,48 +408,6 @@ const getCategorias = (req, res) => {
     });
 };
 
-const suspenderPartido = (req, res) => {
-    const { goles_local, goles_visita, descripcion, estado, id_partido} = req.body;
-    console.log('Request received:', req.body);
-
-    if (!id_partido) {
-        return res.status(400).send('ID de partido es requerido');
-    }
-
-    if (estado === 'A' ) {
-        const sql = `
-        UPDATE partidos
-        SET 
-            estado = ?,
-        WHERE id_partido = ?
-    `;
-        db.query(sql, [estado, id_partido], (err, result) => {
-            if (err) {
-                console.error('Database error:', err);
-                return res.status(500).send('Error interno del servidor');
-            }
-            res.send('Partido postergado exitosamente');
-        });
-    } else {
-        const sql = `
-        UPDATE partidos
-        SET 
-            goles_local = ?, 
-            goles_visita = ?, 
-            descripcion = ?,
-            estado = ?
-        WHERE id_partido = ?
-        `;
-        db.query(sql, [goles_local, goles_visita, descripcion, estado, id_partido], (err, result) => {
-            if (err) {
-                console.error('Database error:', err);
-                return res.status(500).send('Error interno del servidor');
-            }
-            res.send('Partido suspendido exitosamente');
-        });
-    }
-};
-
 const insertarJugadoresDestacados = (req, res) => {
     const dreamTeam = req.body;
 
@@ -527,7 +458,6 @@ module.exports = {
     getPartidos,
     getEquipos,
     getJugadores,
-    updatePartido,
     crearFormaciones,
     crearGoles,
     crearAsistencias,
@@ -537,7 +467,6 @@ module.exports = {
     partidosJugadorEventual,
     crearJugador,
     getCategorias,
-    suspenderPartido,
     insertarJugadoresDestacados,
     armarDreamteam
 };

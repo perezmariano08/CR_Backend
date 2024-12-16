@@ -326,7 +326,7 @@ const verificarJugadorEventual = (req, res) => {
 };
 
 const verificarCategoriaJugadorEventual = (req, res) => {
-  const { dni, id_categoria, id_equipo, id_partido } = req.query;
+  const { dni, id_categoria, id_equipo } = req.query;
 
   const encontrarJugador = `
     SELECT 
@@ -341,33 +341,39 @@ const verificarCategoriaJugadorEventual = (req, res) => {
         planteles AS p
         INNER JOIN jugadores as j ON p.id_jugador = j.id_jugador
     WHERE
-        j.dni = ?;`;
+        j.dni = ?`;
 
   db.query(encontrarJugador, [dni], (err, result) => {
     if (err) {
       console.error("Error verificando el jugador eventual:", err);
       return res.status(500).send("Error verificando el jugador eventual");
     }
-    
+
     if (result.length > 0) {
-      const jugador = result[0];
-      if (Number(jugador.id_categoria) === Number(id_categoria)) {
-        if (Number(jugador.id_equipo) === Number(id_equipo)) {
-          //El jugador ya pertenece al equipo
-          return res
-            .status(200)
-            .json({ found: true, matchCategory: true, jugador });
-        }
-        // El jugador pertenece a la categoría especificada
-        return res
-          .status(200)
-          .json({ found: true, matchCategory: true, jugador });
-      } else {
-        // El jugador fue encontrado, pero pertenece a una categoría diferente
-        return res
-          .status(200)
-          .json({ found: true, matchCategory: false, jugador });
+      // Verificamos si alguna coincidencia pertenece a la categoría actual
+      const matchCategory = result.some(
+        (jugador) => Number(jugador.id_categoria) === Number(id_categoria)
+      );
+
+      // Si alguna coincide, verificamos si también pertenece al equipo actual
+      const matchEquipo = result.some(
+        (jugador) =>
+          Number(jugador.id_categoria) === Number(id_categoria) &&
+          Number(jugador.id_equipo) === Number(id_equipo)
+      );
+
+      // Construir la respuesta JSON completa
+      const response = {
+        found: true,
+        matchCategory,
+        jugador: result[0],
+      };
+
+      if (matchEquipo) {
+        response.message = "El jugador ya pertenece al equipo";
       }
+
+      return res.status(200).json(response);
     } else {
       // No se encontró un jugador con el DNI especificado
       return res.status(200).json({ found: false });
