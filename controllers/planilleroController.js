@@ -1,37 +1,6 @@
 const db = require("../utils/db");
 
-const firmaJugador = (req, res) => {
-  const { idPartido, idJugador, dorsal } = req.body;
-
-  if (!idPartido || !idJugador || !dorsal) {
-    return res.status(400).send("Faltan datos necesarios");
-  }
-
-  const query = `
-        INSERT INTO formaciones (id_partido, id_jugador, dorsal)
-        VALUES (?, ?, ?)
-        ON DUPLICATE KEY UPDATE dorsal = VALUES(dorsal)
-    `;
-
-  db.query(query, [idPartido, idJugador, dorsal], (err, result) => {
-    if (err) {
-      console.error("Error al insertar el dorsal en la base de datos:", err);
-      return res.status(500).send("Error al guardar el dorsal");
-    }
-
-    // Emitir el evento de dorsal asignado a través de WebSocket
-    const dorsalData = { idPartido, idJugador, dorsal };
-    if (req.io && typeof req.io.emit === "function") {
-      req.io.emit("dorsalAsignado", dorsalData);
-    } else {
-      console.error("Socket.io no está disponible");
-      return res.status(500).send("Error en el servidor de WebSocket");
-    }
-
-    res.status(200).send("Dorsal guardado correctamente");
-  });
-};
-
+//! ELIMINAAAR
 const borrarFirmaJugador = (req, res) => {
   const { idPartido, idJugador } = req.body;
 
@@ -63,7 +32,7 @@ const borrarFirmaJugador = (req, res) => {
   });
 };
 
-//!AGREGAR DISTINCION POR CATEGORIA
+//! ELIMINAAAR
 const insertarAccion = (req, res) => {
   const {
     idPartido,
@@ -336,7 +305,7 @@ const insertarAccion = (req, res) => {
   });
 };
 
-//!AGREGAR DISTINCION POR CATEGORIA
+//! ELIMINAAAR
 const eliminarAccion = (req, res) => {
   const {
     id_accion,
@@ -589,6 +558,7 @@ const eliminarAccion = (req, res) => {
   });
 };
 
+//! ELIMINAAAR
 const editarAccion = (req, res) => {
   const {
     id_accion, // ID de la acción que se va a editar
@@ -655,151 +625,6 @@ const editarAccion = (req, res) => {
   });
 };
 
-const verificarJugadores = (req, res) => {
-  const { id_partido } = req.query;
-
-  if (!id_partido) {
-    return res.status(400).send("Falta el id del partido");
-  }
-
-  // Consulta para obtener el estado del partido
-  const queryEstado = `
-        SELECT estado 
-        FROM partidos 
-        WHERE id_partido = ?
-    `;
-
-  db.query(queryEstado, [id_partido], (err, result) => {
-    if (err) {
-      console.error("Error al obtener el estado del partido:", err);
-      return res.status(500).send("Error al obtener el estado del partido");
-    }
-
-    if (result.length === 0) {
-      return res.status(404).send("Partido no encontrado");
-    }
-
-    const estadoPartido = result[0].estado;
-
-    // Si el estado no es 'P', devolvemos que se puede comenzar
-    if (estadoPartido !== "P") {
-      return res.status(200).json({ sePuedeComenzar: true });
-    }
-
-    // Si el estado es 'P', procedemos a contar los jugadores
-    const queryEquipos = `
-            SELECT id_equipoLocal, id_equipoVisita 
-            FROM partidos 
-            WHERE id_partido = ?
-        `;
-
-    db.query(queryEquipos, [id_partido], (err, result) => {
-      if (err) {
-        console.error("Error al obtener los equipos del partido:", err);
-        return res.status(500).send("Error al obtener los equipos del partido");
-      }
-
-      const { id_equipoLocal, id_equipoVisita } = result[0];
-
-      // Consulta para contar los jugadores por equipo en el partido
-      const queryJugadores = `
-                SELECT
-                    (SELECT COUNT(*) FROM formaciones WHERE id_partido = ? AND id_jugador IN (SELECT id_jugador FROM planteles WHERE id_equipo = ?)) AS jugadores_local,
-                    (SELECT COUNT(*) FROM formaciones WHERE id_partido = ? AND id_jugador IN (SELECT id_jugador FROM planteles WHERE id_equipo = ?)) AS jugadores_visitante
-            `;
-
-      db.query(
-        queryJugadores,
-        [id_partido, id_equipoLocal, id_partido, id_equipoVisita],
-        (err, result) => {
-          if (err) {
-            console.error("Error al verificar los jugadores:", err);
-            return res.status(500).send("Error al verificar los jugadores");
-          }
-
-          const { jugadores_local, jugadores_visitante } = result[0];
-
-          if (jugadores_local >= 5 && jugadores_visitante >= 5) {
-            return res.status(200).json({ sePuedeComenzar: true });
-          } else {
-            return res.status(200).json({
-              sePuedeComenzar: false,
-              jugadores_local,
-              jugadores_visitante,
-            });
-          }
-        }
-      );
-    });
-  });
-};
-
-const actualizarEstadoPartido = (req, res) => {
-  const { idPartido } = req.body;
-
-  if (!idPartido) {
-      return res.status(400).send("Falta el id del partido");
-  }
-
-  // Consulta para obtener el estado actual del partido
-  const queryEstado = `
-      SELECT estado FROM partidos
-      WHERE id_partido = ?
-  `;
-
-  db.query(queryEstado, [idPartido], (err, result) => {
-      if (err) {
-          console.error("Error al obtener el estado del partido:", err);
-          return res.status(500).send("Error al obtener el estado del partido");
-      }
-
-      if (result.length === 0) {
-          return res.status(404).send("Partido no encontrado");
-      }
-
-      let nuevoEstado;
-      const estadoActual = result[0].estado;
-
-      if (estadoActual === "P") {
-          nuevoEstado = "C"; // Comenzar el partido
-      } else if (estadoActual === "C") {
-          nuevoEstado = "T"; // Terminar el partido
-      } else if (estadoActual === "T") {
-          nuevoEstado = "F"; // Finalizar el partido
-      } else {
-          return res.status(400).send("Estado del partido no válido para la transición");
-      }
-
-      // Construir la consulta para actualizar el estado y los goles
-      let queryUpdate = `
-          UPDATE partidos
-          SET estado = ?
-      `;
-      const params = [nuevoEstado];
-
-      // Si el nuevo estado es "C", también se deben establecer los goles a 0
-      if (nuevoEstado === "C") {
-          queryUpdate += `,
-          goles_local = 0,
-          goles_visita = 0`;
-      }
-
-      queryUpdate += ` WHERE id_partido = ?`;
-      params.push(idPartido);
-
-      db.query(queryUpdate, params, (err, result) => {
-          if (err) {
-              console.error("Error al actualizar el estado del partido:", err);
-              return res.status(500).send("Error al actualizar el estado del partido");
-          }
-
-          // Emitir el nuevo estado del partido a través de WebSocket
-          req.io.emit("estadoPartidoActualizado", { idPartido, nuevoEstado });
-
-          res.status(200).send(`Estado del partido cambiado a ${nuevoEstado}`);
-      });
-  });
-};
 
 const insertarJugadorDestacado = async (req, res) => {
   const { id_jugador, id_equipo } = req.body; 
@@ -870,168 +695,9 @@ const eliminarJugadorDestacado = async (req, res) => {
   }
 };
 
-const updateMvpPartido = async (req, res) => {
-  const { id_partido, id_jugador } = req.query;
-
-  if (!id_partido) {
-    return res.status(400).json({ error: "Faltan datos del partido" });
-  }
-
-  try {
-    // 2. Eliminar jugador destacado en la tabla jugadores_destacados
-    const updateQuery = `
-            UPDATE partidos
-            SET id_jugador_destacado = ?
-            WHERE id_partido = ?`;
-
-    await db.query(updateQuery, [id_jugador, id_partido]);
-
-    const informacion = [id_partido, id_jugador]
-
-    req.io.emit('mvpActualizado', informacion)
-
-    res.status(200).json({
-      message: "Se agrego correctamente el mvp al partido",
-      status: 200,
-    });
-  } catch (error) {
-    console.error("Error al insertar mvp en el partido", error); // Log para el error específico
-    res.status(500).json({ error: "Error al insertar mvp en el partido" });
-  }
-};
-
-const crearJugadorEventual = async (req, res) => {
-  const { id_partido, id_equipo, nombre, apellido, dni, dorsal, estado, eventual } = req.body;
-
-  try {
-    // 1. Verificar si el jugador ya existe en la tabla jugadores
-    db.query(
-      `SELECT id_jugador FROM jugadores WHERE dni = ?`, 
-      [dni], 
-      (error, jugadores) => {
-        if (error) {
-          console.error('Error al consultar el jugador:', error);
-          return res.status(500).json({ success: false, message: 'Error al consultar el jugador' });
-        }
-
-        let id_jugador;
-
-        if (jugadores.length > 0) {
-          // Jugador ya existe, obtener su id
-          id_jugador = jugadores[0].id_jugador;
-        } else {
-          // Jugador no existe, crear uno nuevo
-          db.query(
-            `INSERT INTO jugadores (dni, nombre, apellido, estado) VALUES (?, ?, ?, ?)`, 
-            [dni, nombre, apellido, estado], 
-            (error, resultadoJugador) => {
-              if (error) {
-                console.error('Error al insertar el jugador:', error);
-                return res.status(500).json({ success: false, message: 'Error al insertar el jugador' });
-              }
-              id_jugador = resultadoJugador.insertId; // Obtener el ID del jugador recién creado
-            }
-          );
-        }
-
-        // 2. Obtener id_categoria e id_edicion de la tabla partidos
-        db.query(
-          `SELECT id_categoria, id_edicion FROM partidos WHERE id_partido = ?`, 
-          [id_partido], 
-          (error, partido) => {
-            if (error) {
-              console.error('Error al consultar el partido:', error);
-              return res.status(500).json({ success: false, message: 'Error al consultar el partido' });
-            }
-
-            // Verifica si el partido existe
-            if (!partido.length) {
-              return res.status(404).json({ success: false, message: 'Partido no encontrado' });
-            }
-
-            const { id_categoria, id_edicion } = partido[0];
-
-            // 3. Verificar si el jugador ya existe en la tabla planteles para el mismo equipo
-            db.query(
-              `SELECT * FROM planteles WHERE id_jugador = ? AND id_equipo = ? AND id_categoria = ? AND id_edicion = ?`, 
-              [id_jugador, id_equipo, id_categoria, id_edicion], 
-              (error, planteles) => {
-                if (error) {
-                  console.error('Error al consultar en planteles:', error);
-                  return res.status(500).json({ success: false, message: 'Error al consultar en planteles' });
-                }
-
-                if (planteles.length > 0) {
-                  return res.status(409).json({ success: false, message: 'El jugador ya está registrado en este equipo' });
-                }
-
-                // 4. Insertar el jugador en la tabla planteles
-                db.query(
-                  `INSERT INTO planteles (id_equipo, id_jugador, id_edicion, id_categoria, eventual, sancionado) 
-                  VALUES (?, ?, ?, ?, ?, ?)`, 
-                  [id_equipo, id_jugador, id_edicion, id_categoria, eventual, 'N'], 
-                  (error) => {
-                    if (error) {
-                      console.error('Error al insertar en planteles:', error);
-                      return res.status(500).json({ success: false, message: 'Error al insertar en planteles' });
-                    }
-
-                    // 5. Verificar si el jugador ya existe en la tabla formaciones para el mismo partido
-                    db.query(
-                      `SELECT * FROM formaciones WHERE id_partido = ? AND id_jugador = ?`, 
-                      [id_partido, id_jugador], 
-                      (error, formaciones) => {
-                        if (error) {
-                          console.error('Error al consultar en formaciones:', error);
-                          return res.status(500).json({ success: false, message: 'Error al consultar en formaciones' });
-                        }
-
-                        if (formaciones.length > 0) {
-                          return res.status(409).json({ success: false, message: 'El jugador ya está registrado en este partido' });
-                        }
-
-                        // 6. Insertar en la tabla formaciones
-                        db.query(
-                          `INSERT INTO formaciones (id_partido, id_jugador, dorsal) 
-                          VALUES (?, ?, ?)`,
-                          [id_partido, id_jugador, dorsal], 
-                          (error) => {
-                            if (error) {
-                              console.error('Error al insertar en formaciones:', error);
-                              return res.status(500).json({ success: false, message: 'Error al insertar en formaciones' });
-                            }
-
-                            // Emitir un evento de creación de jugador eventual
-                            req.io.emit('jugadorEventualCreado', {
-                              id_jugador,
-                              id_equipo,
-                              nombre,
-                              apellido,
-                              dorsal
-                            });
-
-                            // Responder con éxito
-                            return res.status(201).json({ success: true, message: 'Jugador eventual creado exitosamente' });
-                          }
-                        );
-                      }
-                    );
-                  }
-                );
-              }
-            );
-          }
-        );
-      }
-    );
-  } catch (error) {
-    console.error('Error inesperado:', error);
-    return res.status(500).json({ success: false, message: error.message });
-  }
-};
-
 //----------------------------------------------------------------------------------//
 
+//! ELIMINAAAR
 // Función para actualizar los goles del partido
 const actualizarGolesPartido = (idPartido, isLocalTeam, enContra) => {
   return new Promise((resolve, reject) => {
@@ -1085,6 +751,7 @@ const actualizarGolesPartido = (idPartido, isLocalTeam, enContra) => {
   });
 };
 
+//! ELIMINAAAR
 // Modifica la función disminuirGoles para aceptar un callback
 const disminuirGoles = (idPartido, isLocalTeam, enContra, callback) => {
   const queryGoles = `
@@ -1142,14 +809,9 @@ const disminuirGoles = (idPartido, isLocalTeam, enContra, callback) => {
 
 module.exports = {
   insertarAccion,
-  firmaJugador,
   borrarFirmaJugador,
-  actualizarEstadoPartido,
   eliminarAccion,
-  verificarJugadores,
   insertarJugadorDestacado,
   eliminarJugadorDestacado,
-  updateMvpPartido,
-  crearJugadorEventual,
   editarAccion
 };

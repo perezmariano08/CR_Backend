@@ -66,6 +66,7 @@ app.use((req, res, next) => {
 app.use('/admin', require('./routes/adminRoutes'));
 app.use('/auth', require('./routes/authRoutes'));
 app.use('/user', require('./routes/userRoutes'));
+app.use('/planilla', require('./routes/planillaRoutes'));
 
 io.on('connection', (socket) => {
     console.log(`User connected: ${socket.id}`);

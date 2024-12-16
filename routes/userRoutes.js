@@ -23,13 +23,15 @@ router.get('/get-zonas', temporadasController.getZonas);
 //router.get('/get-categorias', userController.getCategorias);
 
 // Partido
-router.put('/update-partido', revisarToken, revisarPlanillero, userController.updatePartido);
-router.put('/suspender-partido', revisarToken, revisarPlanillero, userController.suspenderPartido);
+
+//!BORRAR
+// router.put('/suspender-partido', revisarToken, revisarPlanillero, userController.suspenderPartido);
+// router.put('/update-partido', revisarToken, revisarPlanillero, userController.updatePartido);
 router.post('/crear-formaciones',  revisarToken, revisarPlanillero, userController.crearFormaciones);
 router.post('/crear-goles',  revisarToken, revisarPlanillero, userController.crearGoles);
 router.post('/crear-asistencias',  revisarToken, revisarPlanillero, userController.crearAsistencias);
 router.post('/crear-rojas',  revisarToken, revisarPlanillero, userController.crearRojas);
-router.post('/calcular-expulsiones', expulsadosController.calcularExpulsiones);
+// router.post('/calcular-expulsiones', expulsadosController.calcularExpulsiones);
 router.post('/crear-amarillas',  revisarToken, revisarPlanillero, userController.crearAmarillas);
 router.put('/update-jugadores',  revisarToken, revisarPlanillero, userController.insertarJugadoresEventuales);
 router.post('/crear-jugadores-destacados',  revisarToken, revisarPlanillero, userController.insertarJugadoresDestacados)
@@ -111,22 +113,19 @@ router.put('/actualizar-jugadores-destacados', jugadoresController.actualizarJug
 router.put('/resetear-jugadores-destacados', jugadoresController.resetearPosicionesYDT)
 
 //Planillero - Web-Socket
+//! ELIMINAR
 router.post('/insertar-accion', planilleroController.insertarAccion)
 router.post('/eliminar-accion', planilleroController.eliminarAccion)
 router.post('/editar-accion', planilleroController.editarAccion)
-
-router.post('/firma-jugador', planilleroController.firmaJugador)
 router.delete('/borrar-firma-jugador', planilleroController.borrarFirmaJugador)
+// router.get('/verificar-comienzo-partido', planilleroController.verificarJugadores)
+// router.post('/actualizar-estado-partido', planilleroController.actualizarEstadoPartido)
 
-router.get('/verificar-comienzo-partido', planilleroController.verificarJugadores)
-router.post('/actualizar-estado-partido', planilleroController.actualizarEstadoPartido)
-
-router.post('/insertar-jugador-destacado', planilleroController.insertarJugadorDestacado)
-router.delete('/eliminar-jugador-destacado', planilleroController.eliminarJugadorDestacado)
-
-router.put('/insertar-mvp-partido', planilleroController.updateMvpPartido)
-
-router.post('/insertar-jugador-eventual', planilleroController.crearJugadorEventual)
+//! ELIMINAR
+// router.post('/insertar-jugador-destacado', planilleroController.insertarJugadorDestacado)
+// router.delete('/eliminar-jugador-destacado', planilleroController.eliminarJugadorDestacado)
+// router.put('/insertar-mvp-partido', planilleroController.updateMvpPartido)
+// router.post('/insertar-jugador-eventual', planilleroController.crearJugadorEventual)
 
 router.post('/armar-dreamteam', userController.armarDreamteam)
 
