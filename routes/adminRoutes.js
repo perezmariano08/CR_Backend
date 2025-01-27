@@ -4,20 +4,29 @@ const adminController = require('../controllers/adminController');
 const equiposController = require('../controllers/equiposController');
 const partidosController = require('../controllers/partidosController');
 const zonasController = require('../controllers/zonasController');
+const noticiasController = require('../controllers/noticiasController')
+const logMiddleware = require('../middlewares/logs');
 
 const router = express.Router();
 
-router.post('/crear-torneo', revisarToken, revisarAdmin, adminController.crearTorneo);
-router.post('/crear-sede', revisarToken, revisarAdmin, adminController.crearSede);
-router.post('/crear-anio', revisarToken, revisarAdmin, adminController.crearAnio);
-router.post('/crear-temporada', revisarToken, revisarAdmin, adminController.crearTemporada);
-router.post('/crear-equipo', revisarToken, revisarAdmin, adminController.crearEquipo);
-router.post('/crear-division', revisarToken, revisarAdmin, adminController.crearDivision);
-router.post('/crear-categoria', revisarToken, revisarAdmin, adminController.crearCategoria);
-router.post('/crear-jugador', revisarToken, revisarAdmin, adminController.crearJugador);
-router.post('/crear-partido', revisarAdmin, adminController.crearPartido);
-router.post('/crear-expulsion', revisarToken, revisarAdmin, adminController.crearExpulsion);
+router.post('/crear-torneo', revisarToken, revisarAdmin, logMiddleware, adminController.crearTorneo);
+router.post('/crear-sede', revisarToken, revisarAdmin, logMiddleware, adminController.crearSede);
+router.post('/crear-anio', revisarToken, revisarAdmin, logMiddleware, adminController.crearAnio);
+router.post('/crear-temporada', revisarToken, revisarAdmin, logMiddleware, adminController.crearTemporada);
+router.post('/crear-equipo', revisarToken, revisarAdmin, logMiddleware, adminController.crearEquipo);
+router.post('/crear-division', revisarToken, revisarAdmin, logMiddleware, adminController.crearDivision);
+router.post('/crear-categoria', revisarToken, revisarAdmin, logMiddleware, adminController.crearCategoria);
+router.post('/crear-jugador', revisarToken, revisarAdmin, logMiddleware, adminController.crearJugador);
+router.post('/crear-expulsion', revisarToken, revisarAdmin, logMiddleware, adminController.crearExpulsion);
 
+//Partidos
+router.post('/crear-partido', revisarToken, revisarAdmin, logMiddleware, partidosController.crearPartido);
+router.post('/actualizar-partido', revisarToken, revisarAdmin, logMiddleware, partidosController.updatePartido);
+router.put('/importar-partidos', revisarToken, revisarAdmin, logMiddleware, partidosController.importarPartidos);
+router.post('/eliminar-partido', revisarToken, revisarAdmin, logMiddleware, partidosController.deletePartido);
+
+router.get('/get-noticias', noticiasController.getNoticias);
+router.get('/get-noticia', noticiasController.getNoticiasId);
 router.get('/get-torneos', revisarToken, revisarAdmin, adminController.getTorneos);
 router.get('/get-sedes', revisarToken, revisarAdmin, adminController.getSedes);
 router.get('/get-anios', revisarToken, revisarAdmin, adminController.getAnios);
@@ -33,7 +42,9 @@ router.post('/delete-sede', revisarToken, revisarAdmin, adminController.deleteSe
 router.post('/delete-torneo', revisarToken, revisarAdmin, adminController.deleteTorneo);
 router.post('/delete-categoria', revisarToken, revisarAdmin, adminController.deleteCategoria);
 router.post('/delete-jugador', revisarToken, revisarAdmin, adminController.deleteJugador);
+router.post('/create-noticia', revisarToken, revisarAdmin, noticiasController.createNoticia)
 
+router.put('/update-noticia', revisarToken, revisarAdmin, noticiasController.updateNoticia)
 router.put('/update-usuario', revisarToken, revisarAdmin, adminController.updateUsuario);
 router.put('/update-partido', revisarToken, revisarAdmin, adminController.updatePartido);
 router.put('/update-equipo', equiposController.updateEquipo);
@@ -43,6 +54,7 @@ router.post('/importar-anios', revisarToken, revisarAdmin, adminController.impor
 router.post('/importar-jugadores', revisarToken, revisarAdmin, adminController.importarJugadores);
 
 router.delete('/borrar-expulsion', revisarToken, revisarAdmin, adminController.borrarExpulsion);
+router.delete('/eliminar-noticia', revisarToken, revisarAdmin, noticiasController.eliminarNoticia);
 
 router.get('/get-fases', adminController.getFases);
 router.post('/create-fases', adminController.createFase);

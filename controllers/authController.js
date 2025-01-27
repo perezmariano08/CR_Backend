@@ -97,20 +97,35 @@ const crearCuenta = (req, res) => {
 
 const checkLogin = (req, res) => {
     const { dni, password } = req.body;
+
     db.query('SELECT * FROM usuarios WHERE dni = ?', [dni], (err, rows) => {
         if (err) return res.status(500).send('Error interno del servidor');
-        
+
         if (rows.length === 0) return res.status(400).send('Usuario no encontrado');
 
         const user = rows[0];
-        if (user.id_rol === null) return res.status(401).send('Usuario no autorizado')  
+        if (user.id_rol === null) return res.status(401).send('Usuario no autorizado');
 
         if (user.estado !== 'A') return res.status(403).send('Cuenta no activada');
 
         if (!bcryptjs.compareSync(password, user.clave)) return res.status(405).send('Contraseña incorrecta');
 
         const token = jsonwebtoken.sign({ user: user.dni }, 'textosecretoDECIFRADO', { expiresIn: '30d' });
-        res.status(200).json({ token, id_rol: user.id_rol });
+
+        const logEntry = {
+            user_id: user.id_usuario,
+            action: 'Inicio de sesión',
+            timestamp: new Date().toISOString(),
+            endpoint: '/auth/check-login',
+            request_data: JSON.stringify({ dni }),
+            response_status: 200,
+        };
+
+        db.query('INSERT INTO logs_auditoria SET ?', logEntry, (logErr) => {
+            if (logErr) console.error('Error al registrar log:', logErr);
+        });
+
+        res.status(200).json({ token, id_rol: user.id_rol, id_user: user.id_usuario });
     });
 };
 

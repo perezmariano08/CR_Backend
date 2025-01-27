@@ -19,8 +19,8 @@ const crearZonaVacantesPartidos = (req, res) => {
     if (tipo_zona === 'todos-contra-todos') {
         // Insertar en la tabla zonas
         db.query(`INSERT INTO 
-            zonas(id_categoria, nombre, tipo_zona, cantidad_equipos, fase, id_etapa, campeon) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)`, [id_categoria, nombre, tipo_zona, cantidad_equipos, fase, id_etapa, campeon], (err, result) => {
+            zonas(id_categoria, nombre, tipo_zona, cantidad_equipos, fase, id_etapa, campeon, terminada) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [id_categoria, nombre, tipo_zona, cantidad_equipos, fase, id_etapa, campeon, 'N'], (err, result) => {
             
             if (err) return res.status(500).json({mensaje: 'Error interno del servidor'});
             
@@ -214,8 +214,7 @@ const getEtapas = (req, res) => {
 };
 
 const actualizarZona = (req, res) => {
-
-    const { id_zona, nombre_zona, tipo_zona, etapa, cantidad_equipos, tipo, campeon, id_equipo_campeon } = req.body;
+    const { id_zona, nombre_zona, tipo_zona, etapa, cantidad_equipos, tipo, campeon, id_equipo_campeon, terminada } = req.body;
 
     if (!id_zona || !nombre_zona || !tipo_zona || !etapa || !cantidad_equipos || !tipo || !campeon) {
         return res.status(400).send('Faltan datos');
@@ -228,36 +227,51 @@ const actualizarZona = (req, res) => {
 
     switch (tipo) {
         case 'igual':
-            sql = `UPDATE zonas SET nombre = ?, tipo_zona = ?, id_etapa = ?, campeon = ?, id_equipo_campeon = ? WHERE id_zona = ?`;
-            params = [nombre_zona, tipo_zona, etapa, campeon, id_equipo_campeon, id_zona];
+            sql = `UPDATE zonas SET nombre = ?, tipo_zona = ?, id_etapa = ?, campeon = ?, id_equipo_campeon = ?, terminada = ? WHERE id_zona = ?`;
+            params = [nombre_zona, tipo_zona, etapa, campeon, id_equipo_campeon, terminada, id_zona];
             successMessage = 'Zona actualizada correctamente.';
             errorMessage = 'Error al actualizar la zona.';
             break;
         case 'menor':
-            sql = `CALL sp_eliminar_vacantes_menor(?, ?, ?, ?, ?, ?)`;
-            params = [id_zona, nombre_zona, tipo_zona, etapa, cantidad_equipos, id_equipo_campeon, campeon];
+            sql = `CALL sp_eliminar_vacantes_menor(?, ?, ?, ?, ?, ?, ?, ?)`;
+            params = [id_zona, nombre_zona, tipo_zona, etapa, cantidad_equipos, id_equipo_campeon, campeon, terminada];
             successMessage = 'Vacantes eliminadas correctamente.';
             errorMessage = 'Error al eliminar vacantes.';
             break;
         case 'mayor':
-            sql = 'CALL sp_agregar_vacantes_mayor(?, ?, ?, ?, ?, ?)';
-            params = [id_zona, nombre_zona, tipo_zona, etapa, cantidad_equipos, id_equipo_campeon, campeon];
+            sql = 'CALL sp_agregar_vacantes_mayor(?, ?, ?, ?, ?, ?, ?, ?)';
+            params = [id_zona, nombre_zona, tipo_zona, etapa, cantidad_equipos, id_equipo_campeon, campeon, terminada];
             successMessage = 'Vacantes agregadas correctamente.';
             errorMessage = 'Error al agregar vacantes.';
             break;
         default:
-            return res.status(400).json({mensaje: 'Tipo de operación inválido.'});
+            return res.status(400).json({ mensaje: 'Tipo de operación inválido.' });
     }
 
+    // Ejecutar la consulta principal
     db.query(sql, params, (err, result) => {
         if (err) {
             console.error('Error en la base de datos:', err);
             return res.status(500).json({ mensaje: errorMessage });
         }
 
-        res.status(200).send({ mensaje: successMessage });
-    });
+        // Si la zona está marcada como terminada, ejecutar sp_actualizar_vacantes_posiciones
+        if (terminada === 'S') {
+            const spSql = 'CALL sp_actualizar_vacantes_posiciones(?)';
+            db.query(spSql, [id_zona], (spErr, spResult) => {
+                if (spErr) {
+                    console.error('Error ejecutando sp_actualizar_vacantes_posiciones:', spErr);
+                    return res.status(500).json({ mensaje: 'Error al actualizar vacantes y posiciones.' });
+                }
 
+                // Responder con éxito si ambas operaciones fueron exitosas
+                res.status(200).send({ mensaje: successMessage + ' Vacantes y posiciones actualizadas correctamente.' });
+            });
+        } else {
+            // Si no está terminada, responder solo con la operación inicial
+            res.status(200).send({ mensaje: successMessage });
+        }
+    });
 };
 
 //! VERIFICAR ACTUALIZACION EN AMBAS ZONAS
@@ -268,7 +282,7 @@ const vaciarVacante = (req, res) => {
         return res.status(400).json({ mensaje: 'Faltan datos' });
     }
 
-    const sqlTemporadas = 'UPDATE temporadas SET id_equipo = NULL WHERE id_zona = ? AND vacante = ?';
+    const sqlTemporadas = 'UPDATE temporadas SET id_equipo = NULL, pos_zona_previa = NULL, id_zona_previa = NULL WHERE id_zona = ? AND vacante = ?';
     const paramsTemporadas = [id_zona, vacante];
 
     db.query(sqlTemporadas, paramsTemporadas, (err) => {

@@ -4,6 +4,7 @@ const { Server } = require("socket.io");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const helmet = require("helmet");
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ const io = new Server(server, {
 });
 
 // Middlewares
+app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({

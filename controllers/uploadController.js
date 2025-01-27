@@ -30,18 +30,21 @@ const uploadToFTP = (filePath, remotePath) => {
 
 exports.uploadImage = async (req, res) => {
     try {
-        // Validar si el archivo existe
         if (!req.file) {
             return res.status(400).json({ error: "No se ha enviado ningún archivo." });
         }
 
-        const localPath = req.file.path; // Ruta temporal donde Multer guarda el archivo
-        const remotePath = `/public_html/uploads/Equipos/${req.file.originalname}`;
+        const directory = req.body.directory;
+        if (!directory) {
+            return res.status(400).json({ error: "El nombre del directorio es obligatorio." });
+        }
+
+        const localPath = req.file.path;
+        const remotePath = `/public_html/uploads/${directory}/${req.file.originalname}`;
 
         console.log("Subiendo archivo...");
         const result = await uploadToFTP(localPath, remotePath);
 
-        // Elimina el archivo temporal después de subirlo
         fs.unlinkSync(localPath);
 
         res.status(200).json({ message: result, path: remotePath });
@@ -50,3 +53,4 @@ exports.uploadImage = async (req, res) => {
         res.status(500).json({ error: "Error al subir la imagen." });
     }
 };
+

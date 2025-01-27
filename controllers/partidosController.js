@@ -438,17 +438,35 @@ const getPartidosZona = (req, res) => {
 };
 
 const guardarVacantePlayOff = (req, res) => {
-    const {id_partido, id_partido_previo, vacante, resultado} = req.body;
+    const {id_categoria, id_edicion, id_zona, id_zona_previa, posicion_previa, id_partido, id_partido_previo, vacante, resultado} = req.body;
 
-    const query = `CALL sp_agregar_enfrentamiento_vacante(?, ?, ?, ?)`;
+    // si la zona a actualizar es todos contra todos, damos la posicion previa que obtendra la vacante
+    if (posicion_previa) {
+        const sql = `
+            UPDATE temporadas
+            SET pos_zona_previa = ?, id_zona_previa = ?
+            WHERE id_zona = ? AND id_categoria = ? AND id_edicion = ? AND vacante = ?
+        `;
 
-    db.query(query, [id_partido, id_partido_previo, vacante, resultado], (err, result) => {
-        if (err) {
-            console.error('Error al guardar el vacante:', err);
-            return res.status(500).json({mensaje: 'Error interno del servidor'});
-        }
-        res.status(200).send({mensaje: 'Vacante guardada con éxito'});
-    });
+        db.query(sql, [posicion_previa, id_zona_previa, id_zona, id_categoria, id_edicion, vacante], (err, result) => {
+            if (err) {
+                console.error('Error al guardar el vacante:', err);
+                return res.status(500).json({mensaje: 'Error interno del servidor'});
+            }
+            res.status(200).send({mensaje: 'Vacante guardada con éxito'});
+        });
+    } else {
+        // si no, se guarda el cruce del partido previo y la vacante
+        const query = `CALL sp_agregar_enfrentamiento_vacante(?, ?, ?, ?)`;
+    
+        db.query(query, [id_partido, id_partido_previo, vacante, resultado], (err, result) => {
+            if (err) {
+                console.error('Error al guardar el vacante:', err);
+                return res.status(500).json({mensaje: 'Error interno del servidor'});
+            }
+            res.status(200).send({mensaje: 'Vacante guardada con éxito'});
+        });
+    }
 }
 
 const actualizarPartidoVacante = (req, res) => {

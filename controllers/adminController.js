@@ -638,13 +638,13 @@ const borrarExpulsion = async (req, res) => {
     return res.status(400).send("Faltan datos excluyentes");
   }
 
-  // Consulta SQL para encontrar la expulsión activa en la misma categoría y jugador
+  // Consulta SQL para encontrar la expulsión activa o inactiva en la misma categoría y jugador
   const sqlBuscar = `
         SELECT * 
         FROM expulsados 
         WHERE id_expulsion = ? 
             AND id_jugador = ? 
-            AND estado = 'A' 
+            AND estado IN ('A', 'I') 
             AND id_partido IN (
             SELECT id_partido 
             FROM partidos 
@@ -664,7 +664,7 @@ const borrarExpulsion = async (req, res) => {
         return res
           .status(404)
           .send(
-            "No se encontró una expulsión activa para el jugador en esta categoría"
+            "No se encontró una expulsión activa o inactiva para el jugador en esta categoría"
           );
       }
 

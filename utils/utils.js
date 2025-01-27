@@ -1,12 +1,11 @@
-// const URL_BACK = 'https://api-coparelampago.vercel.app';
-// const URL_FRONT = 'https://coparelampago.com';
-// const URL_BACK = "https://crbackend-production.up.railway.app"
-// const URL_FRONT = 'https://appcoparelampago.vercel.app';
+const URL_BACK =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3001"
+    : "https://crbackend-production.up.railway.app";
 
-const URL_BACK = 'http://localhost:3001';
-const URL_FRONT = 'http://localhost:5173';
+const URL_FRONT =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:5173"
+    : "https://coparelampago.com";
 
-module.exports = {
-    URL_BACK,
-    URL_FRONT
-};
+module.exports = { URL_BACK, URL_FRONT };
