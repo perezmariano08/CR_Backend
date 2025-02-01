@@ -5,6 +5,8 @@ const equiposController = require('../controllers/equiposController');
 const partidosController = require('../controllers/partidosController');
 const zonasController = require('../controllers/zonasController');
 const noticiasController = require('../controllers/noticiasController')
+const temporadasController = require('../controllers/temporadasController')
+const jugadoresController = require('../controllers/jugadoresController')
 const logMiddleware = require('../middlewares/logs');
 
 const router = express.Router();
@@ -13,7 +15,7 @@ router.post('/crear-torneo', revisarToken, revisarAdmin, logMiddleware, adminCon
 router.post('/crear-sede', revisarToken, revisarAdmin, logMiddleware, adminController.crearSede);
 router.post('/crear-anio', revisarToken, revisarAdmin, logMiddleware, adminController.crearAnio);
 router.post('/crear-temporada', revisarToken, revisarAdmin, logMiddleware, adminController.crearTemporada);
-router.post('/crear-equipo', revisarToken, revisarAdmin, logMiddleware, adminController.crearEquipo);
+// router.post('/crear-equipo', revisarToken, revisarAdmin, logMiddleware, adminController.crearEquipo);
 router.post('/crear-division', revisarToken, revisarAdmin, logMiddleware, adminController.crearDivision);
 router.post('/crear-categoria', revisarToken, revisarAdmin, logMiddleware, adminController.crearCategoria);
 router.post('/crear-jugador', revisarToken, revisarAdmin, logMiddleware, adminController.crearJugador);
@@ -21,9 +23,20 @@ router.post('/crear-expulsion', revisarToken, revisarAdmin, logMiddleware, admin
 
 //Partidos
 router.post('/crear-partido', revisarToken, revisarAdmin, logMiddleware, partidosController.crearPartido);
-router.post('/actualizar-partido', revisarToken, revisarAdmin, logMiddleware, partidosController.updatePartido);
-router.put('/importar-partidos', revisarToken, revisarAdmin, logMiddleware, partidosController.importarPartidos);
+router.put('/actualizar-partido', revisarToken, revisarAdmin, logMiddleware, partidosController.updatePartido);
+router.post('/importar-partidos', revisarToken, revisarAdmin, logMiddleware, partidosController.importarPartidos);
 router.post('/eliminar-partido', revisarToken, revisarAdmin, logMiddleware, partidosController.deletePartido);
+
+//Categorias formato
+router.post('/insertar-equipo-temporada', revisarToken, revisarAdmin, logMiddleware, temporadasController.insertarEquipoTemporada);
+router.post('/insertar-equipo-temporada-categoria', revisarToken, revisarAdmin, logMiddleware, temporadasController.insertarEquipoTemporadaCategoria);
+router.put('/vaciar-vacante', revisarToken, revisarAdmin, logMiddleware, zonasController.vaciarVacante);
+router.put('/eliminar-vacante', revisarToken, revisarAdmin, zonasController.eliminarVacante);
+
+//Categorias equipos detalle
+router.post('/crear-equipo', revisarToken, revisarAdmin, logMiddleware, equiposController.crearEquipo);
+router.post('/crear-jugador', revisarToken, revisarAdmin, logMiddleware, jugadoresController.crearJugador);
+router.post('/eliminar-jugador-plantel', revisarToken, revisarAdmin, logMiddleware, jugadoresController.eliminarJugadorPlantel);
 
 router.get('/get-noticias', noticiasController.getNoticias);
 router.get('/get-noticia', noticiasController.getNoticiasId);
@@ -69,9 +82,6 @@ router.put('/actualizar-zona', revisarToken, revisarAdmin, zonasController.actua
 router.post('/eliminar-zona', revisarToken, revisarAdmin, zonasController.eliminarZona);
 
 router.post('/guardar-vacante-play-off', revisarToken, revisarAdmin, partidosController.guardarVacantePlayOff)
-
-router.put('/vaciar-vacante', revisarToken, revisarAdmin, zonasController.vaciarVacante);
-router.put('/eliminar-vacante', revisarToken, revisarAdmin, zonasController.eliminarVacante);
 
 router.get('/check-equipo-plantel', adminController.checkEquipoPlantel);
 router.post('/copiar-planteles-temporada', revisarToken, revisarAdmin, adminController.copiarPlantelesTemporada);

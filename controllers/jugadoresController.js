@@ -212,19 +212,22 @@ const crearJugador = (req, res) => {
     eventual = "N",
   } = req.body;
 
+  const valores = [
+    dni,
+    nombre,
+    apellido,
+    posicion,
+    id_equipo,
+    id_edicion,
+    id_categoria,
+    sancionado,
+    eventual
+  ];
+
+
   db.query(
     "CALL sp_crear_jugador(?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    [
-      dni,
-      nombre,
-      apellido,
-      posicion,
-      id_equipo,
-      id_edicion,
-      id_categoria,
-      sancionado,
-      eventual,
-    ],
+    valores,
     (err, result) => {
       if (err) {
         if (err.sqlState === "45000") {
@@ -282,9 +285,9 @@ const eliminarJugadorPlantel = (req, res) => {
     (err, result) => {
       if (err) {
         console.error("Error eliminando el jugador del plantel:", err);
-        return res.status(500).send("Error eliminando el jugador del plantel");
+        return res.status(500).json({mensaje: "Error eliminando el jugador del plantel"});
       }
-      res.status(200).send("Jugador eliminado del plantel correctamente");
+      res.status(200).json({mensaje: "Jugador eliminado del plantel correctamente"});
     }
   );
 };
