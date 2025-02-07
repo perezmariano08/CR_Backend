@@ -131,9 +131,9 @@ const crearEquipo = (req, res) => {
         (err, result) => {
             if (err) {
                 console.error('Error al ejecutar el procedimiento:', err);
-                return res.status(500).json({ error: 'Error interno del servidor' });
+                return res.status(500).json({ mensaje: 'Error interno del servidor' });
             }
-            res.status(200).json({ message: 'Equipo registrado y agregado a temporadas con éxito' });
+            res.status(200).json({ mensaje: 'Equipo registrado y agregado a temporadas con éxito' });
         }
     );
 };

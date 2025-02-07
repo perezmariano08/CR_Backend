@@ -108,8 +108,8 @@ SELECT
         AND p.eventual = 'N') AS jugadores_sin_dni
 FROM 
     temporadas t
-    LEFT JOIN equipos e ON e.id_equipo = t.id_equipo -- Cambio a LEFT JOIN para incluir equipos sin id_equipo
-    INNER JOIN zonas z ON z.id_zona = t.id_zona;
+    LEFT JOIN equipos e ON e.id_equipo = t.id_equipo
+    LEFT JOIN zonas z ON z.id_zona = t.id_zona;
 `, 
     (err, result) => {
         if (err) return res.status(500).send('Error interno del servidor');
@@ -117,7 +117,7 @@ FROM
     });
 };
 
-const InsertarEquipoTemporada = (req, res) => {
+const insertarEquipoTemporada = (req, res) => {
     const { id_categoria, id_edicion, id_zona, id_equipo, vacante, id_partido } = req.body;
 
     // Paso 1: Consultar el tipo de zona
@@ -176,6 +176,28 @@ const InsertarEquipoTemporada = (req, res) => {
     });
 };
 
+const insertarEquipoTemporadaCategoria = (req, res) => {
+    const { id_categoria, id_edicion, id_zona, id_equipo, vacante } = req.body;
+
+    const insertQuery = `
+        INSERT INTO temporadas (id_categoria, id_edicion, id_zona, id_equipo, vacante)
+        VALUES (?, ?, NULL, ?, NULL)
+    `;
+
+    const queryParams = [id_categoria, id_edicion, id_equipo];
+
+    db.query(insertQuery, queryParams, (err, result) => {
+        if (err) {
+            console.error("Error al insertar en categorias:", err);
+            return res.status(500).json({ mensaje: 'Error interno al insertar en categorias' });
+        }
+
+        console.log("Registro insertado en categorias con éxito:", result);
+        return res.status(200).json({ mensaje: 'Registro insertado en categorias con éxito' });
+    });
+};
+
+
 const eliminarEquipoTemporada = (req, res) => {
     const { id_equipo, id_categoria, id_edicion } = req.body;
     
@@ -216,7 +238,8 @@ module.exports = {
     getEstadisticasCategoria,
     getZonas,
     getTemporadas,
-    InsertarEquipoTemporada,
+    insertarEquipoTemporada,
     eliminarEquipoTemporada,
+    insertarEquipoTemporadaCategoria,
     determinarVentaja
 };

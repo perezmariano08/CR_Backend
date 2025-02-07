@@ -40,11 +40,9 @@ router.get('/get-novedades', perfilController.getNovedades)
 
 // Jugadores
 router.post('/delete-jugador', jugadoresController.deleteJugador);
-router.post('/eliminar-jugador-plantel', jugadoresController.eliminarJugadorPlantel);
 router.put('/update-jugador', jugadoresController.updateJugador);
 router.post('/importar-jugadores', jugadoresController.importarJugadores);
 router.post('/agregar-jugador-plantel', jugadoresController.agregarJugadorPlantel);
-router.post('/crear-jugador', jugadoresController.crearJugador);
 
 router.get('/get-jugadores', jugadoresController.getJugadores);
 router.get('/verificar-jugador', jugadoresController.verificarJugadorEventual)
@@ -78,14 +76,12 @@ router.post('/eliminar-categoria', categoriasController.eliminarCategoria);
 router.get('/get-categorias', categoriasController.getCategorias);
 
 // Equipos
-router.post('/crear-equipo', equiposController.crearEquipo);
 router.post('/eliminar-equipo', equiposController.eliminarEquipo);
 router.put('/actualizar-categoria-equipo', equiposController.actualizarCategoriaEquipo);
 router.put('/actualizar-apercibimientos', equiposController.actualizarApercibimientos);
 
 //Temporadas
 router.get('/get-temporadas', temporadasController.getTemporadas);
-router.post('/insertar-equipo-temporada', temporadasController.InsertarEquipoTemporada);
 router.post('/eliminar-equipo-temporada', temporadasController.eliminarEquipoTemporada);
 router.get('/determinar-ventaja', temporadasController.determinarVentaja);
 
