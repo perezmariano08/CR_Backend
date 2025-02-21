@@ -21,9 +21,9 @@ const uploadToFTP = (filePath, remotePath) => {
         });
 
         client.connect({
-            host: "185.245.180.126",
-            user: "u436441116.coparelampago.com",
-            password: "mK:Y0^~cAwKHK^9c",
+            host: "46.202.145.151",
+            user: "u117252722.coparelampago.com",
+            password: "~Is2JoT|J>V2Ir[I",
         });
     });
 };

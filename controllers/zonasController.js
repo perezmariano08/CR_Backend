@@ -234,13 +234,13 @@ const actualizarZona = (req, res) => {
             break;
         case 'menor':
             sql = `CALL sp_eliminar_vacantes_menor(?, ?, ?, ?, ?, ?, ?, ?)`;
-            params = [id_zona, nombre_zona, tipo_zona, etapa, cantidad_equipos, id_equipo_campeon, campeon, terminada];
+            params = [id_zona, nombre_zona, tipo_zona, etapa, cantidad_equipos, campeon, terminada, id_equipo_campeon];
             successMessage = 'Vacantes eliminadas correctamente.';
             errorMessage = 'Error al eliminar vacantes.';
             break;
         case 'mayor':
             sql = 'CALL sp_agregar_vacantes_mayor(?, ?, ?, ?, ?, ?, ?, ?)';
-            params = [id_zona, nombre_zona, tipo_zona, etapa, cantidad_equipos, id_equipo_campeon, campeon, terminada];
+            params = [id_zona, nombre_zona, tipo_zona, etapa, cantidad_equipos, campeon, terminada, id_equipo_campeon];
             successMessage = 'Vacantes agregadas correctamente.';
             errorMessage = 'Error al agregar vacantes.';
             break;

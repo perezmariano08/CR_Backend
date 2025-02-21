@@ -201,15 +201,13 @@ const importarJugadores = async (req, res) => {
 
 const crearJugador = (req, res) => {
   const {
-    dni,
-    nombre,
     apellido,
-    posicion,
-    id_equipo,
-    id_edicion,
+    dni,
     id_categoria,
-    sancionado = "N",
-    eventual = "N",
+    id_edicion,
+    id_equipo,
+    nombre,
+    posicion,
   } = req.body;
 
   const valores = [
@@ -220,23 +218,20 @@ const crearJugador = (req, res) => {
     id_equipo,
     id_edicion,
     id_categoria,
-    sancionado,
-    eventual
   ];
 
-
   db.query(
-    "CALL sp_crear_jugador(?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "CALL sp_crear_jugador(?, ?, ?, ?, ?, ?, ?)",
     valores,
     (err, result) => {
       if (err) {
         if (err.sqlState === "45000") {
-          return res.status(400).send(err.sqlMessage);
+          return res.status(400).json({ mensaje: err.sqlMessage });
         }
         console.error("Error al crear el jugador:", err);
-        return res.status(500).send("Error interno del servidor");
+        return res.status(500).json({ mensaje: "Error interno del servidor" });
       }
-      res.status(200).send("Jugador creado exitosamente");
+      res.status(200).json({ mensaje: "Jugador creado exitosamente" });
     }
   );
 };
@@ -244,14 +239,12 @@ const crearJugador = (req, res) => {
 const agregarJugadorPlantel = (req, res) => {
   const { id_jugador, id_equipo, id_categoria, id_edicion } = req.body;
 
-  // Construye la consulta SQL con los marcadores de posición
   const query = `
   INSERT INTO planteles (id_jugador, id_equipo, id_categoria, id_edicion)
   VALUES (?, ?, ?, ?)
   ON DUPLICATE KEY UPDATE 
       id_jugador = VALUES(id_jugador)
 `;
-
 
   // Pasa los valores como un array
   const values = [id_jugador, id_equipo, id_categoria, id_edicion];
@@ -285,9 +278,13 @@ const eliminarJugadorPlantel = (req, res) => {
     (err, result) => {
       if (err) {
         console.error("Error eliminando el jugador del plantel:", err);
-        return res.status(500).json({mensaje: "Error eliminando el jugador del plantel"});
+        return res
+          .status(500)
+          .json({ mensaje: "Error eliminando el jugador del plantel" });
       }
-      res.status(200).json({mensaje: "Jugador eliminado del plantel correctamente"});
+      res
+        .status(200)
+        .json({ mensaje: "Jugador eliminado del plantel correctamente" });
     }
   );
 };
@@ -414,45 +411,47 @@ ORDER BY
 };
 
 const actualizarJugadorDestacado = (req, res) => {
-    const { id_partido, jornada, id_equipo, id_jugador, posicion } = req.body;
-  
-    // Validaciones de datos
-    if (!jornada || !id_equipo || !id_jugador || !posicion) {
-      return res.status(400).json({
-        error: "Faltan datos obligatorios (jornada, id_equipo, id_jugador, posicion)",
-      });
-    }
-  
-    if (
-      typeof jornada !== "number" ||
-      typeof id_equipo !== "number" ||
-      typeof id_jugador !== "number"
-    ) {
-      return res.status(400).json({
-        error: "Los campos jornada, id_equipo e id_jugador deben ser números",
-      });
-    }
-  
-    // Verificamos si el jugador ya está destacado en la jornada actual
-    const checkQuery = `
+  const { id_partido, jornada, id_equipo, id_jugador, posicion } = req.body;
+
+  // Validaciones de datos
+  if (!jornada || !id_equipo || !id_jugador || !posicion) {
+    return res.status(400).json({
+      error:
+        "Faltan datos obligatorios (jornada, id_equipo, id_jugador, posicion)",
+    });
+  }
+
+  if (
+    typeof jornada !== "number" ||
+    typeof id_equipo !== "number" ||
+    typeof id_jugador !== "number"
+  ) {
+    return res.status(400).json({
+      error: "Los campos jornada, id_equipo e id_jugador deben ser números",
+    });
+  }
+
+  // Verificamos si el jugador ya está destacado en la jornada actual
+  const checkQuery = `
       SELECT *
       FROM jugadores_destacados AS jd
       INNER JOIN partidos AS p ON p.id_partido = jd.id_partido AND p.jornada = ?
       WHERE jd.id_equipo = ?
       AND jd.id_jugador = ?
     `;
-  
-    db.query(checkQuery, [jornada, id_equipo, id_jugador], (err, result) => {
-      if (err) {
-        return res.status(500).json({
-          error: "Error al verificar si el jugador está destacado en esta jornada",
-          details: err,
-        });
-      }
-  
-      if (result.length > 0) {
-        // Si el jugador ya está destacado, actualizamos la posición y el campo dt
-        const updateQuery = `
+
+  db.query(checkQuery, [jornada, id_equipo, id_jugador], (err, result) => {
+    if (err) {
+      return res.status(500).json({
+        error:
+          "Error al verificar si el jugador está destacado en esta jornada",
+        details: err,
+      });
+    }
+
+    if (result.length > 0) {
+      // Si el jugador ya está destacado, actualizamos la posición y el campo dt
+      const updateQuery = `
           UPDATE jugadores_destacados AS jd
           INNER JOIN partidos AS p ON p.id_partido = jd.id_partido
           SET jd.posicion = ?, jd.dt = 'S'
@@ -461,46 +460,59 @@ const actualizarJugadorDestacado = (req, res) => {
           AND p.jornada = ?
           AND p.id_categoria = jd.id_categoria;
         `;
-  
-        db.query(updateQuery, [posicion, id_jugador, id_equipo, jornada], (err, result) => {
+
+      db.query(
+        updateQuery,
+        [posicion, id_jugador, id_equipo, jornada],
+        (err, result) => {
           if (err) {
             return res.status(500).json({
               error: "Error al actualizar el jugador destacado",
               details: err,
             });
           }
-  
+
           if (result.affectedRows === 0) {
             return res.status(404).json({
-              error: "No se encontró el jugador destacado con los datos proporcionados",
+              error:
+                "No se encontró el jugador destacado con los datos proporcionados",
             });
           }
-  
-          res.status(200).json({ message: "Jugador destacado actualizado correctamente" });
-        });
-      } else {
-        // Si el jugador NO está en la tabla para la jornada actual, lo insertamos sin id_partido (NULL)
-        const insertQuery = `
+
+          res
+            .status(200)
+            .json({ message: "Jugador destacado actualizado correctamente", status: 200 });
+        }
+      );
+    } else {
+      // Si el jugador NO está en la tabla para la jornada actual, lo insertamos sin id_partido (NULL)
+      const insertQuery = `
           INSERT INTO jugadores_destacados (id_partido, id_equipo, id_jugador, posicion, dt, id_categoria)
           SELECT ?, ?, ?, ?, 'S', p.id_categoria
           FROM partidos AS p
           WHERE p.jornada = ?
           LIMIT 1
         `;
-  
-        db.query(insertQuery, [id_partido, id_equipo, id_jugador, posicion, jornada, jornada], (err, insertResult) => {
+
+      db.query(
+        insertQuery,
+        [id_partido, id_equipo, id_jugador, posicion, jornada, jornada],
+        (err, insertResult) => {
           if (err) {
             return res.status(500).json({
               error: "Error al insertar el nuevo jugador destacado",
               details: err,
             });
           }
-  
-          res.status(201).json({ message: "Jugador destacado actualizado correctamente" });
-        });
-      }
-    });
-  };
+
+          res
+            .status(201)
+            .json({ message: "Jugador destacado actualizado correctamente" });
+        }
+      );
+    }
+  });
+};
 
 const resetearPosicionesYDT = (req, res) => {
   const { jornada } = req.query;
@@ -542,42 +554,92 @@ const resetearPosicionesYDT = (req, res) => {
 };
 
 const traerJugadoresPorCategoria = (req, res) => {
-    const { id_categoria, jornada } = req.query;
-    
-    const query = `
-    SELECT
-        p.id_partido,
-        pl.id_equipo,
-        j.id_jugador,
-        j.nombre,
-        j.apellido
-    FROM
-        jugadores AS j
-    INNER JOIN planteles AS pl
-        ON pl.id_jugador = j.id_jugador
-        AND pl.id_categoria = ?
-    LEFT JOIN jugadores_destacados AS jd
-        ON j.id_jugador = jd.id_jugador
-    INNER JOIN formaciones AS f
-        ON f.id_jugador = j.id_jugador
-    INNER JOIN partidos AS p
-        ON p.id_partido = f.id_partido
-    WHERE
-        j.estado = 'A'
-        AND pl.sancionado = 'N'
-        AND jd.id_jugador IS NULL
-        AND p.jornada = ?
-    ORDER BY
-        j.apellido,
-    j.nombre;
+  const { id_categoria, jornada } = req.query;
+
+  const query = `
+SELECT
+    pl.id_equipo,
+    j.id_jugador,
+    j.nombre,
+    j.apellido
+FROM jugadores AS j
+INNER JOIN planteles AS pl
+    ON pl.id_jugador = j.id_jugador
+    AND pl.id_categoria = ? -- Filtra por categoría
+LEFT JOIN jugadores_destacados AS jd
+    ON j.id_jugador = jd.id_jugador
+LEFT JOIN formaciones AS f
+    ON f.id_jugador = j.id_jugador
+LEFT JOIN partidos AS p
+    ON p.id_partido = f.id_partido
+    AND p.jornada = ? -- Filtra por jornada solo en partidos
+WHERE j.estado = 'A'
+    AND pl.sancionado = 'N'
+    AND jd.id_jugador IS NULL -- Excluye los jugadores destacados
+ORDER BY j.apellido, j.nombre;
     `;
-    
-    db.query(query, [id_categoria ,jornada], (err, result) => {
-      if (err) return res.status(500).send("Error interno del servidor");
-      res.status(200).send(result);
-    });
-  };
-  
+
+  db.query(query, [id_categoria, jornada], (err, result) => {
+    if (err) return res.status(500).send("Error interno del servidor");
+    res.status(200).send(result);
+  });
+};
+
+const traerDreamTeamFecha = (req, res) => {
+  const { id_categoria, jornada } = req.query;
+
+  if (!id_categoria || !jornada) {
+    return res.status(400).json({ mensaje: "Falta parámetros" });
+  }
+
+  const sql = `
+    SELECT jd.id_jugador,
+    jd.id_partido,
+    j.nombre,
+    j.apellido,
+    jd.id_equipo,
+    jd.posicion
+    FROM
+    jugadores_destacados AS jd
+    INNER JOIN jugadores AS j ON j.id_jugador = jd.id_jugador
+    INNER JOIN partidos AS p ON p.id_partido = jd.id_partido
+    INNER JOIN categorias AS c ON c.id_categoria = p.id_categoria
+    WHERE c.id_categoria = ?
+    AND p.jornada = ?
+    AND jd.dt = 'S'
+  `;
+
+  db.query(sql, [id_categoria, jornada], (err, result) => {
+    if (err)
+      return res.status(500).json({ mensaje: "Error interno del servidor" });
+    res.status(200).send(result);
+  });
+};
+
+const eliminarJugadorDt = (req, res) => {
+
+  const { id_partido, id_jugador, id_equipo } = req.body;
+
+  if (!id_partido || !id_jugador || !id_equipo) {
+    return res.status(400).json({ mensaje: "Datos incompletos" });
+  }
+
+  const sql = `
+    UPDATE jugadores_destacados AS jd
+    SET dt = 'N', posicion = NULL
+    WHERE id_partido = ?
+    AND id_jugador = ?
+    AND id_equipo = ?
+  `;
+
+  db.query(sql, [id_partido, id_jugador, id_equipo], (err, result) => {
+    if (err) {
+      return res.status(500).json({ mensaje: "Error interno del servidor" });
+    }
+    res.status(200).json({ mensaje: "Jugador eliminado del dreamteam", status: 200 });
+  });
+};
+
 module.exports = {
   getJugadores,
   deleteJugador,
@@ -591,5 +653,7 @@ module.exports = {
   getJugadoresDestacados,
   actualizarJugadorDestacado,
   resetearPosicionesYDT,
-  traerJugadoresPorCategoria
+  traerJugadoresPorCategoria,
+  traerDreamTeamFecha,
+  eliminarJugadorDt,
 };

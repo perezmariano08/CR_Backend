@@ -42,7 +42,6 @@ router.get('/get-novedades', perfilController.getNovedades)
 router.post('/delete-jugador', jugadoresController.deleteJugador);
 router.put('/update-jugador', jugadoresController.updateJugador);
 router.post('/importar-jugadores', jugadoresController.importarJugadores);
-router.post('/agregar-jugador-plantel', jugadoresController.agregarJugadorPlantel);
 
 router.get('/get-jugadores', jugadoresController.getJugadores);
 router.get('/verificar-jugador', jugadoresController.verificarJugadorEventual)
@@ -50,13 +49,6 @@ router.get('/get-jugador-eventual-categoria', jugadoresController.verificarCateg
 
 // Planteles
 router.get('/get-planteles', plantelesController.getPlanteles);
-
-// Partidos
-//! ELIMINAR
-// router.post('/crear-partido', partidosController.crearPartido);
-// router.post('/eliminar-partido', partidosController.deletePartido);
-// router.put('/actualizar-partido', partidosController.updatePartido);
-// router.post('/importar-partidos', partidosController.importarPartidos);
 
 router.get('/get-partidos', partidosController.getPartidos);
 router.get('/get-planteles-partido', partidosController.getPlantelesPartido);
@@ -90,11 +82,9 @@ router.post('/crear-zona', zonasController.crearZona);
 router.post('/crear-zona-vacantes-partidos', zonasController.crearZonaVacantesPartidos);
 
 //DreamTeam
+router.get('/get-dreamteam-jornada', jugadoresController.traerDreamTeamFecha)
 router.get('/get-jugadores-destacados', jugadoresController.getJugadoresDestacados);
 router.get('/get-jugadores-categoria', jugadoresController.traerJugadoresPorCategoria);
-router.put('/actualizar-jugadores-destacados', jugadoresController.actualizarJugadorDestacado)
-router.put('/resetear-jugadores-destacados', jugadoresController.resetearPosicionesYDT)
-
 router.post('/armar-dreamteam', userController.armarDreamteam)
 
 router.post('/actualizar-partido-vacante', partidosController.actualizarPartidoVacante)
