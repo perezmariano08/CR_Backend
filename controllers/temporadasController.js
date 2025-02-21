@@ -119,7 +119,8 @@ FROM
 
 const insertarEquipoTemporada = (req, res) => {
     const { id_categoria, id_edicion, id_zona, id_equipo, vacante, id_partido } = req.body;
-
+    console.log(id_categoria, id_edicion, id_zona, id_equipo, vacante, id_partido);
+    
     // Paso 1: Consultar el tipo de zona
     const consultaTipoZona = `SELECT tipo_zona FROM zonas WHERE id_zona = ?`;
 

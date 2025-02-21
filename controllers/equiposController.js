@@ -123,6 +123,7 @@ ORDER BY
 
 const crearEquipo = (req, res) => {
     const { nombre, id_categoria, id_edicion, id_zona, vacante } = req.body;
+    console.log(nombre, id_categoria, id_edicion, id_zona, vacante);
     
     // Llamar al procedimiento almacenado con los parámetros correspondientes
     db.query(
@@ -133,7 +134,7 @@ const crearEquipo = (req, res) => {
                 console.error('Error al ejecutar el procedimiento:', err);
                 return res.status(500).json({ mensaje: 'Error interno del servidor' });
             }
-            res.status(200).json({ mensaje: 'Equipo registrado y agregado a temporadas con éxito' });
+            res.status(200).json({ mensaje: 'Equipo registrado con éxito' });
         }
     );
 };

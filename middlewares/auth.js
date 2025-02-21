@@ -14,9 +14,7 @@ function revisarToken(req, res, next) {
         if (!token) {
             return res.status(400).json({ mensaje: 'Token no proporcionado' });
         }
-
-        // Verificar el token
-        console.log('Token recibido:', token); // Depuración
+        
         const decoded = jsonwebtoken.verify(token, 'textosecretoDECIFRADO');
 
         // Verificar si el usuario existe en la base de datos
@@ -41,7 +39,6 @@ function revisarToken(req, res, next) {
         if (error.name === 'JsonWebTokenError') {
             return res.status(400).json({ mensaje: 'Token inválido' });
         }
-        console.error('Middleware revisarToken - error:', error);
         return res.status(500).json({ mensaje: 'Error interno del servidor' });
     }
 }

@@ -7,6 +7,7 @@ const zonasController = require('../controllers/zonasController');
 const noticiasController = require('../controllers/noticiasController')
 const temporadasController = require('../controllers/temporadasController')
 const jugadoresController = require('../controllers/jugadoresController')
+const planillaController = require('../controllers/planillaController')
 const logMiddleware = require('../middlewares/logs');
 
 const router = express.Router();
@@ -18,7 +19,6 @@ router.post('/crear-temporada', revisarToken, revisarAdmin, logMiddleware, admin
 // router.post('/crear-equipo', revisarToken, revisarAdmin, logMiddleware, adminController.crearEquipo);
 router.post('/crear-division', revisarToken, revisarAdmin, logMiddleware, adminController.crearDivision);
 router.post('/crear-categoria', revisarToken, revisarAdmin, logMiddleware, adminController.crearCategoria);
-router.post('/crear-jugador', revisarToken, revisarAdmin, logMiddleware, adminController.crearJugador);
 router.post('/crear-expulsion', revisarToken, revisarAdmin, logMiddleware, adminController.crearExpulsion);
 
 //Partidos
@@ -27,7 +27,7 @@ router.put('/actualizar-partido', revisarToken, revisarAdmin, logMiddleware, par
 router.post('/importar-partidos', revisarToken, revisarAdmin, logMiddleware, partidosController.importarPartidos);
 router.post('/eliminar-partido', revisarToken, revisarAdmin, logMiddleware, partidosController.deletePartido);
 
-//Categorias formato
+//Categorias forAto
 router.post('/insertar-equipo-temporada', revisarToken, revisarAdmin, logMiddleware, temporadasController.insertarEquipoTemporada);
 router.post('/insertar-equipo-temporada-categoria', revisarToken, revisarAdmin, logMiddleware, temporadasController.insertarEquipoTemporadaCategoria);
 router.put('/vaciar-vacante', revisarToken, revisarAdmin, logMiddleware, zonasController.vaciarVacante);
@@ -36,6 +36,7 @@ router.put('/eliminar-vacante', revisarToken, revisarAdmin, zonasController.elim
 //Categorias equipos detalle
 router.post('/crear-equipo', revisarToken, revisarAdmin, logMiddleware, equiposController.crearEquipo);
 router.post('/crear-jugador', revisarToken, revisarAdmin, logMiddleware, jugadoresController.crearJugador);
+router.post('/agregar-jugador-plantel', revisarToken, revisarAdmin, logMiddleware, jugadoresController.agregarJugadorPlantel);
 router.post('/eliminar-jugador-plantel', revisarToken, revisarAdmin, logMiddleware, jugadoresController.eliminarJugadorPlantel);
 
 router.get('/get-noticias', noticiasController.getNoticias);
@@ -47,6 +48,8 @@ router.get('/get-divisiones', revisarToken, revisarAdmin, adminController.getDiv
 router.get('/get-usuarios', revisarToken, revisarAdmin, adminController.getUsuarios);
 router.get('/get-roles', revisarToken, revisarAdmin, adminController.getRoles);
 router.get('/get-categorias', revisarToken, revisarAdmin, adminController.getCategorias);
+router.get('/get-categorias', revisarToken, revisarAdmin, adminController.getCategorias);
+router.get('/get-jugadores-dream', planillaController.getJugadoresDream);
 
 router.post('/delete-usuario', revisarToken, revisarAdmin, adminController.deleteUsuario);
 router.post('/delete-temporada', revisarToken, revisarAdmin, adminController.deleteTemporada);
@@ -85,5 +88,9 @@ router.post('/guardar-vacante-play-off', revisarToken, revisarAdmin, partidosCon
 
 router.get('/check-equipo-plantel', adminController.checkEquipoPlantel);
 router.post('/copiar-planteles-temporada', revisarToken, revisarAdmin, adminController.copiarPlantelesTemporada);
+
+router.put('/eliminar-jugador-dt', revisarToken, revisarAdmin, jugadoresController.eliminarJugadorDt);
+router.put('/resetear-jugadores-destacados', jugadoresController.resetearPosicionesYDT)
+router.put('/actualizar-jugadores-destacados', jugadoresController.actualizarJugadorDestacado)
 
 module.exports = router;

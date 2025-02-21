@@ -244,7 +244,16 @@ const firmaJugador = (req, res) => {
 };
 
 const crearJugadorEventual = async (req, res) => {
-  const { id_partido, id_equipo, nombre, apellido, dni, dorsal, estado, eventual } = req.body;
+  const {
+    id_partido,
+    id_equipo,
+    nombre,
+    apellido,
+    dni,
+    dorsal,
+    estado,
+    eventual,
+  } = req.body;
 
   try {
     // Función auxiliar para ejecutar consultas SQL
@@ -261,7 +270,10 @@ const crearJugadorEventual = async (req, res) => {
 
     // 1. Verificar si el jugador ya existe en la tabla jugadores
     let id_jugador;
-    const jugadores = await query(`SELECT id_jugador FROM jugadores WHERE dni = ?`, [dni]);
+    const jugadores = await query(
+      `SELECT id_jugador FROM jugadores WHERE dni = ?`,
+      [dni]
+    );
 
     if (jugadores.length > 0) {
       // Jugador ya existe
@@ -278,10 +290,15 @@ const crearJugadorEventual = async (req, res) => {
     console.log("ID del jugador:", id_jugador);
 
     // 2. Obtener id_categoria e id_edicion de la tabla partidos
-    const partido = await query(`SELECT id_categoria, id_edicion FROM partidos WHERE id_partido = ?`, [id_partido]);
+    const partido = await query(
+      `SELECT id_categoria, id_edicion FROM partidos WHERE id_partido = ?`,
+      [id_partido]
+    );
 
     if (!partido.length) {
-      return res.status(404).json({ success: false, message: 'Partido no encontrado' });
+      return res
+        .status(404)
+        .json({ success: false, message: "Partido no encontrado" });
     }
 
     const { id_categoria, id_edicion } = partido[0];
@@ -293,14 +310,19 @@ const crearJugadorEventual = async (req, res) => {
     );
 
     if (planteles.length > 0) {
-      return res.status(409).json({ success: false, message: 'El jugador ya está registrado en este equipo' });
+      return res
+        .status(409)
+        .json({
+          success: false,
+          message: "El jugador ya está registrado en este equipo",
+        });
     }
 
     // 4. Insertar el jugador en la tabla planteles
     await query(
       `INSERT INTO planteles (id_equipo, id_jugador, id_edicion, id_categoria, eventual, sancionado) 
        VALUES (?, ?, ?, ?, ?, ?)`,
-      [id_equipo, id_jugador, id_edicion, id_categoria, eventual, 'N']
+      [id_equipo, id_jugador, id_edicion, id_categoria, eventual, "N"]
     );
 
     // 5. Verificar si el jugador ya está en formaciones
@@ -310,7 +332,12 @@ const crearJugadorEventual = async (req, res) => {
     );
 
     if (formaciones.length > 0) {
-      return res.status(409).json({ success: false, message: 'El jugador ya está registrado en este partido' });
+      return res
+        .status(409)
+        .json({
+          success: false,
+          message: "El jugador ya está registrado en este partido",
+        });
     }
 
     // 6. Insertar en la tabla formaciones
@@ -320,51 +347,48 @@ const crearJugadorEventual = async (req, res) => {
     );
 
     // Emitir evento
-    req.io.emit('jugadorEventualCreado', {
+    req.io.emit("jugadorEventualCreado", {
       id_jugador,
       id_equipo,
       nombre,
       apellido,
-      dorsal
+      dorsal,
     });
 
     // Responder con éxito
-    return res.status(201).json({ success: true, message: 'Jugador eventual creado exitosamente' });
+    return res
+      .status(201)
+      .json({ success: true, message: "Jugador eventual creado exitosamente" });
   } catch (error) {
-    console.error('Error inesperado:', error);
+    console.error("Error inesperado:", error);
     return res.status(500).json({ success: false, message: error.message });
   }
 };
 
 const getEdicion = async (req, res) => {
   const { id_edicion } = req.query;
-  
+
   if (!id_edicion) {
-    return res.status(400).json({ mensaje: 'Falta el id del edicion' });
+    return res.status(400).json({ mensaje: "Falta el id del edicion" });
   }
 
   const sql = `SELECT nombre, temporada, cantidad_eventuales, partidos_eventuales FROM ediciones WHERE id_edicion = ?`;
   db.query(sql, [id_edicion], (err, result) => {
     if (err) {
       console.error("Error al traer la edicion:", err);
-      return res
-        .status(500)
-        .json({ mensaje: "Error al traer la edicion" });
+      return res.status(500).json({ mensaje: "Error al traer la edicion" });
     }
     if (result.length === 0) {
-      return res
-        .status(404)
-        .json({ mensaje: "No se encontró la edición" });
+      return res.status(404).json({ mensaje: "No se encontró la edición" });
     }
     return res.status(200).json(result);
   });
+};
 
-}
-
-const checkPartidosEventual = async (req, res) => { 
+const checkPartidosEventual = async (req, res) => {
   const { id_partido, dni } = req.query;
-  console.log(id_partido, dni );
-  
+  console.log(id_partido, dni);
+
   if (!id_partido || !dni) {
     return res.status(400).json({ mensaje: "Faltan parámetros" });
   }
@@ -376,10 +400,13 @@ WHERE f.id_jugador = (SELECT id_jugador FROM jugadores WHERE dni = ?)
   AND p.id_categoria = (SELECT id_categoria FROM partidos WHERE id_partido = ?)
   AND p.id_edicion = (SELECT id_edicion FROM partidos WHERE id_partido = ?)
   AND p.estado = 'F';
-`
+`;
   db.query(sql, [dni, id_partido, id_partido], (err, result) => {
     if (err) {
-      console.error("Error al ejecutar la consulta de checkPartidosEventual:", err);
+      console.error(
+        "Error al ejecutar la consulta de checkPartidosEventual:",
+        err
+      );
       return res.status(500).json({ mensaje: "Error interno del servidor" });
     }
 
@@ -388,13 +415,13 @@ WHERE f.id_jugador = (SELECT id_jugador FROM jugadores WHERE dni = ?)
     }
     return res.status(200).json(result[0]);
   });
-}
+};
 
-const getJugadoresDestacados = (req, res) => { 
+const getJugadoresDestacados = (req, res) => {
   const { id_partido } = req.query;
 
   if (!id_partido) {
-    return res.status(400).json({ mensaje: 'Falta el id del partido' });
+    return res.status(400).json({ mensaje: "Falta el id del partido" });
   }
 
   const sql = `SELECT
@@ -415,7 +442,7 @@ WHERE
     p.id_partido = ?
 ORDER BY 
     jd.posicion ASC;
-`
+`;
   db.query(sql, [id_partido], (err, result) => {
     if (err) {
       console.error("Error al traer los jugadores destacados:", err);
@@ -430,7 +457,46 @@ ORDER BY
     }
     return res.status(200).json(result);
   });
-}
+};
+
+const getJugadoresDream = (req, res) => {
+  const { id_categoria, jornada } = req.query;
+
+  if (!id_categoria || !jornada) {
+    return res.status(400).json({ mensaje: "Faltan datos" });
+  }
+
+  const sql = `SELECT 
+    j.id_jugador,
+    j.nombre,
+    j.apellido,
+    jd.id_equipo,
+    p.jornada
+FROM 
+    jugadores_destacados AS jd
+INNER JOIN 
+    jugadores AS j ON jd.id_jugador = j.id_jugador
+INNER JOIN 
+    partidos AS p ON jd.id_partido = p.id_partido
+WHERE 
+    jd.id_categoria = ? 
+    AND p.jornada = ?;
+  `;
+  db.query(sql, [id_categoria, jornada], (err, result) => {
+    if (err) {
+      console.error("Error obteniendo jugadores destacados:", err);
+      return res
+        .status(500)
+        .json({ mensaje: "Error obteniendo jugadores destacados" });
+    }
+    if (result.length === 0) {
+      return res
+        .status(404)
+        .json({ mensaje: "No se encontraron jugadores destacados" });
+    }
+    return res.status(200).json(result);
+  });
+};
 
 const updateMvpPartido = async (req, res) => {
   const { id_partido, id_jugador } = req.query;
@@ -448,9 +514,9 @@ const updateMvpPartido = async (req, res) => {
 
     await db.query(updateQuery, [id_jugador, id_partido]);
 
-    const informacion = [id_partido, id_jugador]
+    const informacion = [id_partido, id_jugador];
 
-    req.io.emit('mvpActualizado', informacion)
+    req.io.emit("mvpActualizado", informacion);
 
     res.status(200).json({
       message: "Se agrego correctamente el mvp al partido",
@@ -545,7 +611,7 @@ const actualizarEstadoPartido = (req, res) => {
   const { id_partido } = req.body;
 
   if (!id_partido) {
-      return res.status(400).json({ mensaje: "Falta el id del partido" });
+    return res.status(400).json({ mensaje: "Falta el id del partido" });
   }
 
   // Consulta para obtener el estado actual del partido
@@ -555,99 +621,190 @@ const actualizarEstadoPartido = (req, res) => {
   `;
 
   db.query(queryEstado, [id_partido], (err, result) => {
-      if (err) {
-          console.error("Error al obtener el estado del partido:", err);
-          return res.status(500).json({ mensaje: "Error al obtener el estado del partido" });
-      }
+    if (err) {
+      console.error("Error al obtener el estado del partido:", err);
+      return res
+        .status(500)
+        .json({ mensaje: "Error al obtener el estado del partido" });
+    }
 
-      if (result.length === 0) {
-          return res.status(404).json({ mensaje: "Partido no encontrado" });
-      }
+    if (result.length === 0) {
+      return res.status(404).json({ mensaje: "Partido no encontrado" });
+    }
 
-      let nuevoEstado;
-      let palabra = ''
-      const estadoActual = result[0].estado;
+    let nuevoEstado;
+    let palabra = "";
+    const estadoActual = result[0].estado;
 
-      if (estadoActual === "P") {
-          nuevoEstado = "C"; // Comenzar el partido
-          palabra = 'Comenzado'
-      } else if (estadoActual === "C") {
-          nuevoEstado = "T"; // Terminar el partido
-          palabra = 'Terminado'
-      } else if (estadoActual === "T") {
-          nuevoEstado = "F"; // Finalizar el partido
-          palabra = 'Cargado'
-      } else {
-          return res.status(400).json({ mensaje: "Estado del partido no válido para la transición" });
-      }
+    if (estadoActual === "P") {
+      nuevoEstado = "C"; // Comenzar el partido
+      palabra = "Comenzado";
+    } else if (estadoActual === "C") {
+      nuevoEstado = "T"; // Terminar el partido
+      palabra = "Terminado";
+    } else if (estadoActual === "T") {
+      nuevoEstado = "F"; // Finalizar el partido
+      palabra = "Cargado";
+    } else {
+      return res
+        .status(400)
+        .json({ mensaje: "Estado del partido no válido para la transición" });
+    }
 
-      // Construir la consulta para actualizar el estado y los goles
-      let queryUpdate = `
+    // Construir la consulta para actualizar el estado y los goles
+    let queryUpdate = `
           UPDATE partidos
           SET estado = ?
       `;
-      const params = [nuevoEstado];
+    const params = [nuevoEstado];
 
-      // Si el nuevo estado es "C", también se deben establecer los goles a 0
-      if (nuevoEstado === "C") {
-          queryUpdate += `,
+    // Si el nuevo estado es "C", también se deben establecer los goles a 0
+    if (nuevoEstado === "C") {
+      queryUpdate += `,
           goles_local = 0,
           goles_visita = 0`;
+    }
+
+    queryUpdate += ` WHERE id_partido = ?`;
+    params.push(id_partido);
+
+    db.query(queryUpdate, params, (err, result) => {
+      if (err) {
+        console.error("Error al actualizar el estado del partido:", err);
+        return res
+          .status(500)
+          .json({ mensaje: "Error al actualizar el estado del partido" });
       }
 
-      queryUpdate += ` WHERE id_partido = ?`;
-      params.push(id_partido);
+      // Emitir el nuevo estado del partido a través de WebSocket
+      req.io.emit("nuevo-estado-partido", { id_partido, nuevoEstado });
 
-      db.query(queryUpdate, params, (err, result) => {
-          if (err) {
-              console.error("Error al actualizar el estado del partido:", err);
-              return res.status(500).json({ mensaje: "Error al actualizar el estado del partido" });
-          }
-
-          // Emitir el nuevo estado del partido a través de WebSocket
-          req.io.emit("nuevo-estado-partido", { id_partido, nuevoEstado });
-
-          res.status(200).json({ mensaje: `Partido ${palabra} con éxito` });
-      });
+      res.status(200).json({ mensaje: `Partido ${palabra} con éxito` });
+    });
   });
 };
 
 const updatePartido = (req, res) => {
   const { data } = req.body;
-  const { descripcion, id_partido, pen_local, pen_visita } = data;
+  const {
+    descripcion,
+    id_partido,
+    pen_local,
+    pen_visita,
+    goles_local,
+    goles_visita,
+  } = data;
 
   if (!id_partido) {
-      return res.status(400).json({mensaje: 'Falta el id_partido'});
+    return res.status(400).json({ mensaje: "Falta el id_partido" });
   }
 
-  // Asigna null si pen_local o pen_visita son iguales a 0
+  // Asigna null si penales son 0
   const penLocal = pen_local === 0 ? null : pen_local;
   const penVisita = pen_visita === 0 ? null : pen_visita;
 
-  const sql = `
-      UPDATE partidos
-      SET descripcion = ?, pen_local = ?, pen_visita = ?
-      WHERE id_partido = ?
+  // Obtener la zona del partido
+  const sqlZona = `
+      SELECT p.id_zona, z.tipo_zona, z.campeon
+      FROM partidos p
+      JOIN zonas z ON p.id_zona = z.id_zona
+      WHERE p.id_partido = ?
   `;
 
-  db.query(sql, [descripcion, penLocal, penVisita, id_partido], (err, result) => {
-      if (err) {
-          console.error('Database error:', err);
-          return res.status(500).json({mensaje: 'Error interno del servidor'});
+  db.query(sqlZona, [id_partido], (err, results) => {
+    if (err) {
+      console.error("Error al obtener la zona:", err);
+      return res.status(500).json({ mensaje: "Error interno del servidor" });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ mensaje: "Partido no encontrado" });
+    }
+
+    const { id_zona, tipo_zona, campeon } = results[0];
+
+    // **Actualizar el partido**
+    const sqlUpdatePartido = `
+          UPDATE partidos
+          SET descripcion = ?, pen_local = ?, pen_visita = ?
+          WHERE id_partido = ?
+      `;
+
+    db.query(
+      sqlUpdatePartido,
+      [descripcion, penLocal, penVisita, id_partido],
+      (err, result) => {
+        if (err) {
+          console.error("Error al actualizar partido:", err);
+          return res
+            .status(500)
+            .json({ mensaje: "Error interno del servidor" });
+        }
+
+        // **Verificar si hay que actualizar el campeón**
+        if (tipo_zona === "eliminacion-directa" && campeon === "S") {
+          let idEquipoGanador = null;
+
+          if (goles_local > goles_visita) {
+            idEquipoGanador = data.id_equipoLocal;
+          } else if (goles_visita > goles_local) {
+            idEquipoGanador = data.id_equipoVisita;
+          } else if (penLocal !== null && penVisita !== null) {
+            idEquipoGanador =
+              penLocal > penVisita ? data.id_equipoLocal : data.id_equipoVisita;
+          }
+
+          if (idEquipoGanador) {
+            const sqlUpdateZona = `
+                      UPDATE zonas
+                      SET id_equipo_campeon = ?
+                      WHERE id_zona = ?
+                  `;
+
+            db.query(
+              sqlUpdateZona,
+              [idEquipoGanador, id_zona],
+              (err, result) => {
+                if (err) {
+                  console.error("Error al actualizar campeón de zona:", err);
+                  return res
+                    .status(500)
+                    .json({ mensaje: "Error al actualizar campeón" });
+                }
+                return res
+                  .status(200)
+                  .json({
+                    mensaje: "Partido y campeón actualizados exitosamente",
+                  });
+              }
+            );
+          } else {
+            return res
+              .status(200)
+              .json({
+                mensaje: "Partido actualizado, pero no se determinó campeón",
+              });
+          }
+        } else {
+          return res
+            .status(200)
+            .json({ mensaje: "Partido actualizado exitosamente" });
+        }
       }
-      res.status(200).json({mensaje: 'Partido actualizado exitosamente'});
+    );
   });
 };
 
 const suspenderPartido = (req, res) => {
-  const { goles_local, goles_visita, descripcion, estado, id_partido } = req.body;
-  console.log('Request received:', req.body);
+  const { goles_local, goles_visita, descripcion, estado, id_partido } =
+    req.body;
+  console.log("Request received:", req.body);
 
   if (!id_partido) {
-    return res.status(400).json({ mensaje: 'ID de partido es requerido' });
+    return res.status(400).json({ mensaje: "ID de partido es requerido" });
   }
 
-  if (estado === 'A') {
+  if (estado === "A") {
     const sql = `
       UPDATE partidos
       SET 
@@ -656,12 +813,12 @@ const suspenderPartido = (req, res) => {
     `;
     db.query(sql, [estado, id_partido], (err, result) => {
       if (err) {
-        console.error('Database error:', err);
-        return res.status(500).json({ mensaje: 'Error interno del servidor' });
+        console.error("Database error:", err);
+        return res.status(500).json({ mensaje: "Error interno del servidor" });
       }
 
-      req.io.emit('suspender-partido', { id_partido, estado });
-      res.json({ mensaje: 'Partido postergado exitosamente' });
+      req.io.emit("suspender-partido", { id_partido, estado });
+      res.json({ mensaje: "Partido postergado exitosamente" });
     });
   } else {
     const sql = `
@@ -673,15 +830,21 @@ const suspenderPartido = (req, res) => {
           estado = ?
       WHERE id_partido = ?
     `;
-    db.query(sql, [goles_local, goles_visita, descripcion, estado, id_partido], (err, result) => {
-      if (err) {
-        console.error('Database error:', err);
-        return res.status(500).json({ mensaje: 'Error interno del servidor' });
+    db.query(
+      sql,
+      [goles_local, goles_visita, descripcion, estado, id_partido],
+      (err, result) => {
+        if (err) {
+          console.error("Database error:", err);
+          return res
+            .status(500)
+            .json({ mensaje: "Error interno del servidor" });
+        }
+        const nuevoEstado = estado;
+        req.io.emit("nuevo-estado-partido", { id_partido, nuevoEstado });
+        res.json({ mensaje: "Partido suspendido exitosamente" });
       }
-      const nuevoEstado = estado
-      req.io.emit('nuevo-estado-partido', { id_partido, nuevoEstado });
-      res.json({ mensaje: 'Partido suspendido exitosamente' });
-    });
+    );
   }
 };
 
@@ -699,5 +862,6 @@ module.exports = {
   actualizarEstadoPartido,
   updatePartido,
   suspenderPartido,
-  getPartidosPlanillados
+  getPartidosPlanillados,
+  getJugadoresDream,
 };
