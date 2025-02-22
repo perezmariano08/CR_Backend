@@ -11,6 +11,7 @@ const plantelesController = require('../controllers/plantelesController')
 const perfilController = require('../controllers/perfilController');
 const zonasController = require('../controllers/zonasController');
 const planilleroController = require('../controllers/planilleroController')
+const mailerContacto = require('../utils/mailer-contacto');
 const { revisarToken, revisarPlanillero } = require('../middlewares/auth');
 
 const router = express.Router();
@@ -88,5 +89,7 @@ router.get('/get-jugadores-categoria', jugadoresController.traerJugadoresPorCate
 router.post('/armar-dreamteam', userController.armarDreamteam)
 
 router.post('/actualizar-partido-vacante', partidosController.actualizarPartidoVacante)
+
+router.post('/enviar-mensaje-contacto', mailerContacto.userMessageContact)
 
 module.exports = router;
