@@ -9,12 +9,12 @@ dotenv.config();
 
 // Configuración del transportador de Nodemailer
 const transporter = nodemailer.createTransport({
-    host: "smtp.hostinger.com",
-    port: 465,
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
     secure: true,
     auth: {
-        user: "soporte@coparelampago.com",
-        pass: "Fv@Iz6Akwg1",
+        user: process.env.ML_USER,
+        pass: process.env.ML_PASSWORD,
     },
 });
 
@@ -71,7 +71,6 @@ const sendVerificationChangeEmail = async (email, dni, nombre) => {
         throw new Error('Error al enviar el correo');
     }
 };
-
 
 const forgotPassword = async (email, dni) => {
     try {

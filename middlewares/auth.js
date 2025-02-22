@@ -1,5 +1,8 @@
 const jsonwebtoken = require('jsonwebtoken');
 const db = require('../utils/db');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 function revisarToken(req, res, next) {
     try {
@@ -15,7 +18,7 @@ function revisarToken(req, res, next) {
             return res.status(400).json({ mensaje: 'Token no proporcionado' });
         }
         
-        const decoded = jsonwebtoken.verify(token, 'textosecretoDECIFRADO');
+        const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET);
 
         // Verificar si el usuario existe en la base de datos
         db.query('SELECT * FROM usuarios WHERE dni = ?', [decoded.user], (err, result) => {
@@ -28,7 +31,7 @@ function revisarToken(req, res, next) {
                 return res.status(401).json({ mensaje: 'Usuario no encontrado' });
             }
 
-            req.user = result[0]; // Guardar el usuario en req.user
+            req.user = result[0];
             next();
         });
     } catch (error) {
