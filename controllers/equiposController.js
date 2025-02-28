@@ -166,9 +166,9 @@ const updateEquipo = (req, res) => {
 };
 
 const getJugadoresEquipo = (req, res) => {
-    const { id_zona, id_equipo } = req.query;
+    const { id_equipo, id_categoria } = req.query;
 
-    db.query('CALL sp_jugadores_equipo(?, ?)', [id_equipo, id_zona], (err, result) => {
+    db.query('CALL sp_jugadores_equipo(?, ?)', [id_equipo, id_categoria], (err, result) => {
         if (err) {
             console.error("Error al ejecutar el procedimiento almacenado:", err);
             if (err.sqlState === '45000') {
@@ -189,6 +189,32 @@ const getJugadoresEquipo = (req, res) => {
         res.status(200).json(rows);
     });
 }
+
+const getParticipacionesEquipo = (req, res) => {
+    const { id_equipo } = req.query;
+
+    db.query('CALL sp_obtener_estadisticas_equipo_categoria(?)', [id_equipo], (err, result) => {
+        if (err) {
+            console.error("Error al ejecutar el procedimiento almacenado:", err);
+            if (err.sqlState === '45000') {
+                return res.status(400).send(err.sqlMessage);
+            }
+            return res.status(500).send("Error interno del servidor");
+        }
+
+        // Si result está vacío, verifica que el procedimiento almacenado no esté retornando resultados vacíos
+        if (!result || result.length === 0) {
+            return res.status(404).send("No se encontraron estadisticas.");
+        }
+
+        // En result, el primer elemento del array contiene el conjunto de resultados del procedimiento almacenado
+        const [rows] = result;
+
+        // Devuelve los datos
+        res.status(200).json(rows);
+    });
+}
+
 
 const eliminarEquipo = (req, res) => {
     const { id } = req.body;
@@ -262,5 +288,6 @@ module.exports = {
     actualizarCategoriaEquipo,
     getJugadoresEquipo,
     eliminarEquipo,
-    actualizarApercibimientos
+    actualizarApercibimientos,
+    getParticipacionesEquipo
 };

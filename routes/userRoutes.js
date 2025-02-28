@@ -36,6 +36,7 @@ router.get('/get-posiciones-zona', temporadasController.getPosicionesTemporada);
 router.get('/get-estadistica-categoria', temporadasController.getEstadisticasCategoria);
 router.get('/get-jugadores-equipo', equiposController.getJugadoresEquipo);
 router.get('/get-novedades', perfilController.getNovedades)
+router.get('/get-estadisticas-equipo-categoria', equiposController.getParticipacionesEquipo)
 
 //router.post('/crear-jugador', userController.crearJugador);
 
