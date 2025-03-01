@@ -13,6 +13,7 @@ const port = process.env.PORT || 3001;
 
 const server = http.createServer(app);
 const io = new Server(server, {
+    connectionStateRecovery: {},
     cors: {
         origin: [
             'https://prueba.coparelampago.com', 

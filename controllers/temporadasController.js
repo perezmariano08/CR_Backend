@@ -97,13 +97,13 @@ SELECT
     (SELECT COUNT(*)
         FROM planteles p
         INNER JOIN jugadores j ON p.id_jugador = j.id_jugador
-        WHERE p.id_equipo = t.id_equipo
+        WHERE p.id_equipo = t.id_equipo AND t.id_categoria = p.id_categoria
         AND j.dni IS NOT NULL
         AND p.eventual = 'N') AS jugadores_con_dni,
     (SELECT COUNT(*)
         FROM planteles p
         INNER JOIN jugadores j ON p.id_jugador = j.id_jugador
-        WHERE p.id_equipo = t.id_equipo
+        WHERE p.id_equipo = t.id_equipo AND t.id_categoria = p.id_categoria
         AND j.dni IS NULL
         AND p.eventual = 'N') AS jugadores_sin_dni
 FROM 
