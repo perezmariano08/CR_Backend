@@ -36,6 +36,7 @@ app.use(cors({
     origin: (origin, callback) => {
         const allowedOrigins = [
             'https://prueba.coparelampago.com', 
+            '/\.coparelampago\.com$/',
             'https://coparelampago.com',
             'https://www.coparelampago.com',
             'https://appcoparelampago.vercel.app',
