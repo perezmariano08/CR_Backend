@@ -35,14 +35,10 @@ app.use(express.json());
 app.use(cors({
     origin: (origin, callback) => {
         const allowedOrigins = [
-            'https://prueba.coparelampago.com', 
-            '/\.coparelampago\.com$/',
+            'https://prueba.coparelampago.com',
             'https://coparelampago.com',
             'https://www.coparelampago.com',
-            'https://appcoparelampago.vercel.app',
-            'http://localhost:5173', 
-            'http://localhost:5174',
-            'http://192.168.0.13:5173'
+            'https://appcoparelampago.vercel.app'
         ];
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
@@ -54,6 +50,7 @@ app.use(cors({
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Socket-Id']
 }));
+
 
 // Middleware para adjuntar io al objeto req
 app.use((req, res, next) => {
